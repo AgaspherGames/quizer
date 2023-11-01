@@ -4,18 +4,21 @@
  * @see https://v0.dev/t/UF96Ui54rHv
  */
 import { Button } from "@/components/ui/button";
-import { useQuiz } from "@/hooks/hooks";
+import { useParsedQuestion, useQuestions } from "@/hooks/hooks";
 import { useRouter } from "next/navigation";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
+import { twMerge } from "tailwind-merge";
 interface QuizProps {
   params: { id: string; questionId: string };
 }
 
 export const Quiz: React.FC<QuizProps> = ({ params }) => {
-  const quiz = useQuiz(params.id);
+  const questions = useQuestions(params.id);
+
+  const { isFirst, isLast, question } = useParsedQuestion(params.questionId);
+
   const router = useRouter();
-  const isLast = false;
 
   function next() {
     router.push(`/quiz/${params.id}/${+params.questionId + 1}`);
@@ -23,10 +26,6 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
   function prev() {
     router.push(`/quiz/${params.id}/${+params.questionId - 1}`);
   }
-
-  useEffect(() => {
-    console.log(params);
-  }, []);
 
   return (
     <div className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12">
@@ -64,16 +63,21 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
             </div>
           </div>
           <div className="grid grid-cols-3 gap-4 mt-6">
-            <Button
-              onClick={prev}
-              className=" w-full py-3 bg-gray-600 hover:bg-gray-700 focus:ring-gray-500 focus:ring-offset-gray-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg "
-              type="submit"
-            >
-              Назад
-            </Button>
+            {!isFirst && (
+              <Button
+                onClick={prev}
+                className=" w-full py-3 bg-gray-600 hover:bg-gray-700 focus:ring-gray-500 focus:ring-offset-gray-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg "
+                type="submit"
+              >
+                Назад
+              </Button>
+            )}
             <Button
               onClick={next}
-              className="col-span-2 w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg "
+              className={twMerge(
+                "w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg col-span-2",
+                isFirst && "col-span-3"
+              )}
               type="submit"
             >
               {isLast ? "Отправить" : "Следующий"}
