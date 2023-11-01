@@ -7,84 +7,144 @@ import { Button } from "@/components/ui/button";
 import { useParsedQuestion, useQuestions } from "@/hooks/hooks";
 import { useRouter } from "next/navigation";
 
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { motion, useCycle } from "framer-motion";
 import { twMerge } from "tailwind-merge";
+import { sleep } from "@/utils/utils";
 interface QuizProps {
   params: { id: string; questionId: string };
 }
 
+const panel = {
+  open: { opacity: 1 },
+  closed: { opacity: 0 },
+};
+const bg = {
+  closed: {
+    opacity: 0.5,
+    translateY: -500,
+    transition: {
+      type: "spring",
+    },
+  },
+  open: {
+    opacity: 1,
+    translateY: 0,
+    transition: {
+      type: "spring",
+    },
+  },
+};
+
 export const Quiz: React.FC<QuizProps> = ({ params }) => {
   const questions = useQuestions(params.id);
+  const [isClosing, toggle] = useCycle(false, true);
 
   const { isFirst, isLast, question } = useParsedQuestion(params.questionId);
 
   const router = useRouter();
 
-  function next() {
+  async function next() {
+    toggle();
+    await sleep(300);
     router.push(`/quiz/${params.id}/${+params.questionId + 1}`);
   }
-  function prev() {
+  async function prev() {
+    toggle();
+    await sleep(300);
     router.push(`/quiz/${params.id}/${+params.questionId - 1}`);
   }
 
+  function hide() {
+    toggle();
+  }
+
+  useEffect(() => {
+    return () => {};
+  }, []);
+
   return (
-    <div className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12">
+    <motion.div
+      animate={isClosing ? "closed" : "open"}
+      className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12"
+    >
       <div className="relative w-full py-3 sm:max-w-xl sm:mx-auto">
-        <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl" />
-        <div className="relative px-4 py-10 bg-zinc-950 shadow-lg sm:rounded-3xl sm:p-20">
-          <h1 className="text-4xl font-bold text-center mb-4">Quiz</h1>
-          <div className="mb-5">
-            <label className="block mb-2">Question 1</label>
-            <div className="gap-4 grid grid-cols-2">
-              <button
-                type="button"
-                className="w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors duration-200"
-              >
-                Option 1
-              </button>
-              <button
-                type="button"
-                className="w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors duration-200"
-              >
-                Option 2
-              </button>
-              <button
-                type="button"
-                className="w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors duration-200"
-              >
-                Option 3
-              </button>
-              <button
-                type="button"
-                className="w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors duration-200"
-              >
-                Option 4
-              </button>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 gap-4 mt-6">
-            {!isFirst && (
-              <Button
-                onClick={prev}
-                className=" w-full py-3 bg-gray-600 hover:bg-gray-700 focus:ring-gray-500 focus:ring-offset-gray-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg "
-                type="submit"
-              >
-                Назад
-              </Button>
-            )}
-            <Button
-              onClick={next}
-              className={twMerge(
-                "w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg col-span-2",
-                isFirst && "col-span-3"
-              )}
-              type="submit"
-            >
-              {isLast ? "Отправить" : "Следующий"}
-            </Button>
-          </div>
-        </div>
+        <motion.div className="absolute inset-0" variants={bg}>
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"
+            initial={{ rotate: "84deg", scale: 0.3 }}
+            animate={{ rotate: "-6deg", scale: 1 }}
+            transition={{ duration: 1, type: "spring" }}
+          />
+        </motion.div>
+        <motion.div
+          initial={false}
+          drag={true}
+          dragConstraints={{ bottom: 0, left: 0, right: 0, top: 0 }}
+          className="relative px-4 py-10 bg-zinc-950 shadow-lg sm:rounded-3xl sm:p-20"
+        >
+          <motion.div
+            variants={panel}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5, type: "spring" }}
+          >
+            <motion.div variants={panel}>
+              <h1 className="text-4xl font-bold text-center mb-4">Quiz</h1>
+              <div className="mb-5">
+                <label className="block mb-2">Question 1</label>
+                <div className="gap-4 grid grid-cols-2">
+                  <button
+                    type="button"
+                    className="w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors duration-200"
+                  >
+                    Option 1
+                  </button>
+                  <button
+                    type="button"
+                    className="w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors duration-200"
+                  >
+                    Option 2
+                  </button>
+                  <button
+                    type="button"
+                    className="w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors duration-200"
+                  >
+                    Option 3
+                  </button>
+                  <button
+                    type="button"
+                    className="w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors duration-200"
+                  >
+                    Option 4
+                  </button>
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-4 mt-6">
+                {!isFirst && (
+                  <Button
+                    onClick={prev}
+                    className=" w-full py-3 bg-gray-600 hover:bg-gray-700 focus:ring-gray-500 focus:ring-offset-gray-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg "
+                    type="submit"
+                  >
+                    Назад
+                  </Button>
+                )}
+                <Button
+                  onClick={next}
+                  className={twMerge(
+                    "w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg col-span-2",
+                    isFirst && "col-span-3"
+                  )}
+                  type="submit"
+                >
+                  {isLast ? "Отправить" : "Следующий"}
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
