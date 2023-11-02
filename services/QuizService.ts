@@ -1,9 +1,13 @@
-import { IQuestion, IQuiz, SaveResultRequest } from "@/interfaces/QuizInterfaces";
+import {
+  IQuestion,
+  IQuiz,
+  SaveResultRequest,
+} from "@/interfaces/QuizInterfaces";
 import { http, httpAuth } from "@/utils/http";
 
 class QuizService {
   async fetchQuestions(quizId: string) {
-    return http.get<IQuestion[]>(`quiz/${quizId}/questions`);
+    return httpAuth.get<IQuestion[]>(`quiz/${quizId}/questions`);
   }
   async fetchQuizes() {
     return http.get<IQuiz[]>(`quiz`);

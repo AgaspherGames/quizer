@@ -1,6 +1,8 @@
 "use client";
 import { IQuestion } from "@/interfaces/QuizInterfaces";
+import LocalStorageService from "@/services/LocalStorageService";
 import QuizService from "@/services/QuizService";
+import { useAuthStore } from "@/stores/AuthStore";
 import { useQuizStore } from "@/stores/QuizStore";
 import { useEffect, useState } from "react";
 
@@ -31,4 +33,13 @@ export const useQuestions = (quizId: string) => {
   }, []);
 
   return { questions, selectedAnswers, setSelectedAnswers };
+};
+
+export const useAuthState = () => {
+  const { setToken, token } = useAuthStore((state) => state);
+  useEffect(() => {
+    setToken(LocalStorageService.getItem("TOKEN"));
+  }, []);
+
+  return { token };
 };

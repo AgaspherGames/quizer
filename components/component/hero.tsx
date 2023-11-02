@@ -20,7 +20,7 @@ export function Hero() {
           <div className="space-x-4">
             <Link
               className="inline-flex h-9 items-center justify-center rounded-md bg-cyan-500 px-4 py-2 text-sm font-medium text-black shadow transition-colors hover:bg-cyan-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-700 disabled:pointer-events-none disabled:opacity-50"
-              href="#"
+              href="/quiz"
             >
               Начать викторину
             </Link>
