@@ -35,7 +35,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
       animate={{ height: "auto" }}
       className="my-3"
     >
-      {question.image && <CreateImage clear={()=>setQuestionImage(undefined)} image={question.image} />}
+      {question.image && <CreateImage clear={()=>setQuestionImage(question.id,undefined)} image={question.image} />}
       <div className="relative">
         {/* <label className="block font-medium mb-2">{question.id}</label> */}
         <Input

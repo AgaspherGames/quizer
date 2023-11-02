@@ -99,8 +99,8 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
 
   useEffect(() => {
     const arr = selectedAnswers[`${params.questionId}`];
-    
-    setSelectedItems(arr||[]);
+
+    setSelectedItems(arr || []);
   }, []);
 
   return (
@@ -131,12 +131,20 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
           >
             <motion.div variants={panel}>
               <h1 className="text-4xl font-bold text-center mb-4">Quiz</h1>
+              <div className="w-full flex justify-center my-2">
+                {question?.image && (
+                  <img
+                    className="h-64 rounded-xl"
+                    src="https://th.bing.com/th/id/OIP.mzE2HcB5KMpiHwzKj696LAHaE7?pid=ImgDet&rs=1"
+                  />
+                )}
+              </div>
               <div className="mb-5">
                 <label className="block mb-2">{question?.title}</label>
                 <div className="gap-4 grid grid-cols-2 justify-center">
                   {question?.answers.map((el) => (
                     <button
-                    key={el.id}
+                      key={el.id}
                       onClick={() => selectItem(el.id)}
                       type="button"
                       className={twMerge(
