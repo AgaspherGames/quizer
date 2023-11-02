@@ -18,6 +18,9 @@ class QuizService {
   async saveResults(data: SaveResultRequest, quiz_id: string) {
     return httpAuth.post<{ correct_answers: number }>(`quiz/${quiz_id}/save`, data);
   }
+  async createQuiz(data: any) {
+    return httpAuth.post(`quiz`, data);
+  }
 }
 
 export default new QuizService();
