@@ -11,6 +11,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import { motion, useCycle } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 import { sleep } from "@/utils/utils";
+import { SaveResultRequest } from "@/interfaces/QuizInterfaces";
+import QuizService from "@/services/QuizService";
+import axios from "axios";
 interface QuizProps {
   params: { id: string; questionId: string };
 }
@@ -37,7 +40,7 @@ const bg = {
 };
 
 export const Quiz: React.FC<QuizProps> = ({ params }) => {
-  const questions = useQuestions(params.id);
+  const { selectedAnswers, setSelectedAnswers } = useQuestions(params.id);
   const [isClosing, toggle] = useCycle(false, true);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
@@ -46,6 +49,9 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
   const router = useRouter();
 
   async function next() {
+    if (isLast) {
+      return saveResults();
+    }
     toggle();
     await sleep(300);
     router.push(`/quiz/${params.id}/${+params.questionId + 1}`);
@@ -56,19 +62,33 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
     router.push(`/quiz/${params.id}/${+params.questionId - 1}`);
   }
 
-  function hide() {
-    toggle();
-  }
-
   function selectItem(id: number) {
     isSelected(id)
       ? setSelectedItems((prev) => prev.filter((x) => x != id))
       : setSelectedItems((prev) => [...prev, id]);
   }
 
+  useEffect(() => {
+    setSelectedAnswers({
+      ...selectedAnswers,
+      [params.questionId]: selectedItems,
+    });
+  }, [selectedItems]);
+
   function isSelected(id: number) {
     const itemInd = selectedItems.findIndex((x) => x == id);
     return ~itemInd;
+  }
+
+  async function saveResults() {
+    const data: SaveResultRequest = {
+      quiz_id: +params.id,
+      answers: selectedAnswers,
+    };
+    try {
+      const resp = await QuizService.saveResults(data);
+      console.log(resp.data);
+    } catch (error) {}
   }
 
   console.log(selectedItems);

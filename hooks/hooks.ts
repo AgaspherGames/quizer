@@ -17,17 +17,18 @@ export const useParsedQuestion = (questionId: string) => {
     setIsLast(ind == questions.length - 1);
     setIsFirst(ind == 0);
     setQuestion(questions.find((x) => x.id == +questionId));
-    setProgress(ind / (questions.length ));
+    setProgress(ind / questions.length);
   }, [questionId, questions]);
 
   return { question, isLast, isFirst, progress };
 };
 
 export const useQuestions = (quizId: string) => {
-  const { questions, setQuestions } = useQuizStore((state) => state);
+  const { questions, setQuestions, selectedAnswers, setSelectedAnswers } =
+    useQuizStore((state) => state);
   useEffect(() => {
     QuizService.fetchQuestions(quizId).then((resp) => setQuestions(resp.data));
   }, []);
 
-  return questions;
+  return { questions, selectedAnswers, setSelectedAnswers };
 };
