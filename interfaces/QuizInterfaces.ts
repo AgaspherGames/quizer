@@ -1,4 +1,4 @@
-export interface IQuiz {}
+export interface IQuiz { }
 
 export interface IQuestion {
   id: number;
@@ -23,3 +23,11 @@ export interface ISelectedAnswer {
   [key: string]: number[];
 }
 
+export interface IQuiz {
+  id: number
+  title: string
+  description: string
+  image: string
+  user_id: number
+  created_at: string
+}

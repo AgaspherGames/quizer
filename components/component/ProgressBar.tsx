@@ -1,15 +1,16 @@
 'use client'
 import { useParsedQuestion } from "@/hooks/hooks";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import React from "react";
 interface ProgressBarProps {
   progress: number;
 }
 
 const ProgressBar: React.FC<ProgressBarProps> = () => {
+  const path = usePathname()
   const params = useParams<{questionId: string}>()
   let {progress} = useParsedQuestion(params.questionId)
-  if (!params.questionId){
+  if (path.includes('/congratulations')){
     progress=1
   }
 
