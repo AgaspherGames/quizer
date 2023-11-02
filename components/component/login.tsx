@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 import { useForm, SubmitHandler } from "react-hook-form";
-import { RegisterRequest } from "@/interfaces/AuthInterfaces";
+import { LoginRequest, RegisterRequest } from "@/interfaces/AuthInterfaces";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import AuthService from "@/services/AuthService";
@@ -25,26 +25,24 @@ const schema = yup.object({
     .string()
     .min(8, "Пароль должен быть от 8 символов")
     .required("Это обязательное поле"),
-  fio: yup.string().required("Это обязательное поле"),
 });
 
-export function Register() {
+export function Login() {
   const router = useRouter()
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<RegisterRequest>({
+  } = useForm<LoginRequest>({
     resolver: yupResolver(schema),
   });
-  const onSubmit: SubmitHandler<RegisterRequest> = (data) => reg(data);
+  const onSubmit: SubmitHandler<LoginRequest> = (data) => reg(data);
 
   const [error, setError] = useState("");
 
-  async function reg(data: RegisterRequest) {
+  async function reg(data: LoginRequest) {
     try {
-      await AuthService.register(data);
       await AuthService.login(data)
       router.push("/")
     } catch (error) {
@@ -69,20 +67,6 @@ export function Register() {
             <p className="text-red-200 text-lg text-center my-2">{error}</p>
           )}
           <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-6">
-            <div>
-              <label className="block text-sm font-medium">
-                ФИО{" "}
-                <span className="ml-2 text-red-200 font-normal">
-                  {errors.fio?.message}
-                </span>
-              </label>
-              <Input
-                {...register("fio", { required: true })}
-                className="w-full px-4 py-2 bg-zinc-900 rounded-lg focus:border-transparent"
-                placeholder="Иванов Иван Иванович"
-                type="text"
-              />
-            </div>
             <div>
               <label className="block text-sm font-medium">
                 Email{" "}
@@ -116,15 +100,15 @@ export function Register() {
                 className="w-full py-2 bg-zinc-700 rounded-lg text-white"
                 type="submit"
               >
-                Зарегистрироваться
+                Войти
               </Button>
             </div>
           </form>
         </div>
         <div className="px-10 py-4 bg-zinc-900 text-center text-white">
-          <span>Уже есть аккаунт?</span>
+          <span>Еще нет аккаунта?</span>
           <Link className="text-blue-500 hover:text-blue-700 ml-2" href="#">
-            Войти
+            Создать
           </Link>
         </div>
       </div>

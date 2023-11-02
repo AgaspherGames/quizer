@@ -39,6 +39,7 @@ const bg = {
 export const Quiz: React.FC<QuizProps> = ({ params }) => {
   const questions = useQuestions(params.id);
   const [isClosing, toggle] = useCycle(false, true);
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
   const { isFirst, isLast, question } = useParsedQuestion(params.questionId);
 
@@ -59,9 +60,18 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
     toggle();
   }
 
-  useEffect(() => {
-    return () => {};
-  }, []);
+  function selectItem(id: number) {
+    isSelected(id)
+      ? setSelectedItems((prev) => prev.filter((x) => x != id))
+      : setSelectedItems((prev) => [...prev, id]);
+  }
+
+  function isSelected(id: number) {
+    const itemInd = selectedItems.findIndex((x) => x == id);
+    return ~itemInd;
+  }
+
+  console.log(selectedItems);
 
   return (
     <motion.div
@@ -92,32 +102,21 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
             <motion.div variants={panel}>
               <h1 className="text-4xl font-bold text-center mb-4">Quiz</h1>
               <div className="mb-5">
-                <label className="block mb-2">Question 1</label>
-                <div className="gap-4 grid grid-cols-2">
-                  <button
-                    type="button"
-                    className="w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors duration-200"
-                  >
-                    Option 1
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors duration-200"
-                  >
-                    Option 2
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors duration-200"
-                  >
-                    Option 3
-                  </button>
-                  <button
-                    type="button"
-                    className="w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 transition-colors duration-200"
-                  >
-                    Option 4
-                  </button>
+                <label className="block mb-2">{question?.title}</label>
+                <div className="gap-4 grid grid-cols-2 justify-center">
+                  {question?.answers.map((el) => (
+                    <button
+                      onClick={() => selectItem(el.id)}
+                      type="button"
+                      className={twMerge(
+                        "w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 duration-200 transition-all",
+                        isSelected(el.id) &&
+                          "ring-zinc-400 ring-opacity-50 ring-4 "
+                      )}
+                    >
+                      {el.text}
+                    </button>
+                  ))}
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-4 mt-6">

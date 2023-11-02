@@ -27,7 +27,7 @@ http.interceptors.response.use(
   },
   (error) => {
     console.error(error);
-    return Promise.reject(error.message);
+    return Promise.reject(error);
   }
 );
 httpAuth.interceptors.response.use(
@@ -36,6 +36,6 @@ httpAuth.interceptors.response.use(
   },
   (error) => {
     console.error(error);
-    return Promise.reject(error.message);
+    return Promise.reject(error);
   }
 );
