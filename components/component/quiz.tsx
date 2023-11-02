@@ -89,11 +89,13 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
     };
     try {
       const resp = await QuizService.saveResults(data);
+      toggle();
+      await sleep(300);
       router.replace(
         `congratulations?result=${resp.data.correct_answers}/${questions.length}`
       );
       console.log(resp.data);
-    } catch (error) {}
+    } catch (error) { }
   }
 
   console.log(selectedItems);
@@ -136,7 +138,7 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
                       className={twMerge(
                         "w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 duration-200 transition-all",
                         isSelected(el.id) &&
-                          "ring-zinc-400 ring-opacity-50 ring-4 "
+                        "ring-zinc-400 ring-opacity-50 ring-4 "
                       )}
                     >
                       {el.text}
