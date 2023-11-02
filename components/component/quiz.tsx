@@ -40,7 +40,9 @@ const bg = {
 };
 
 export const Quiz: React.FC<QuizProps> = ({ params }) => {
-  const { selectedAnswers, setSelectedAnswers } = useQuestions(params.id);
+  const { questions, selectedAnswers, setSelectedAnswers } = useQuestions(
+    params.id
+  );
   const [isClosing, toggle] = useCycle(false, true);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
@@ -87,6 +89,9 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
     };
     try {
       const resp = await QuizService.saveResults(data);
+      router.replace(
+        `congratulations?result=${resp.data.correct_answers}/${questions.length}`
+      );
       console.log(resp.data);
     } catch (error) {}
   }
