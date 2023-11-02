@@ -15,7 +15,6 @@ export interface IAnswer {
 }
 
 export interface SaveResultRequest {
-  quiz_id: number;
   answers: ISelectedAnswer;
 }
 

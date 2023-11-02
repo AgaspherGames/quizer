@@ -13,8 +13,11 @@ class QuizService {
       useAuthStore.getState().setToken(resp.data.token);
       return resp;
     } catch (error) {
-      return error;
+      throw error;
     }
+  }
+  async logout() {
+    useAuthStore.getState().setToken("");
   }
 }
 

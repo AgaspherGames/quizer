@@ -28,7 +28,7 @@ const schema = yup.object({
 });
 
 export function Login() {
-  const router = useRouter()
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -37,22 +37,18 @@ export function Login() {
   } = useForm<LoginRequest>({
     resolver: yupResolver(schema),
   });
-  const onSubmit: SubmitHandler<LoginRequest> = (data) => reg(data);
+  const onSubmit: SubmitHandler<LoginRequest> = (data) => login(data);
 
   const [error, setError] = useState("");
 
-  async function reg(data: LoginRequest) {
+  async function login(data: LoginRequest) {
     try {
-      await AuthService.login(data)
-      router.push("/")
+      await AuthService.login(data);
+      router.push("/");
     } catch (error) {
-      console.log("1");
       if (axios.isAxiosError(error)) {
-        console.log("2");
-
-        console.log(error.response?.data);
-        if (error.response?.data?.message == "email already used") {
-          setError("Почта уже занята, выберите другую");
+        if (error.response?.data?.message == "invalid credentials") {
+          setError("Неправильная почта или пароль");
         }
       }
     }

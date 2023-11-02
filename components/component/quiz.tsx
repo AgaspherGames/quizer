@@ -70,13 +70,6 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
       : setSelectedItems((prev) => [...prev, id]);
   }
 
-  useEffect(() => {
-    setSelectedAnswers({
-      ...selectedAnswers,
-      [params.questionId]: selectedItems,
-    });
-  }, [selectedItems]);
-
   function isSelected(id: number) {
     const itemInd = selectedItems.findIndex((x) => x == id);
     return ~itemInd;
@@ -84,21 +77,31 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
 
   async function saveResults() {
     const data: SaveResultRequest = {
-      quiz_id: +params.id,
       answers: selectedAnswers,
     };
     try {
-      const resp = await QuizService.saveResults(data);
+      const resp = await QuizService.saveResults(data, params.id);
       toggle();
       await sleep(300);
       router.replace(
         `congratulations?result=${resp.data.correct_answers}/${questions.length}`
       );
       console.log(resp.data);
-    } catch (error) { }
+    } catch (error) {}
   }
 
-  console.log(selectedItems);
+  useEffect(() => {
+    setSelectedAnswers({
+      ...selectedAnswers,
+      [params.questionId]: selectedItems,
+    });
+  }, [selectedItems]);
+
+  useEffect(() => {
+    const arr = selectedAnswers[`${params.questionId}`];
+    
+    setSelectedItems(arr||[]);
+  }, []);
 
   return (
     <motion.div
@@ -133,12 +136,13 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
                 <div className="gap-4 grid grid-cols-2 justify-center">
                   {question?.answers.map((el) => (
                     <button
+                    key={el.id}
                       onClick={() => selectItem(el.id)}
                       type="button"
                       className={twMerge(
                         "w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 duration-200 transition-all",
                         isSelected(el.id) &&
-                        "ring-zinc-400 ring-opacity-50 ring-4 "
+                          "ring-zinc-400 ring-opacity-50 ring-4 "
                       )}
                     >
                       {el.text}

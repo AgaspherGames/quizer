@@ -15,8 +15,8 @@ class QuizService {
   async fetchQuiz(quizId: string) {
     return http.get<IQuiz>(`quiz/${quizId}`);
   }
-  async saveResults(data: SaveResultRequest) {
-    return httpAuth.post<{ correct_answers: number }>("quiz/save", data);
+  async saveResults(data: SaveResultRequest, quiz_id: string) {
+    return httpAuth.post<{ correct_answers: number }>(`quiz/${quiz_id}/save`, data);
   }
 }
 
