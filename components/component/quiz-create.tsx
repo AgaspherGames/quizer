@@ -9,8 +9,12 @@ import { ICreateQuestion } from "@/interfaces/QuizInterfaces";
 import { motion } from "framer-motion";
 import QuizService from "@/services/QuizService";
 import CreateImage from "./CreatePage/CreateImage";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Logo from "./Logo";
 
 export function QuizCreate() {
+  const router = useRouter()
   const [questions, setQuestions] = useState<ICreateQuestion[]>([]);
 
   const [title, setTitle] = useState("");
@@ -110,12 +114,24 @@ export function QuizCreate() {
       const question = questions[index];
       question.image && formData.append("question_img"+(index+1), question.image);
     }
-    const response = await QuizService.createQuiz(formData);
-    return response.data;
+
+    try {
+      const response = await QuizService.createQuiz(formData);
+      router.push('/quiz/'+response.data.id)
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      
+    }
   }
 
   return (
     <div className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12">
+      <div className="absolute top-6 left-4">
+        <Link href="/">
+          <Logo />
+        </Link>
+      </div>
       <div className="relative w-full py-3 sm:max-w-xl sm:mx-auto">
         {/* <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl" /> */}
         <div className="relative px-4 py-10 bg-zinc-950 shadow-lg sm:rounded-3xl sm:p-20">

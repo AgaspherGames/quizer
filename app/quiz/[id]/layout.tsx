@@ -14,7 +14,7 @@ export default function QuestionLayout({
     <div className="relative">
       <ProgressBar progress={5} />
       {children}
-      <div className="absolute bottom-4 left-4">
+      <div className="absolute top-6 left-4">
         <Link href="/">
           <Logo />
         </Link>

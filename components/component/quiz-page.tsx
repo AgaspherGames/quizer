@@ -56,6 +56,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
   async function start() {
     toggle();
     await sleep(300);
+    setSelectedAnswers({});
     router.push(`${params.id}/${questions[0].id}`)
   }
 

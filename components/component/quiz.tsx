@@ -83,6 +83,7 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
       const resp = await QuizService.saveResults(data, params.id);
       toggle();
       await sleep(300);
+      setSelectedAnswers({})
       router.replace(
         `congratulations?result=${resp.data.correct_answers}/${questions.length}`
       );
