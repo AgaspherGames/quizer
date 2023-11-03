@@ -5,6 +5,7 @@ import AuthService from "@/services/AuthService";
 import LocalStorageService from "@/services/LocalStorageService";
 import { useAuthStore } from "@/stores/AuthStore";
 import Link from "next/link";
+import Logo from "./Logo";
 
 export function Header() {
   const { token } = useAuthState();
@@ -16,7 +17,7 @@ export function Header() {
   return (
     <div className="bg-black p-4 flex justify-between items-center">
       <div>
-        <h3 className="text-2xl font-medium">QuizMaster</h3>
+        <Logo />
       </div>
       {token ? (
         <Link href="#">

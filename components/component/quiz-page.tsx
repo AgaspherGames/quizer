@@ -50,9 +50,9 @@ export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
 
 
   useEffect(() => {
-    QuizService.fetchQuiz(params.id).then(resp=>setQuiz(resp.data))
+    QuizService.fetchQuiz(params.id).then(resp => setQuiz(resp.data))
   }, [params])
-  
+
   async function start() {
     toggle();
     await sleep(300);
@@ -87,11 +87,19 @@ export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
             transition={{ duration: 1, delay: 0.5, type: "spring" }}
           >
             <motion.div variants={panel}>
+              <div className="w-full flex justify-center my-2">
+                {quiz?.image && (
+                  <img
+                    className="h-64 w-auto rounded-xl"
+                    src={"http://localhost:3000/public/" + quiz.image}
+                  />
+                )}
+              </div>
               <h1 className="text-4xl font-bold text-center mb-4">{quiz?.title}</h1>
               <p className="text-xl text-center mb-4">{quiz?.description}</p>
               <div className=" mt-6">
                 <Button
-                onClick={start}
+                  onClick={start}
                   className={twMerge(
                     "w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg col-span-2",
                   )}

@@ -12,6 +12,11 @@ import CreateImage from "./CreatePage/CreateImage";
 
 export function QuizCreate() {
   const [questions, setQuestions] = useState<ICreateQuestion[]>([]);
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState<File>();
+  
   const [idCount, setIdCount] = useState<number>(0);
   const [quizImage, setQuizImage] = useState<File>();
 
@@ -93,12 +98,17 @@ export function QuizCreate() {
   async function create() {
     console.log(questions);
 
+    const mappedQuestions = questions.map(el=>({title: el.title, answers: el.answers}))
+
     const formData = new FormData();
-    formData.append("title", "aa");
-    formData.append("description", "aba");
-    formData.append("questions", JSON.stringify(questions));
-    for (const question of questions) {
-      question.image && formData.append("question_img1", question.image);
+    formData.append("title", title);
+    formData.append("description", description);
+    if (quizImage) formData.append("image", quizImage)
+    formData.append("questions", JSON.stringify(mappedQuestions));
+    
+    for (let index = 0; index < questions.length; index++) {
+      const question = questions[index];
+      question.image && formData.append("question_img"+(index+1), question.image);
     }
     const response = await QuizService.createQuiz(formData);
     return response.data;
@@ -129,6 +139,8 @@ export function QuizCreate() {
                   className="w-full px-4 py-6 bg-zinc-900 rounded-lg focus:border-transparent pr-10"
                   placeholder="Enter Quiz Name"
                   type="text"
+                  value={title}
+                  onChange={e=>setTitle(e.target.value)}
                 />
                 <div className="absolute top-1/2 -translate-y-1/2 right-4">
                   <button type="button">
@@ -161,6 +173,8 @@ export function QuizCreate() {
                 <textarea
                   className="w-full px-4 py-4 bg-zinc-900 rounded-lg focus:border-transparent"
                   placeholder="Enter Quiz Name"
+                  value={description}
+                  onChange={e=>setDescription(e.target.value)}
                 />
               </div>
             </div>

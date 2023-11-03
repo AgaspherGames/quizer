@@ -134,8 +134,8 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
               <div className="w-full flex justify-center my-2">
                 {question?.image && (
                   <img
-                    className="h-64 rounded-xl"
-                    src="https://th.bing.com/th/id/OIP.mzE2HcB5KMpiHwzKj696LAHaE7?pid=ImgDet&rs=1"
+                    className="h-64 w-auto rounded-xl"
+                    src={"http://localhost:3000/public/"+question.image}
                   />
                 )}
               </div>
