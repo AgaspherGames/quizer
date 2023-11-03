@@ -5,7 +5,7 @@ export const url = "https://551d-2a03-32c0-3003-c5db-36a2-fbb-e2fd-127d.ngrok-fr
 
 export const http = axios.create({
   baseURL: url,
-  timeout: 1000,
+  timeout: 10000,
   headers: {
     "ngrok-skip-browser-warning": true,
   },
