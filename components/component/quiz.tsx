@@ -109,7 +109,7 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
       animate={isClosing ? "closed" : "open"}
       className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12"
     >
-      <div className="relative w-full py-3 sm:max-w-xl sm:mx-auto">
+      <div className="relative w-full py-3 sm:max-w-xl lg:max-w-3xl sm:mx-auto">
         <motion.div className="absolute inset-0" variants={bg}>
           <motion.div
             className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"
@@ -135,8 +135,8 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
               <div className="w-full flex justify-center my-2">
                 {question?.image && (
                   <img
-                    className="h-64 w-auto rounded-xl"
-                    src={"http://localhost:3000/public/"+question.image}
+                    className="h-64 w-auto rounded-xl object-cover"
+                    src={"https://551d-2a03-32c0-3003-c5db-36a2-fbb-e2fd-127d.ngrok-free.app/"+question.image}
                   />
                 )}
               </div>

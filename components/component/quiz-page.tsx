@@ -91,8 +91,8 @@ export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
               <div className="w-full flex justify-center my-2">
                 {quiz?.image && (
                   <img
-                    className="h-64 w-auto rounded-xl"
-                    src={"http://localhost:3000/public/" + quiz.image}
+                    className="h-64 w-auto rounded-xl object-cover"
+                    src={"https://551d-2a03-32c0-3003-c5db-36a2-fbb-e2fd-127d.ngrok-free.app/" + quiz.image}
                   />
                 )}
               </div>
