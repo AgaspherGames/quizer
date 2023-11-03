@@ -14,6 +14,7 @@ import { sleep } from "@/utils/utils";
 import { SaveResultRequest } from "@/interfaces/QuizInterfaces";
 import QuizService from "@/services/QuizService";
 import axios from "axios";
+import {url} from "@/utils/http";
 interface QuizProps {
   params: { id: string; questionId: string };
 }
@@ -136,7 +137,7 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
                 {question?.image && (
                   <img
                     className="h-64 w-auto rounded-xl object-cover"
-                    src={"https://551d-2a03-32c0-3003-c5db-36a2-fbb-e2fd-127d.ngrok-free.app/"+question.image}
+                    src={`${url}/public/`+question.image}
                   />
                 )}
               </div>

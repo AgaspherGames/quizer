@@ -8,6 +8,7 @@ import { IQuiz } from "@/interfaces/QuizInterfaces";
 import QuizService from "@/services/QuizService";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import {url} from "@/utils/http";
 
 export function Quizes() {
   const [quizes, setQuizes] = useState<IQuiz[]>([]);
@@ -32,7 +33,7 @@ export function Quizes() {
                   {el.image && (
                     <img
                       className="h-64 w-auto rounded-xl object-cover"
-                      src={"https://551d-2a03-32c0-3003-c5db-36a2-fbb-e2fd-127d.ngrok-free.app/" + el.image}
+                      src={`${url}/public/` + el.image}
                     />
                   )}
                 </div>
