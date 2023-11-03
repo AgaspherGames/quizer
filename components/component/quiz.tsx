@@ -12,6 +12,7 @@ import { motion, useCycle } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 import { sleep } from "@/utils/utils";
 import { SaveResultRequest } from "@/interfaces/QuizInterfaces";
+import Image from "next/image";
 import QuizService from "@/services/QuizService";
 import axios from "axios";
 import {url} from "@/utils/http";
@@ -135,7 +136,10 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
               <h1 className="text-4xl font-bold text-center mb-4">Quiz</h1>
               <div className="w-full flex justify-center my-2">
                 {question?.image && (
-                  <img
+                  <Image
+                      alt=""
+                      width="800"
+                      height="100"
                     className="h-64 w-auto rounded-xl object-cover"
                     src={`${url}public/`+question.image}
                   />

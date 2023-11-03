@@ -13,6 +13,7 @@ import { twMerge } from "tailwind-merge";
 import { sleep } from "@/utils/utils";
 import { IQuiz, SaveResultRequest } from "@/interfaces/QuizInterfaces";
 import QuizService from "@/services/QuizService";
+import Image from "next/image";
 import axios from "axios";
 import {url} from "@/utils/http";
 interface QuizPageProps {
@@ -91,7 +92,10 @@ export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
             <motion.div variants={panel}>
               <div className="w-full flex justify-center my-2">
                 {quiz?.image && (
-                  <img
+                  <Image
+                      alt=""
+                      width="800"
+                      height="100"
                     className="h-64 w-auto rounded-xl object-cover"
                     src={`${url}public/` + quiz.image}
                   />

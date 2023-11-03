@@ -9,6 +9,7 @@ import QuizService from "@/services/QuizService";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {url} from "@/utils/http";
+import Image from "next/image";
 
 export function Quizes() {
   const [quizes, setQuizes] = useState<IQuiz[]>([]);
@@ -31,7 +32,10 @@ export function Quizes() {
               >
                 <div className="w-full flex justify-center my-2">
                   {el.image && (
-                    <img
+                    <Image
+                        alt=""
+                        width="800"
+                        height="100"
                       className="h-64 w-auto rounded-xl object-cover"
                       src={`${url}public/` + el.image}
                     />

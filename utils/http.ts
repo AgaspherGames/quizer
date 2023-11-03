@@ -12,7 +12,10 @@ export const http = axios.create({
 });
 export const httpAuth = axios.create({
   baseURL: url,
-  timeout: 1000,
+  timeout: 10000,
+  headers: {
+    "ngrok-skip-browser-warning": true,
+  },
 });
 
 httpAuth.interceptors.request.use(async function (config) {
