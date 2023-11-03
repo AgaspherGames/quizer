@@ -22,7 +22,7 @@ export function Quizes() {
       </h1>
       <div className="grid gap-6 md:gap-8 lg:gap-10 items-stretch grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {quizes.map((el) => (
-          <div className="h-full flex-1 rounded-lg bg-zinc-900 relative  p-6 md:p-8 lg:p-10">
+          <div key={el.id} className="h-full flex-1 rounded-lg bg-zinc-900 relative  p-6 md:p-8 lg:p-10">
             <Link key={el.id} className="absolute inset-0" href={`/quiz/${el.id}`}>
             </Link>
               <div
