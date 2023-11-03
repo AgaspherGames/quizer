@@ -14,13 +14,13 @@ import Link from "next/link";
 import Logo from "./Logo";
 
 export function QuizCreate() {
-  const router = useRouter()
+  const router = useRouter();
   const [questions, setQuestions] = useState<ICreateQuestion[]>([]);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<File>();
-  
+
   const [idCount, setIdCount] = useState<number>(0);
   const [quizImage, setQuizImage] = useState<File>();
 
@@ -102,39 +102,37 @@ export function QuizCreate() {
   async function create() {
     console.log(questions);
 
-    const mappedQuestions = questions.map(el=>({title: el.title, answers: el.answers}))
+    const mappedQuestions = questions.map((el) => ({
+      title: el.title,
+      answers: el.answers,
+    }));
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    if (quizImage) formData.append("image", quizImage)
+    if (quizImage) formData.append("image", quizImage);
     formData.append("questions", JSON.stringify(mappedQuestions));
-    
+
     for (let index = 0; index < questions.length; index++) {
       const question = questions[index];
-      question.image && formData.append("question_img"+(index+1), question.image);
+      question.image &&
+        formData.append("question_img" + (index + 1), question.image);
     }
 
     try {
       const response = await QuizService.createQuiz(formData);
-      router.push('/quiz/'+response.data.id)
+      router.push("/quiz/" + response.data.id);
       return response.data;
     } catch (error) {
       console.error(error);
-      
     }
   }
 
   return (
     <div className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12">
-      <div className="absolute top-6 left-4">
-        <Link href="/">
-          <Logo />
-        </Link>
-      </div>
       <div className="relative w-full py-3 sm:max-w-xl sm:mx-auto">
         {/* <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl" /> */}
-        <div className="relative px-4 py-10 bg-zinc-950 shadow-lg sm:rounded-3xl sm:p-20">
+        <div className="relative px-4 py-10 bg-black sm:bg-zinc-950 shadow-lg sm:rounded-3xl sm:p-20">
           <h1 className="text-4xl font-bold text-center mb-4">
             Создание теста
           </h1>
@@ -153,10 +151,10 @@ export function QuizCreate() {
               <div className="relative">
                 <Input
                   className="w-full px-4 py-6 bg-zinc-900 rounded-lg focus:border-transparent pr-10"
-                  placeholder="Enter Quiz Name"
+                  placeholder="Название теста"
                   type="text"
                   value={title}
-                  onChange={e=>setTitle(e.target.value)}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
                 <div className="absolute top-1/2 -translate-y-1/2 right-4">
                   <button type="button">
@@ -188,9 +186,9 @@ export function QuizCreate() {
                 <label className="block font-medium mb-2">Описание</label>
                 <textarea
                   className="w-full px-4 py-4 bg-zinc-900 rounded-lg focus:border-transparent"
-                  placeholder="Enter Quiz Name"
+                  placeholder="Описание теста"
                   value={description}
-                  onChange={e=>setDescription(e.target.value)}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
             </div>
@@ -220,6 +218,11 @@ export function QuizCreate() {
             </Button>
           </form>
         </div>
+      </div>
+      <div className="absolute top-6 left-4">
+        <Link href="/">
+          <Logo />
+        </Link>
       </div>
     </div>
   );

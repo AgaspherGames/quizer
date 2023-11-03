@@ -15,7 +15,8 @@ import { SaveResultRequest } from "@/interfaces/QuizInterfaces";
 import Image from "next/image";
 import QuizService from "@/services/QuizService";
 import axios from "axios";
-import {url} from "@/utils/http";
+import { url } from "@/utils/http";
+import QuizImage from "./quiz-image";
 interface QuizProps {
   params: { id: string; questionId: string };
 }
@@ -85,7 +86,7 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
       const resp = await QuizService.saveResults(data, params.id);
       toggle();
       await sleep(300);
-      setSelectedAnswers({})
+      setSelectedAnswers({});
       router.replace(
         `congratulations?result=${resp.data.correct_answers}/${questions.length}`
       );
@@ -111,8 +112,8 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
       animate={isClosing ? "closed" : "open"}
       className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12"
     >
-      <div className="relative w-full py-3 sm:max-w-xl lg:max-w-3xl sm:mx-auto">
-        <motion.div className="absolute inset-0" variants={bg}>
+      <div className="relative w-full py-3 sm:max-w-2xl lg:max-w-3xl sm:mx-auto">
+        <motion.div className="absolute inset-0 hidden sm:block" variants={bg}>
           <motion.div
             className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"
             initial={{ rotate: "84deg", scale: 0.3 }}
@@ -124,7 +125,7 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
           initial={false}
           drag={true}
           dragConstraints={{ bottom: 0, left: 0, right: 0, top: 0 }}
-          className="relative px-4 py-10 bg-zinc-950 shadow-lg sm:rounded-3xl sm:p-20"
+          className="relative px-2 py-6 bg-blakc shadow-lg sm:rounded-3xl sm:p-12 md:p-20 sm:bg-zinc-950"
         >
           <motion.div
             variants={panel}
@@ -135,28 +136,22 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
             <motion.div variants={panel}>
               <h1 className="text-4xl font-bold text-center mb-4">Quiz</h1>
               <div className="w-full flex justify-center my-2">
-                {question?.image && (
-                  <Image
-                      alt=""
-                      width="800"
-                      height="100"
-                    className="h-64 w-auto rounded-xl object-cover"
-                    src={`${url}public/`+question.image}
-                  />
-                )}
+                <QuizImage image={question?.image} />
               </div>
               <div className="mb-5">
-                <label className="block mb-2">{question?.title}</label>
-                <div className="gap-4 grid grid-cols-2 justify-center">
+                <label className="block mb-4 text-center text-lg font-medium">
+                  {question?.title}
+                </label>
+                <div className="gap-4 grid grid-cols-1 justify-center md:grid-cols-2">
                   {question?.answers.map((el) => (
                     <button
                       key={el.id}
                       onClick={() => selectItem(el.id)}
                       type="button"
                       className={twMerge(
-                        "w-full p-4 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 duration-200 transition-all",
+                        "w-full p-2 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 duration-200 transition-all sm:p-4",
                         isSelected(el.id) &&
-                          "ring-zinc-400 ring-opacity-50 ring-4 "
+                          "bg-zinc-700 ring-zinc-300 ring-opacity-50 ring-4 "
                       )}
                     >
                       {el.text}

@@ -33,7 +33,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
     <motion.div
       initial={{ height: 0 }}
       animate={{ height: "auto" }}
-      className="my-3"
+      className="my-3 mr-6"
     >
       {question.image && <CreateImage clear={()=>setQuestionImage(question.id,undefined)} image={question.image} />}
       <div className="relative">
@@ -42,7 +42,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
           value={question.title}
           onChange={(e) => setQuestionTitle(question.id, e.target.value)}
           className="w-full px-4 py-4 bg-zinc-900 rounded-lg focus:border-transparent pr-8"
-          placeholder="Enter question"
+          placeholder="Введите вопрос"
           type="text"
         ></Input>
         <div className="absolute top-1/2 -translate-y-1/2 right-4">
@@ -105,7 +105,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
             removeAnswer={() => {
               removeAnswer(question.id, ind);
             }}
-            placeholder="Option 1"
+            placeholder="Ответ"
           />
           <AddAnswer
             addAnswer={(ind: number) => addAnswer(question.id, ind)}

@@ -15,7 +15,8 @@ import { IQuiz, SaveResultRequest } from "@/interfaces/QuizInterfaces";
 import QuizService from "@/services/QuizService";
 import Image from "next/image";
 import axios from "axios";
-import {url} from "@/utils/http";
+import { url } from "@/utils/http";
+import QuizImage from "./quiz-image";
 interface QuizPageProps {
   params: { id: string };
 }
@@ -47,21 +48,19 @@ export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
   );
   const [isClosing, toggle] = useCycle(false, true);
 
-  const [quiz, setQuiz] = useState<IQuiz>()
+  const [quiz, setQuiz] = useState<IQuiz>();
   const router = useRouter();
 
-
   useEffect(() => {
-    QuizService.fetchQuiz(params.id).then(resp => setQuiz(resp.data))
-  }, [params])
+    QuizService.fetchQuiz(params.id).then((resp) => setQuiz(resp.data));
+  }, [params]);
 
   async function start() {
     toggle();
     await sleep(300);
     setSelectedAnswers({});
-    router.push(`${params.id}/${questions[0].id}`)
+    router.push(`${params.id}/${questions[0].id}`);
   }
-
 
   return (
     <motion.div
@@ -91,23 +90,17 @@ export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
           >
             <motion.div variants={panel}>
               <div className="w-full flex justify-center my-2">
-                {quiz?.image && (
-                  <Image
-                      alt=""
-                      width="800"
-                      height="100"
-                    className="h-64 w-auto rounded-xl object-cover"
-                    src={`${url}public/` + quiz.image}
-                  />
-                )}
+                <QuizImage image={quiz?.image} />
               </div>
-              <h1 className="text-4xl font-bold text-center mb-4">{quiz?.title}</h1>
+              <h1 className="text-4xl font-bold text-center mb-4">
+                {quiz?.title}
+              </h1>
               <p className="text-xl text-center mb-4">{quiz?.description}</p>
               <div className=" mt-6">
                 <Button
                   onClick={start}
                   className={twMerge(
-                    "w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg col-span-2",
+                    "w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg col-span-2"
                   )}
                   type="submit"
                 >

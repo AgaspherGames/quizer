@@ -8,8 +8,9 @@ import { IQuiz } from "@/interfaces/QuizInterfaces";
 import QuizService from "@/services/QuizService";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import {url} from "@/utils/http";
+import { url } from "@/utils/http";
 import Image from "next/image";
+import QuizImage from "./quiz-image";
 
 export function Quizes() {
   const [quizes, setQuizes] = useState<IQuiz[]>([]);
@@ -24,30 +25,27 @@ export function Quizes() {
       </h1>
       <div className="grid gap-6 md:gap-8 lg:gap-10 items-stretch grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {quizes.map((el) => (
-          <div key={el.id} className="h-full flex-1 rounded-lg bg-zinc-900 relative  p-6 md:p-8 lg:p-10">
-            <Link key={el.id} className="absolute inset-0" href={`/quiz/${el.id}`}>
-            </Link>
-              <div
-                className="rounded-lg bg-zinc-900"
-              >
-                <div className="w-full flex justify-center my-2">
-                  {el.image && (
-                    <Image
-                        alt=""
-                        width="800"
-                        height="100"
-                      className="h-64 w-auto rounded-xl object-cover"
-                      src={`${url}public/` + el.image}
-                    />
-                  )}
-                </div>
-                <h2 className="text-2xl md:text-3xl lg:text-4xl text-cyan-500 mb-4">
-                  {el.title}
-                </h2>
-                <p className="text-lg md:text-xl lg:text-2xl text-white">{el.description}</p>
+          <div
+            key={el.id}
+            className="h-full flex-1 rounded-lg bg-zinc-900 relative  p-6 md:p-8 lg:p-10"
+          >
+            <Link
+              key={el.id}
+              className="absolute inset-0"
+              href={`/quiz/${el.id}`}
+            ></Link>
+            <div className="rounded-lg bg-zinc-900">
+              <div className="w-full flex justify-center my-2">
+                <QuizImage image={el.image} />
               </div>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl text-cyan-500 mb-4">
+                {el.title}
+              </h2>
+              <p className="text-lg md:text-xl lg:text-2xl text-white">
+                {el.description}
+              </p>
+            </div>
           </div>
-
         ))}
       </div>
     </section>
