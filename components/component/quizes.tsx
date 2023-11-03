@@ -33,7 +33,7 @@ export function Quizes() {
                   {el.image && (
                     <img
                       className="h-64 w-auto rounded-xl object-cover"
-                      src={`${url}/public/` + el.image}
+                      src={`${url}public/` + el.image}
                     />
                   )}
                 </div>

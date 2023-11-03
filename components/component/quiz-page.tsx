@@ -93,7 +93,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
                 {quiz?.image && (
                   <img
                     className="h-64 w-auto rounded-xl object-cover"
-                    src={`${url}/public/` + quiz.image}
+                    src={`${url}public/` + quiz.image}
                   />
                 )}
               </div>

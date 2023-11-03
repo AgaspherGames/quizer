@@ -137,7 +137,7 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
                 {question?.image && (
                   <img
                     className="h-64 w-auto rounded-xl object-cover"
-                    src={`${url}/public/`+question.image}
+                    src={`${url}public/`+question.image}
                   />
                 )}
               </div>
