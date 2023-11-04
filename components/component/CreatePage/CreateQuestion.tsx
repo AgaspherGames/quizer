@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "../../ui/input";
 import CreateField from "./CreateField";
 import { motion } from "framer-motion";
-import { ICreateQuestion } from "@/interfaces/QuizInterfaces";
+import { CreateAnswer, ICreateQuestion } from "@/interfaces/QuizInterfaces";
 import AddAnswer from "./AddAnswer";
 import CreateImage from "./CreateImage";
+import { DndContext } from "../DnD/DndContext";
+import { Draggable, DropResult, Droppable } from "react-beautiful-dnd";
 
 interface CreateQuestionProps {
   question: ICreateQuestion;
@@ -15,8 +17,34 @@ interface CreateQuestionProps {
   setQuestionImage: Function;
   setAnswerTitle: Function;
   removeQuestion: Function;
+  setAnswers: Function;
 }
 
+interface Cards {
+  id: number;
+  title: string;
+  components: {
+    id: number;
+    name: string;
+  }[];
+}
+
+export const cardsData = [
+  {
+    id: 0,
+    title: "Component Librarys",
+    components: [
+      {
+        id: 100,
+        name: "material ui",
+      },
+      {
+        id: 200,
+        name: "bootstrap",
+      },
+    ],
+  },
+];
 const CreateQuestion: React.FC<CreateQuestionProps> = ({
   setQuestionImage,
   setQuestionTitle,
@@ -26,8 +54,28 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
   removeAnswer,
   toggleAnswer,
   removeQuestion,
+  setAnswers,
 }) => {
-  console.log(question);
+  const [data, setData] = useState<Cards[] | []>([]);
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination } = result;
+    if (!destination) return;
+    if (source.droppableId !== destination.droppableId) {
+      const newData = [...JSON.parse(JSON.stringify(question.answers))]; //shallow copy concept
+      const [item] = newData.splice(source.index, 1);
+      newData.splice(destination.index, 0, item);
+      setAnswers([...newData]);
+    } else {
+      const newData = [...JSON.parse(JSON.stringify(question.answers))]; //shallow copy concept
+      const [item] = newData.splice(source.index, 1);
+      newData.splice(destination.index, 0, item);
+      setAnswers(question.id, [...newData]);
+    }
+  };
+
+  useEffect(() => {
+    setData(cardsData);
+  }, []);
 
   return (
     <motion.div
@@ -35,7 +83,12 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
       animate={{ height: "auto" }}
       className="my-3 mr-6"
     >
-      {question.image && <CreateImage clear={()=>setQuestionImage(question.id,undefined)} image={question.image} />}
+      {question.image && (
+        <CreateImage
+          clear={() => setQuestionImage(question.id, undefined)}
+          image={question.image}
+        />
+      )}
       <div className="relative">
         {/* <label className="block font-medium mb-2">{question.id}</label> */}
         <Input
@@ -92,7 +145,87 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
         addAnswer={(ind: number) => addAnswer(question.id, ind)}
         ind={0}
       />
-      {question.answers.map((el, ind) => (
+
+      <DndContext onDragEnd={onDragEnd}>
+        <div className="">
+          {data.map((val, index) => {
+            return (
+              <Droppable key={index} droppableId={`droppable${index}`}>
+                {(provided) => (
+                  <div
+                    className="w-full"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {question.answers?.map((component, index) => (
+                      <Draggable
+                        key={component.id}
+                        draggableId={component.id.toString()}
+                        index={index}
+                      >
+                        {(provided, snapshot) => {
+                          console.log(snapshot);
+
+                          return (
+                            <React.Fragment key={component.id}>
+                              <div
+                                {...provided.dragHandleProps}
+                                {...provided.draggableProps}
+                                ref={provided.innerRef}
+                              >
+                                <motion.div
+                                  initial={{ height: 0 }}
+                                  animate={{ height: "80px" }}
+                                  className="relative p-2"
+                                >
+                                  <div className="absolute inset-0">
+                                    <CreateField
+                                      handle={provided.dragHandleProps}
+                                      style={{
+                                        pointerEvents: snapshot.isDragging
+                                          ? "none"
+                                          : "auto",
+                                      }}
+                                      answer={component}
+                                      setAnswerTitle={(text: string) => {
+                                        setAnswerTitle(
+                                          question.id,
+                                          index,
+                                          text
+                                        );
+                                      }}
+                                      toggleAnswer={() => {
+                                        toggleAnswer(question.id, index);
+                                      }}
+                                      removeAnswer={() => {
+                                        removeAnswer(question.id, index);
+                                      }}
+                                      placeholder="Ответ"
+                                    />
+                                    <AddAnswer
+                                      addAnswer={(ind: number) =>
+                                        addAnswer(question.id, ind)
+                                      }
+                                      ind={index + 1}
+                                    />
+                                  </div>
+                                </motion.div>
+                              </div>
+                            </React.Fragment>
+                          );
+                        }}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            );
+          })}
+        </div>
+      </DndContext>
+
+      {/* {question.answers.map((el, ind) => (
         <React.Fragment key={el.id}>
           <CreateField
             answer={el}
@@ -112,7 +245,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
             ind={ind + 1}
           />
         </React.Fragment>
-      ))}
+      ))} */}
     </motion.div>
   );
 };

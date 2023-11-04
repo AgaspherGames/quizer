@@ -7,6 +7,7 @@ interface CreateFieldProps extends React.HTMLAttributes<HTMLInputElement> {
   toggleAnswer: Function;
   setAnswerTitle: Function;
   answer: CreateAnswer;
+  handle: any;
 }
 
 const CreateField: React.FC<CreateFieldProps> = ({
@@ -14,6 +15,7 @@ const CreateField: React.FC<CreateFieldProps> = ({
   setAnswerTitle,
   toggleAnswer,
   answer,
+  handle,
   ...props
 }) => {
   return (
@@ -24,18 +26,14 @@ const CreateField: React.FC<CreateFieldProps> = ({
     >
       <div className="space-y-2">
         <div className="relative flex">
-          <label
-            className="relative flex items-center p-2 pr-2 rounded-full cursor-pointer"
-            htmlFor={`${answer.id}`}
-            data-ripple-dark="true"
-          >
+          <div className="relative flex items-center p-2 pr-2 rounded-full cursor-pointer">
             <input
               onChange={() => {
                 toggleAnswer();
               }}
               checked={answer.is_correct}
               type="checkbox"
-              className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-cyan-600 checked:bg-cyan-600 checked:before:bg-cyan-600 hover:before:opacity-10"
+              className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-8 before:w-8 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-cyan-600 checked:bg-cyan-600 checked:before:bg-cyan-600 hover:before:opacity-10"
               id={`${answer.id}`}
             />
             <div className="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
@@ -54,13 +52,15 @@ const CreateField: React.FC<CreateFieldProps> = ({
                 ></path>
               </svg>
             </div>
-          </label>
-          <Input
-            value={answer.text}
-            onChange={(e) => setAnswerTitle(e.target.value)}
-            {...props}
-            className="w-full px-4 py-2 bg-zinc-900 rounded-lg focus:border-transparent ml-3 pr-8"
-          />
+          </div>
+          <div className="w-full px-4 py-2 bg-zinc-900 rounded-lg focus:border-transparent ml-3 pr-8">
+            <input
+              className="bg-transparent outline-none w-full"
+              value={answer.text}
+              onChange={(e) => setAnswerTitle(e.target.value)}
+              {...props}
+            />
+          </div>
           <button
             type="button"
             onClick={(_) => removeAnswer()}

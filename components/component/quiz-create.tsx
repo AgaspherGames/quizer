@@ -5,13 +5,20 @@ import CreateField from "./CreatePage/CreateField";
 import CreateQuestion from "./CreatePage/CreateQuestion";
 import AddQuestion from "./CreatePage/AddQuestion";
 import React, { useState } from "react";
-import { ICreateQuestion } from "@/interfaces/QuizInterfaces";
+import { CreateAnswer, ICreateQuestion } from "@/interfaces/QuizInterfaces";
 import { motion } from "framer-motion";
 import QuizService from "@/services/QuizService";
 import CreateImage from "./CreatePage/CreateImage";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Logo from "./Logo";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
+import { DndContext } from "./DnD/DndContext";
 
 export function QuizCreate() {
   const router = useRouter();
@@ -96,6 +103,17 @@ export function QuizCreate() {
       }
       return x;
     });
+    setQuestions(newQuestions);
+  }
+  function setAnswers(question_id: number, answers: CreateAnswer[]) {
+    const newQuestions = questions.map((x) => {
+      if (x.id == question_id) {
+        x.answers = [...answers];
+      }
+      return x;
+    });
+    console.log(newQuestions);
+
     setQuestions(newQuestions);
   }
 
@@ -193,6 +211,7 @@ export function QuizCreate() {
               </div>
             </div>
             <AddQuestion addQuestion={addQuestion} index={0} />
+
             {questions.map((el, ind) => (
               <React.Fragment key={el.id}>
                 <CreateQuestion
@@ -203,12 +222,14 @@ export function QuizCreate() {
                   removeAnswer={removeAnswer}
                   removeQuestion={removeQuestion}
                   addAnswer={addAnswer}
+                  setAnswers={setAnswers}
                   question={el}
                   key={el.id}
                 />
                 <AddQuestion addQuestion={addQuestion} index={ind + 1} />
               </React.Fragment>
             ))}
+
             <Button
               onClick={create}
               className="w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg "
