@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { DndContext } from "../../DnD/DndContext";
-import { Draggable, DropResult, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
 import CreateQuestion from "../CreateQuestion";
 import AddQuestion from "../AddQuestion";
 import { CreateAnswer, ICreateQuestion } from "@/interfaces/QuizInterfaces";
@@ -37,7 +36,7 @@ const QuestionsList: React.FC<QuestionsListProps> = ({
     setData([1]);
   }, []);
   return (
-    <DndContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd}>
       <div className="">
         {data.map(() => (
           <Droppable key={2} droppableId={`questiondroppable${1}`}>
@@ -87,7 +86,7 @@ const QuestionsList: React.FC<QuestionsListProps> = ({
           </Droppable>
         ))}
       </div>
-    </DndContext>
+    </DragDropContext>
   );
 };
 

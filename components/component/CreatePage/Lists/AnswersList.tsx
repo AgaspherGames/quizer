@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { DndContext } from "../../DnD/DndContext";
-import { Draggable, DropResult, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
 import CreateField from "../CreateField";
 import AddAnswer from "../AddAnswer";
 import { motion } from "framer-motion";
@@ -29,7 +28,7 @@ const AnswersList: React.FC<AnswersListProps> = ({
     setData([1]);
   }, []);
   return (
-    <DndContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd}>
       <div className="">
         {data.map(() => (
           <Droppable key={1} droppableId={`droppable${1}`}>
@@ -90,7 +89,7 @@ const AnswersList: React.FC<AnswersListProps> = ({
           </Droppable>
         ))}
       </div>
-    </DndContext>
+    </DragDropContext>
   );
 };
 

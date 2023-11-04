@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { CreateAnswer, ICreateQuestion } from "@/interfaces/QuizInterfaces";
 import AddAnswer from "./AddAnswer";
 import CreateImage from "./UI/CreateImage";
-import { DndContext } from "../DnD/DndContext";
 import {
   Draggable,
   DraggableProvidedDragHandleProps,
