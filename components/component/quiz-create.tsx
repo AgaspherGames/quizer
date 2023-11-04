@@ -4,7 +4,7 @@ import { Input } from "../ui/input";
 import CreateField from "./CreatePage/CreateField";
 import CreateQuestion from "./CreatePage/CreateQuestion";
 import AddQuestion from "./CreatePage/AddQuestion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CreateAnswer, ICreateQuestion } from "@/interfaces/QuizInterfaces";
 import { motion } from "framer-motion";
 import QuizService from "@/services/QuizService";
@@ -146,6 +146,28 @@ export function QuizCreate() {
     }
   }
 
+  const [data, setData] = useState<number[] | []>([]);
+
+  useEffect(() => {
+    setData([1]);
+  }, []);
+
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination } = result;
+    if (!destination) return;
+    if (source.droppableId !== destination.droppableId) {
+      const newData = [...questions]; //shallow copy concept
+      const [item] = newData.splice(source.index, 1);
+      newData.splice(destination.index, 0, item);
+      setQuestions([...newData]);
+    } else {
+      const newData = [...questions]; //shallow copy concept
+      const [item] = newData.splice(source.index, 1);
+      newData.splice(destination.index, 0, item);
+      setQuestions([...newData]);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12">
       <div className="relative w-full py-3 sm:max-w-xl sm:mx-auto">
@@ -212,7 +234,68 @@ export function QuizCreate() {
             </div>
             <AddQuestion addQuestion={addQuestion} index={0} />
 
-            {questions.map((el, ind) => (
+            <DndContext onDragEnd={onDragEnd}>
+              <div className="">
+                {data.map((val, index) => {
+                  return (
+                    <Droppable key={2} droppableId={`questiondroppable${1}`}>
+                      {(provided) => (
+                        <div
+                          className="w-full"
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                        >
+                          {questions.map((el, ind) => (
+                            <Draggable
+                              key={el.id}
+                              draggableId={el.id.toString()}
+                              index={ind}
+                            >
+                              {(provided, snapshot) => {
+                                console.log(snapshot);
+
+                                return (
+                                  <React.Fragment key={el.id}>
+                                    <div
+                                      className=""
+                                      {...provided.draggableProps}
+                                      ref={provided.innerRef}
+                                    >
+                                      <CreateQuestion
+                                        dragHandleProps={
+                                          provided.dragHandleProps
+                                        }
+                                        setQuestionImage={setQuestionImage}
+                                        setQuestionTitle={setQuestionTitle}
+                                        setAnswerTitle={setAnswerTitle}
+                                        toggleAnswer={toggleAnswer}
+                                        removeAnswer={removeAnswer}
+                                        removeQuestion={removeQuestion}
+                                        addAnswer={addAnswer}
+                                        setAnswers={setAnswers}
+                                        question={el}
+                                        key={el.id}
+                                      />
+                                      <AddQuestion
+                                        addQuestion={addQuestion}
+                                        index={ind + 1}
+                                      />
+                                    </div>
+                                  </React.Fragment>
+                                );
+                              }}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  );
+                })}
+              </div>
+            </DndContext>
+
+            {/* {questions.map((el, ind) => (
               <React.Fragment key={el.id}>
                 <CreateQuestion
                   setQuestionImage={setQuestionImage}
@@ -228,7 +311,7 @@ export function QuizCreate() {
                 />
                 <AddQuestion addQuestion={addQuestion} index={ind + 1} />
               </React.Fragment>
-            ))}
+            ))} */}
 
             <Button
               onClick={create}

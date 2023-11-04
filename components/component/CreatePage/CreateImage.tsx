@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 
 interface CreateImageProps {
@@ -12,6 +12,11 @@ const CreateImage: React.FC<CreateImageProps> = ({
   height = "8rem",
   clear,
 }) => {
+  const url = useMemo(() => {
+    console.log(image);
+    
+    return URL.createObjectURL(image);
+  }, [image]);
   return (
     <motion.div
       initial={{ height: 0 }}
@@ -19,7 +24,7 @@ const CreateImage: React.FC<CreateImageProps> = ({
       className=" w-full flex justify-center my-2"
     >
       <div className="relative">
-        <img style={{ height }} src={URL.createObjectURL(image)} />
+        <img style={{ height }} src={url} />
         <button
           onClick={() => {
             clear();

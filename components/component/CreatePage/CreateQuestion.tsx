@@ -6,7 +6,12 @@ import { CreateAnswer, ICreateQuestion } from "@/interfaces/QuizInterfaces";
 import AddAnswer from "./AddAnswer";
 import CreateImage from "./CreateImage";
 import { DndContext } from "../DnD/DndContext";
-import { Draggable, DropResult, Droppable } from "react-beautiful-dnd";
+import {
+  Draggable,
+  DraggableProvidedDragHandleProps,
+  DropResult,
+  Droppable,
+} from "react-beautiful-dnd";
 
 interface CreateQuestionProps {
   question: ICreateQuestion;
@@ -18,33 +23,9 @@ interface CreateQuestionProps {
   setAnswerTitle: Function;
   removeQuestion: Function;
   setAnswers: Function;
+  dragHandleProps?: DraggableProvidedDragHandleProps | null;
 }
 
-interface Cards {
-  id: number;
-  title: string;
-  components: {
-    id: number;
-    name: string;
-  }[];
-}
-
-export const cardsData = [
-  {
-    id: 0,
-    title: "Component Librarys",
-    components: [
-      {
-        id: 100,
-        name: "material ui",
-      },
-      {
-        id: 200,
-        name: "bootstrap",
-      },
-    ],
-  },
-];
 const CreateQuestion: React.FC<CreateQuestionProps> = ({
   setQuestionImage,
   setQuestionTitle,
@@ -55,8 +36,8 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
   toggleAnswer,
   removeQuestion,
   setAnswers,
+  dragHandleProps,
 }) => {
-  const [data, setData] = useState<Cards[] | []>([]);
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
     if (!destination) return;
@@ -64,7 +45,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
       const newData = [...JSON.parse(JSON.stringify(question.answers))]; //shallow copy concept
       const [item] = newData.splice(source.index, 1);
       newData.splice(destination.index, 0, item);
-      setAnswers([...newData]);
+      setAnswers(question.id, [...newData]);
     } else {
       const newData = [...JSON.parse(JSON.stringify(question.answers))]; //shallow copy concept
       const [item] = newData.splice(source.index, 1);
@@ -72,16 +53,19 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
       setAnswers(question.id, [...newData]);
     }
   };
+  const [data, setData] = useState<number[] | []>([]);
 
   useEffect(() => {
-    setData(cardsData);
+    setData([1]);
   }, []);
+
+  // if (!data.length) return <div></div>;
 
   return (
     <motion.div
       initial={{ height: 0 }}
       animate={{ height: "auto" }}
-      className="my-3 mr-6"
+      className="my-3 mr-6 bg-zinc-950"
     >
       {question.image && (
         <CreateImage
@@ -89,15 +73,17 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
           image={question.image}
         />
       )}
-      <div className="relative">
+      <div {...dragHandleProps} className="relative">
         {/* <label className="block font-medium mb-2">{question.id}</label> */}
-        <Input
-          value={question.title}
-          onChange={(e) => setQuestionTitle(question.id, e.target.value)}
-          className="w-full px-4 py-4 bg-zinc-900 rounded-lg focus:border-transparent pr-8"
-          placeholder="Введите вопрос"
-          type="text"
-        ></Input>
+        <div className="w-full px-4 py-3 bg-zinc-900 rounded-lg focus:border-transparent pr-12">
+          <input
+            value={question.title}
+            onChange={(e) => setQuestionTitle(question.id, e.target.value)}
+            placeholder="Введите вопрос"
+            type="text"
+            className="bg-transparent outline-none w-full"
+          ></input>
+        </div>
         <div className="absolute top-1/2 -translate-y-1/2 right-4">
           <button type="button">
             <label className="absolute inset-0 opacity-0 cursor-pointer text-white">
@@ -150,7 +136,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
         <div className="">
           {data.map((val, index) => {
             return (
-              <Droppable key={index} droppableId={`droppable${index}`}>
+              <Droppable key={1} droppableId={`droppable${1}`}>
                 {(provided) => (
                   <div
                     className="w-full"
