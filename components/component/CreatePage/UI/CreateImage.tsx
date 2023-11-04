@@ -13,8 +13,6 @@ const CreateImage: React.FC<CreateImageProps> = ({
   clear,
 }) => {
   const url = useMemo(() => {
-    console.log(image);
-    
     return URL.createObjectURL(image);
   }, [image]);
   return (

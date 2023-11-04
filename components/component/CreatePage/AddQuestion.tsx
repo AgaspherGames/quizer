@@ -7,9 +7,7 @@ interface AddQuestionProps {
 const AddQuestion: React.FC<AddQuestionProps> = ({ addQuestion, index }) => {
   return (
     <div
-      onClick={(e) => {
-        addQuestion(index);
-      }}
+      onClick={() => addQuestion(index)}
       className="group relative mt-4 mb-2 cursor-pointer"
     >
       <div className="absolute h-6 inset-0 -translate-y-1/2"></div>

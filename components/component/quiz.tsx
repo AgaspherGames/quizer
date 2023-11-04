@@ -90,7 +90,6 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
       router.replace(
         `congratulations?result=${resp.data.correct_answers}/${questions.length}`
       );
-      console.log(resp.data);
     } catch (error) {}
   }
 

@@ -7,9 +7,7 @@ interface AddAnswerProps {
 const AddAnswer: React.FC<AddAnswerProps> = ({ addAnswer, ind }) => {
   return (
     <div
-      onClick={() => {
-        addAnswer(ind);
-      }}
+      onClick={() => addAnswer(ind)}
       className="ml-10 h-2 mt-4  group hover:h-3 transition-all relative"
     >
       <div className="absolute -translate-y-1/2 border-solid border-l-zinc-900 border-l-8 border-y-transparent border-y-8 border-r-0 group-hover:border-l-zinc-800 transition-all"></div>

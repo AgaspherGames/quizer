@@ -29,7 +29,7 @@ const schema = yup.object({
 });
 
 export function Register() {
-  const router = useRouter()
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -45,14 +45,10 @@ export function Register() {
   async function reg(data: RegisterRequest) {
     try {
       await AuthService.register(data);
-      await AuthService.login(data)
-      router.push("/")
+      await AuthService.login(data);
+      router.push("/");
     } catch (error) {
-      console.log("1");
       if (axios.isAxiosError(error)) {
-        console.log("2");
-
-        console.log(error.response?.data);
         if (error.response?.data?.message == "email already used") {
           setError("Почта уже занята, выберите другую");
         }
