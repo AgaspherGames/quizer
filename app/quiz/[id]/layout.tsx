@@ -4,12 +4,11 @@ import Link from "next/link";
 
 export default function QuestionLayout({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
-  params: { id: string, questionId: string }
+  params: { id: string; questionId: string };
 }) {
-
   return (
     <div className="relative">
       <ProgressBar progress={5} />
