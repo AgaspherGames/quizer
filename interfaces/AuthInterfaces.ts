@@ -1,5 +1,5 @@
 export interface RegisterRequest {
-  fio: string;
+  username: string;
   email: string;
   password: string;
 }
@@ -10,6 +10,6 @@ export interface LoginRequest {
 
 export interface IUser {
   id: number;
-  fio: string;
+  username: string;
   email: string;
 }

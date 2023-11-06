@@ -12,7 +12,6 @@ export function ProfilePage({
   };
 }) {
   const [user, setUser] = useState<IUserInfo>();
-  useEffect
   return (
     <div className="min-h-screen bg-black text-white">
       <Header />
@@ -31,7 +30,7 @@ export function ProfilePage({
               width="100"
             />
             <div>
-              <h2 className="text-2xl font-bold">{user?.fio}</h2>
+              <h2 className="text-2xl font-bold">{user?.username}</h2>
               <p className="text-cyan-500">{user?.email}</p>
             </div>
           </div>

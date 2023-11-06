@@ -2,7 +2,7 @@
 
 export interface IUserInfo {
   id: number;
-  fio: string;
+  username: string;
   email: string;
   avatar: string;
 }

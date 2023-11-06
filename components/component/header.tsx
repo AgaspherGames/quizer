@@ -6,9 +6,11 @@ import LocalStorageService from "@/services/LocalStorageService";
 import { useAuthStore } from "@/stores/AuthStore";
 import Link from "next/link";
 import Logo from "./Logo";
+import { useUserMe } from "@/hooks/useUserInfo";
 
 export function Header() {
   const { token } = useAuthState();
+  const user = useUserMe();
 
   const logout = () => {
     AuthService.logout();
@@ -17,18 +19,28 @@ export function Header() {
   return (
     <div className="bg-black p-4 flex justify-between items-center">
       <div>
-        <Logo />
+        <Link href={"/"}>
+          <Logo />
+        </Link>
       </div>
       {token ? (
-        <Link href="#">
-          <Button
-            onClick={logout}
-            className="border-white text-white bg-transparent"
-            variant="outline"
+        <div className="flex gap-4 ">
+          <Link
+            href={"/user/" + user?.id}
+            className="text-white text-xl font-medium"
           >
-            Выйти
-          </Button>
-        </Link>
+            {user?.username}
+          </Link>
+          <Link href="#">
+            <Button
+              onClick={logout}
+              className="border-white text-white bg-transparent"
+              variant="outline"
+            >
+              Выйти
+            </Button>
+          </Link>
+        </div>
       ) : (
         <div className="flex gap-4">
           <Link href="/register">

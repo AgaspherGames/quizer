@@ -25,7 +25,7 @@ const schema = yup.object({
     .string()
     .min(8, "Пароль должен быть от 8 символов")
     .required("Это обязательное поле"),
-  fio: yup.string().required("Это обязательное поле"),
+  username: yup.string().required("Это обязательное поле"),
 });
 
 export function Register() {
@@ -67,15 +67,15 @@ export function Register() {
           <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-6">
             <div>
               <label className="block text-sm font-medium">
-                ФИО{" "}
+                Имя
                 <span className="ml-2 text-red-200 font-normal">
-                  {errors.fio?.message}
+                  {errors.username?.message}
                 </span>
               </label>
               <Input
-                {...register("fio", { required: true })}
+                {...register("username", { required: true })}
                 className="w-full px-4 py-2 bg-zinc-900 rounded-lg focus:border-transparent"
-                placeholder="Иванов Иван Иванович"
+                placeholder="Ваня"
                 type="text"
               />
             </div>
