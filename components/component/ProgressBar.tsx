@@ -1,10 +1,8 @@
 "use client";
 import { useParsedQuestion } from "@/hooks/hooks";
 import { useParams, usePathname } from "next/navigation";
-import React from "react";
-interface ProgressBarProps {
-  progress: number;
-}
+import React, { useEffect, useState } from "react";
+interface ProgressBarProps {}
 
 const ProgressBar: React.FC<ProgressBarProps> = () => {
   const path = usePathname();
@@ -24,4 +22,14 @@ const ProgressBar: React.FC<ProgressBarProps> = () => {
   );
 };
 
-export default ProgressBar;
+const ProgressBarHoc = () => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+  if (!loaded) return <div></div>;
+  return <ProgressBar />;
+};
+
+export default ProgressBarHoc;

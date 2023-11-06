@@ -2,26 +2,23 @@ import { IQuestion, IQuiz, ISelectedAnswer } from "@/interfaces/QuizInterfaces";
 import { create } from "zustand";
 
 interface QuizState {
+  isQuizPending: boolean;
+  isQuestionsPending: boolean;
   questionsList: { [key: string]: IQuestion[] };
   quizList: { [key: string]: IQuiz };
-  currentQuestion: number;
-  quizId: string;
-  questions: IQuestion[];
   selectedAnswers: ISelectedAnswer;
   addToQuestionsList: (quizId: string, questions: IQuestion[]) => void;
   addToQuizList: (quiz: IQuiz) => void;
-  setQuizId: (quizId: string) => void;
-  setQuestions: (questions: IQuestion[]) => void;
-  setCurrentQuestion: (currentQuestion: number) => void;
+  setIsQuizPending: (isQuizPending: boolean) => void;
+  setIsQuestionsPending: (isQuestionsPending: boolean) => void;
   setSelectedAnswers: (selectedAnswers: ISelectedAnswer) => void;
 }
 
 export const useQuizStore = create<QuizState>()((set) => ({
+  isQuizPending: false,
+  isQuestionsPending: false,
   questionsList: {},
   quizList: {},
-  quizId: "",
-  questions: [],
-  currentQuestion: NaN,
   selectedAnswers: {},
   addToQuizList: (quiz) =>
     set((state) => ({
@@ -31,8 +28,8 @@ export const useQuizStore = create<QuizState>()((set) => ({
     set((state) => ({
       questionsList: { ...state.questionsList, [quizId]: questions },
     })),
-  setQuizId: (quizId) => set((state) => ({ quizId })),
-  setQuestions: (questions) => set((state) => ({ questions })),
-  setCurrentQuestion: (currentQuestion) => set(() => ({ currentQuestion })),
+  setIsQuizPending: (isQuizPending) => set(() => ({ isQuizPending })),
+  setIsQuestionsPending: (isQuestionsPending) =>
+    set(() => ({ isQuestionsPending })),
   setSelectedAnswers: (selectedAnswers) => set(() => ({ selectedAnswers })),
 }));

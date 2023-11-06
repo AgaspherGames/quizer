@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useParsedQuestion, useQuestions } from "@/hooks/hooks";
+import { useParsedQuestion, useQuiz } from "@/hooks/hooks";
 import { useRouter } from "next/navigation";
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -13,6 +13,7 @@ import QuizService from "@/services/QuizService";
 import axios from "axios";
 import { url } from "@/utils/http";
 import QuizImage from "./quiz-image";
+import { useQuizStore } from "@/stores/QuizStore";
 interface QuizProps {
   params: { id: string; questionId: string };
 }
@@ -39,14 +40,17 @@ const bg = {
 };
 
 export const Quiz: React.FC<QuizProps> = ({ params }) => {
-  
-  const { questions, selectedAnswers, setSelectedAnswers } = useQuestions(
-    params.id
+  const { selectedAnswers, setSelectedAnswers } = useQuizStore(
+    (state) => state
   );
+  const { questions } = useQuiz(params.id);
   const [isClosing, toggle] = useCycle(false, true);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
-  const { isFirst, isLast, question } = useParsedQuestion(params.id, params.questionId);
+  const { isFirst, isLast, question } = useParsedQuestion(
+    params.id,
+    params.questionId
+  );
 
   const router = useRouter();
 

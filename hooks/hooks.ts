@@ -7,7 +7,7 @@ import { useAuthStore } from "@/stores/AuthStore";
 import { useQuizStore } from "@/stores/QuizStore";
 import { useEffect, useState } from "react";
 
-export const useParsedQuestion = (quizId: string, questionId: string) => {  
+export const useParsedQuestion = (quizId: string, questionId: string) => {
   const { questions } = useQuiz(quizId);
 
   const [question, setQuestion] = useState<IQuestion>();
@@ -28,37 +28,34 @@ export const useParsedQuestion = (quizId: string, questionId: string) => {
   return { question, isLast, isFirst, progress };
 };
 
-export const useQuestions = (quizId: string) => {
-  const { questions, setQuestions, selectedAnswers, setSelectedAnswers } =
-    useQuizStore((state) => state);
-  useEffect(() => {
-    QuizService.fetchQuestions(quizId).then((resp) => setQuestions(resp.data));
-  }, []);
-
-  return { questions, selectedAnswers, setSelectedAnswers };
-};
-
 export const useQuiz = (quizId: string) => {
-  const { questionsList, quizList, addToQuizList, addToQuestionsList } =
-    useQuizStore((state) => ({
-      questionsList: state.questionsList,
-      quizList: state.quizList,
-      addToQuizList: state.addToQuizList,
-      addToQuestionsList: state.addToQuestionsList,
-    }));
+  const {
+    questionsList,
+    quizList,
+    addToQuizList,
+    addToQuestionsList,
+    isQuestionsPending,
+    isQuizPending,
+    setIsQuestionsPending,
+    setIsQuizPending,
+  } = useQuizStore((state) => state);
 
   async function fetchQuiz() {
+    setIsQuizPending(true);
     const resp = await QuizService.fetchQuiz(quizId);
+    setIsQuizPending(false);
     addToQuizList(resp.data);
   }
   async function fetchQuestions() {
+    setIsQuestionsPending(true);
     const resp = await QuizService.fetchQuestions(quizId);
+    setIsQuestionsPending(false);
     addToQuestionsList(quizId, resp.data);
   }
 
   useEffect(() => {
-    if (!quizList[quizId]) fetchQuiz();
-    if (!questionsList[quizId]) fetchQuestions();
+    if (!quizList[quizId] && !isQuizPending) fetchQuiz();
+    if (!questionsList[quizId] && !isQuestionsPending) fetchQuestions();
   }, [quizId]);
 
   return { questions: questionsList[quizId] || [], quiz: quizList[quizId] };

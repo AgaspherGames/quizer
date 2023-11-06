@@ -4,7 +4,7 @@
  * @see https://v0.dev/t/UF96Ui54rHv
  */
 import { Button } from "@/components/ui/button";
-import { useParsedQuestion, useQuestions } from "@/hooks/hooks";
+import { useParsedQuestion, useQuiz } from "@/hooks/hooks";
 import { useRouter } from "next/navigation";
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -17,6 +17,7 @@ import Image from "next/image";
 import axios from "axios";
 import { url } from "@/utils/http";
 import QuizImage from "./quiz-image";
+import { useQuizStore } from "@/stores/QuizStore";
 interface QuizPageProps {
   params: { id: string };
 }
@@ -43,17 +44,11 @@ const bg = {
 };
 
 export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
-  const { questions, selectedAnswers, setSelectedAnswers } = useQuestions(
-    params.id
-  );
+  const { setSelectedAnswers } = useQuizStore((state) => state);
+  const { questions, quiz } = useQuiz(params.id);
   const [isClosing, toggle] = useCycle(false, true);
 
-  const [quiz, setQuiz] = useState<IQuiz>();
   const router = useRouter();
-
-  useEffect(() => {
-    QuizService.fetchQuiz(params.id).then((resp) => setQuiz(resp.data));
-  }, [params]);
 
   async function start() {
     toggle();
