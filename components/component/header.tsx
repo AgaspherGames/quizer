@@ -10,7 +10,7 @@ import { useUserMe } from "@/hooks/useUserInfo";
 
 export function Header() {
   const { token } = useAuthState();
-  const user = useUserMe();
+  const { user } = useUserMe();
 
   const logout = () => {
     AuthService.logout();

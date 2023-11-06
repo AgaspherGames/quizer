@@ -3,25 +3,19 @@ import UserService from "@/services/UserService";
 import { useUserStore } from "@/stores/UserStore";
 import { useEffect, useMemo } from "react";
 
-export const useUserMe = (): undefined | IUserInfo => {
-  const { users, setUser, currentId, setCurrentId } = useUserStore(
-    (state) => state
-  );
-  const user = useMemo(() => {
-    return users[currentId];
-  }, [users, currentId]);
+export const useUserMe = () => {
+  const { currentUser, setCurrentUser } = useUserStore((state) => state);
 
   async function update() {
     const user = (await UserService.fetchMe()).data;
-    setUser(user);
-    setCurrentId(user.id);
+    setCurrentUser(user);
   }
 
   useEffect(() => {
-    if (!user) {
+    if (!currentUser) {
       update();
     }
   }, []);
 
-  return user;
+  return { user: currentUser, update };
 };

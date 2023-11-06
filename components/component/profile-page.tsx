@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Header } from "./header";
 import { IUserInfo } from "@/interfaces/UserInterfaces";
 import { getFileLink } from "@/utils/utils";
+import { useUserMe } from "@/hooks/useUserInfo";
+import Image from "next/image";
 
 export function ProfilePage({
   params,
@@ -11,23 +13,23 @@ export function ProfilePage({
     id: string;
   };
 }) {
-  const [user, setUser] = useState<IUserInfo>();
+  const { user } = useUserMe();
   return (
     <div className="min-h-screen bg-black text-white">
       <Header />
       <main className="flex flex-col items-center justify-center p-4 gap-8">
         <div className="w-full max-w-md mx-auto">
           <div className="flex items-center gap-4">
-            <img
+            <Image
               alt="User Image"
-              className="rounded-full object-cover"
+              className="rounded-full"
               height="100"
+              width="100"
               src={getFileLink(user?.avatar)}
               style={{
-                aspectRatio: "100/100",
+                aspectRatio: "1",
                 objectFit: "cover",
               }}
-              width="100"
             />
             <div>
               <h2 className="text-2xl font-bold">{user?.username}</h2>
