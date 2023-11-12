@@ -8,6 +8,7 @@ import { BiSolidPencil } from "react-icons/bi";
 import Image from "next/image";
 import UserService from "@/services/UserService";
 import QuizItem from "../Quiz/QuizItem";
+import ResultItem from "../Quiz/ResultItem";
 
 export function ProfilePage({
   params,
@@ -73,6 +74,7 @@ export function ProfilePage({
                   <p className="text-2xl font-bold text-cyan-500">
                     {userInfo?.results.reduce((a, c) => (a += c.percent), 0) /
                       userInfo?.results.length}
+                    %
                   </p>
                   <p className="">Средний балл</p>
                 </div>
@@ -85,6 +87,16 @@ export function ProfilePage({
             <div className="grid gap-4 grid-cols-2">
               {userInfo?.quizzes.map((el) => (
                 <QuizItem key={el.id} quiz={el} />
+              ))}
+            </div>
+          </section>
+          <section>
+            <h2 className="text-2xl font-medium my-4">
+              Результаты пользователя:
+            </h2>
+            <div className="grid gap-4 grid-cols-2">
+              {userInfo?.results.map((el, ind) => (
+                <ResultItem key={ind} result={el} />
               ))}
             </div>
           </section>
