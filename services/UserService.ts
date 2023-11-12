@@ -8,8 +8,8 @@ class UserService {
   async fetchMe() {
     return httpAuth.get<IUserInfo>("api/user/me");
   }
-  async fetchUser() {
-    return httpAuth.get("api/user/me");
+  async fetchUser(userId: string) {
+    return httpAuth.get<IUserInfo>("api/user/" + userId);
   }
 }
 

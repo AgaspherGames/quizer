@@ -17,5 +17,24 @@ export const useUserMe = () => {
     }
   }, []);
 
-  return { user: currentUser, update };
+  return { userInfo: currentUser, update };
+};
+export const useUserInfo = (userId: string) => {
+  const { users, setUser } = useUserStore((state) => state);
+  const currentUser = useMemo(() => {
+    return users[+userId];
+  }, [userId, users]);
+
+  async function update() {
+    const user = (await UserService.fetchUser(userId)).data;
+    setUser(user);
+  }
+
+  useEffect(() => {
+    if (!currentUser) {
+      update();
+    }
+  }, []);
+
+  return { userInfo: currentUser, update };
 };

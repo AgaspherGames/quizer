@@ -10,7 +10,7 @@ import { useUserMe } from "@/hooks/useUserInfo";
 
 export function Header() {
   const { token } = useAuthState();
-  const { user } = useUserMe();
+  const { userInfo } = useUserMe();
 
   const logout = () => {
     AuthService.logout();
@@ -26,10 +26,10 @@ export function Header() {
       {token ? (
         <div className="flex gap-4 ">
           <Link
-            href={"/user/" + user?.id}
+            href={"/user/" + userInfo?.user.id}
             className="text-white text-xl font-medium"
           >
-            {user?.username}
+            {userInfo?.user.username}
           </Link>
           <Link href="#">
             <Button

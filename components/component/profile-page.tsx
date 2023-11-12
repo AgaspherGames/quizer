@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Header } from "./header";
 import { IUserInfo } from "@/interfaces/UserInterfaces";
 import { getFileLink } from "@/utils/utils";
-import { useUserMe } from "@/hooks/useUserInfo";
+import { useUserInfo, useUserMe } from "@/hooks/useUserInfo";
 import { BiSolidPencil } from "react-icons/bi";
 import Image from "next/image";
 import UserService from "@/services/UserService";
@@ -15,8 +15,7 @@ export function ProfilePage({
     id: string;
   };
 }) {
-  const { user, update } = useUserMe();
-
+  const { userInfo, update } = useUserInfo(params.id);
   async function upload(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files?.length) return;
     const formData = new FormData();
@@ -37,7 +36,7 @@ export function ProfilePage({
                 className="rounded-full"
                 height="100"
                 width="100"
-                src={getFileLink(user?.avatar)}
+                src={getFileLink(userInfo?.user?.avatar)}
                 style={{
                   aspectRatio: "1",
                   objectFit: "cover",
@@ -53,19 +52,24 @@ export function ProfilePage({
               />
             </div>
             <div>
-              <h2 className="text-2xl font-bold">{user?.username}</h2>
-              <p className="text-cyan-500">{user?.email}</p>
+              <h2 className="text-2xl font-bold">{userInfo?.user.username}</h2>
+              <p className="text-cyan-500">{userInfo?.user.email}</p>
             </div>
           </div>
           <div className="mt-8">
             <h3 className="text-xl font-semibold">Статистика</h3>
             <div className="flex justify-between mt-4">
               <div className="flex flex-col items-center text-center">
-                <p className="text-2xl font-bold text-cyan-500">120</p>
+                <p className="text-2xl font-bold text-cyan-500">
+                  {userInfo?.results.length}
+                </p>
                 <p className="">Пройденные викторины</p>
               </div>
               <div className="flex flex-col items-center text-center">
-                <p className="text-2xl font-bold text-cyan-500">80%</p>
+                <p className="text-2xl font-bold text-cyan-500">
+                  {userInfo?.results.reduce((a, c) => (a += c.percent), 0) /
+                    userInfo?.results.length}
+                </p>
                 <p className="">Средний балл</p>
               </div>
             </div>
