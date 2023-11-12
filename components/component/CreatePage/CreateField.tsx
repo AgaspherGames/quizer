@@ -3,7 +3,7 @@ import { Input } from "../../ui/input";
 import { motion } from "framer-motion";
 import { CreateAnswer } from "@/interfaces/QuizInterfaces";
 import DeleteButton from "./UI/DeleteButton";
-import CustomInput from "../CustomInput";
+import CustomInput from "../Base/CustomInput";
 interface CreateFieldProps extends React.HTMLAttributes<HTMLInputElement> {
   removeAnswer: Function;
   toggleAnswer: Function;

@@ -1,15 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import AddQuestion from "./CreatePage/AddQuestion";
+import AddQuestion from "../CreatePage/AddQuestion";
 import React, { useEffect, useState } from "react";
 import { CreateAnswer, ICreateQuestion } from "@/interfaces/QuizInterfaces";
 import QuizService from "@/services/QuizService";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Logo from "./Logo";
+import Logo from "../Base/Logo";
 import { DropResult } from "react-beautiful-dnd";
-import QuestionsList from "./CreatePage/Lists/QuestionsList";
-import QuizInfo from "./CreatePage/Info/QuizInfo";
+import QuestionsList from "../CreatePage/Lists/QuestionsList";
+import QuizInfo from "../CreatePage/Info/QuizInfo";
 import { useQuizCreate } from "@/hooks/useQuizCreate";
 
 export function QuizCreate() {

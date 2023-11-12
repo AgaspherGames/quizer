@@ -1,4 +1,4 @@
-import { Quiz } from "@/components/component/quiz";
+import { Quiz } from "@/components/component/Pages/quiz";
 import React from "react";
 interface pageProps {
   params: { id: string; questionId: string };

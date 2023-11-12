@@ -1,4 +1,4 @@
-import { Login } from "@/components/component/login";
+import { Login } from "@/components/component/Pages/login";
 import React from "react";
 interface pageProps {}
 

@@ -10,8 +10,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { url } from "@/utils/http";
 import Image from "next/image";
-import QuizImage from "./quiz-image";
-import { Header } from "./header";
+import QuizImage from "../Base/quiz-image";
+import { Header } from "../Base/header";
 
 export function Quizes() {
   const [quizes, setQuizes] = useState<IQuiz[]>([]);

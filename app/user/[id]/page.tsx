@@ -1,4 +1,4 @@
-import { ProfilePage } from "@/components/component/profile-page";
+import { ProfilePage } from "@/components/component/Pages/profile-page";
 import React from "react";
 interface pageProps {
   params: {

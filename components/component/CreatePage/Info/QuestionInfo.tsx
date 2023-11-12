@@ -2,7 +2,7 @@ import { ICreateQuestion } from "@/interfaces/QuizInterfaces";
 import React from "react";
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
 import CreateImage from "../UI/CreateImage";
-import CustomInput from "../../CustomInput";
+import CustomInput from "../../Base/CustomInput";
 import ChooseImage from "../UI/ChooseImage";
 import DeleteButton from "../UI/DeleteButton";
 interface QuestionInfoProps {

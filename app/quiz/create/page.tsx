@@ -1,4 +1,4 @@
-import { QuizCreate } from "@/components/component/quiz-create";
+import { QuizCreate } from "@/components/component/Pages/quiz-create";
 import React from "react";
 interface pageProps {}
 

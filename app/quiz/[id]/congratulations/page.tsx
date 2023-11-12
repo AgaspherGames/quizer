@@ -1,4 +1,4 @@
-import { Congratulations } from "@/components/component/congratulations";
+import { Congratulations } from "@/components/component/Pages/congratulations";
 import React from "react";
 interface pageProps {
   params: {id:string}

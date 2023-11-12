@@ -1,5 +1,5 @@
-import Logo from "@/components/component/Logo";
-import ProgressBar from "@/components/component/ProgressBar";
+import Logo from "@/components/component/Base/Logo";
+import ProgressBar from "@/components/component/QuizPage/ProgressBar";
 import Link from "next/link";
 
 export default function QuestionLayout({

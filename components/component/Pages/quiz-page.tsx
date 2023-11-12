@@ -16,7 +16,7 @@ import QuizService from "@/services/QuizService";
 import Image from "next/image";
 import axios from "axios";
 import { url } from "@/utils/http";
-import QuizImage from "./quiz-image";
+import QuizImage from "../Base/quiz-image";
 import { useQuizStore } from "@/stores/QuizStore";
 interface QuizPageProps {
   params: { id: string };

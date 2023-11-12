@@ -1,9 +1,7 @@
-import { CreateSection } from "@/components/component/create-section";
-import { Features } from "@/components/component/features";
-import { Header } from "@/components/component/header";
-import { Hero } from "@/components/component/hero";
-import { Landing } from "@/components/component/landing";
-import Image from "next/image";
+import { CreateSection } from "@/components/component/LandingPage/create-section";
+import { Features } from "@/components/component/LandingPage/features";
+import { Header } from "@/components/component/Base/header";
+import { Hero } from "@/components/component/LandingPage/hero";
 
 export default function Home() {
   return (

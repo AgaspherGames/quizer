@@ -1,4 +1,4 @@
-import { Register } from "@/components/component/register";
+import { Register } from "@/components/component/Pages/register";
 import React from "react";
 interface pageProps {}
 

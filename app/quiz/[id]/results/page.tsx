@@ -1,4 +1,4 @@
-import { QuizResults } from "@/components/component/quiz-results";
+import { QuizResults } from "@/components/component/Pages/quiz-results";
 import React from "react";
 interface pageProps {}
 

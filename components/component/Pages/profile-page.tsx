@@ -1,6 +1,6 @@
 "use client";
 import { ChangeEvent, useEffect, useState } from "react";
-import { Header } from "./header";
+import { Header } from "../Base/header";
 import { IUserInfo } from "@/interfaces/UserInterfaces";
 import { getFileLink } from "@/utils/utils";
 import { useUserInfo, useUserMe } from "@/hooks/useUserInfo";

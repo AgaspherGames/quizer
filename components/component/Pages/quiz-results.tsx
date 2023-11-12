@@ -3,10 +3,7 @@
  * @see https://v0.dev/t/1lAvFXRsLwj
  */
 import { Button } from "@/components/ui/button";
-import { getFileLink } from "@/utils/utils";
-import Image from "next/image";
-import { BiHash } from "react-icons/bi";
-import ResultItem from "./Results/ResultItem";
+import ResultItem from "../Results/ResultItem";
 
 export function QuizResults() {
   return (

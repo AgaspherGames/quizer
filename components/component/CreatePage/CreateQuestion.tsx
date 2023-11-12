@@ -13,7 +13,7 @@ import {
 } from "react-beautiful-dnd";
 import ChooseImage from "./UI/ChooseImage";
 import DeleteButton from "./UI/DeleteButton";
-import CustomInput from "../CustomInput";
+import CustomInput from "../Base/CustomInput";
 import AnswersList from "./Lists/AnswersList";
 import QuestionInfo from "./Info/QuestionInfo";
 

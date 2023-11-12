@@ -1,4 +1,4 @@
-import { Quizes } from '@/components/component/quizes'
+import { Quizes } from '@/components/component/Pages/quizes'
 import React from 'react'
 
 type Props = {}
