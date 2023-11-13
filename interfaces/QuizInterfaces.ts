@@ -1,4 +1,3 @@
-
 export interface IQuestion {
   id: number;
   title: string;
@@ -37,10 +36,13 @@ export interface ICreateQuestionItem {
   title: string;
   image?: File;
   answers: CreateAnswer[];
+  type: QuestinTypes;
 }
+
+export type QuestinTypes = "input" | "choice";
 
 export interface CreateAnswer {
   text: string;
   is_correct: boolean;
-  id: number
+  id: number;
 }

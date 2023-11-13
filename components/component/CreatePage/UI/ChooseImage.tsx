@@ -6,7 +6,7 @@ interface ChooseImageProps {
 const ChooseImage: React.FC<ChooseImageProps> = ({setImage}) => {
   return (
     <button type="button">
-      <label className="absolute inset-0 opacity-0 cursor-pointer text-white">
+      <label className="absolute inset-0 opacity-0 cursor-pointer text-white overflow-hidden">
         {/* IMPORTANT */}
         .
         <input

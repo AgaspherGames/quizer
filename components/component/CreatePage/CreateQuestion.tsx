@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Input } from "../../ui/input";
 import CreateField from "./CreateField";
 import { motion } from "framer-motion";
-import { CreateAnswer, ICreateQuestion } from "@/interfaces/QuizInterfaces";
+import {
+  CreateAnswer,
+  ICreateQuestion,
+  QuestinTypes,
+} from "@/interfaces/QuizInterfaces";
 import AddAnswer from "./AddAnswer";
 import CreateImage from "./UI/CreateImage";
 import {
@@ -27,6 +31,7 @@ interface CreateQuestionProps {
   setQuestionImage: (question_id: number, image?: File) => void;
   removeQuestion: (question_id: number) => void;
   setAnswers: (question_id: number, answers: CreateAnswer[]) => void;
+  setQuestionType: (question_id: number, type: QuestinTypes) => void;
   dragHandleProps?: DraggableProvidedDragHandleProps | null;
 }
 
@@ -40,6 +45,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
   toggleAnswer,
   removeQuestion,
   setAnswers,
+  setQuestionType,
   dragHandleProps,
 }) => {
   const onDragEnd = (result: DropResult) => {
@@ -63,6 +69,7 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
         question={question}
         removeQuestion={removeQuestion}
         dragHandleProps={dragHandleProps}
+        setQuestionType={setQuestionType}
       />
       <AddAnswer
         addAnswer={(ind: number) => addAnswer(question.id, ind)}

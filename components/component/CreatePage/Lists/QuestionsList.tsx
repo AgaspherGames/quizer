@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
 import CreateQuestion from "../CreateQuestion";
 import AddQuestion from "../AddQuestion";
-import { CreateAnswer, ICreateQuestion } from "@/interfaces/QuizInterfaces";
+import { CreateAnswer, ICreateQuestion, QuestinTypes } from "@/interfaces/QuizInterfaces";
 interface QuestionsListProps {
   questions: ICreateQuestion[];
   addQuestion: (ind: number) => void;
@@ -16,6 +16,7 @@ interface QuestionsListProps {
   setAnswerTitle: (question_id: number, pos: number, text: string) => void;
   setAnswers: (question_id: number, answers: CreateAnswer[]) => void;
   onDragEnd: (result: DropResult) => void;
+  setQuestionType: (question_id: number, type: QuestinTypes)=>void
 }
 
 const QuestionsList: React.FC<QuestionsListProps> = ({
@@ -30,6 +31,7 @@ const QuestionsList: React.FC<QuestionsListProps> = ({
   setAnswerTitle,
   setAnswers,
   onDragEnd,
+  setQuestionType,
 }) => {
   const [data, setData] = useState<number[] | []>([]);
   useEffect(() => {
@@ -69,6 +71,7 @@ const QuestionsList: React.FC<QuestionsListProps> = ({
                           removeQuestion={removeQuestion}
                           addAnswer={addAnswer}
                           setAnswers={setAnswers}
+                          setQuestionType={setQuestionType}
                           question={el}
                           key={el.id}
                         />

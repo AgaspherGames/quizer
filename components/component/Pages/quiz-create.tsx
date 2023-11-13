@@ -32,6 +32,7 @@ export function QuizCreate() {
     setQuestionImage,
     setAnswerTitle,
     setAnswers,
+    setQuestionType,
   } = useQuizCreate();
 
   async function create() {
@@ -107,6 +108,7 @@ export function QuizCreate() {
               addQuestion={addQuestion}
               onDragEnd={onDragEnd}
               questions={questions}
+              setQuestionType={setQuestionType}
             />
 
             <Button

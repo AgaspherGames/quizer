@@ -1,4 +1,8 @@
-import { CreateAnswer, ICreateQuestion } from "@/interfaces/QuizInterfaces";
+import {
+  CreateAnswer,
+  ICreateQuestion,
+  QuestinTypes,
+} from "@/interfaces/QuizInterfaces";
 import { useState } from "react";
 
 export const useQuizCreate = () => {
@@ -18,7 +22,7 @@ export const useQuizCreate = () => {
   function addQuestion(ind: number) {
     const id = generateId();
     setQuestions((prev) =>
-      prev.toSpliced(ind, 0, { answers: [], title: "", id })
+      prev.toSpliced(ind, 0, { answers: [], title: "", id, type: "choice" })
     );
   }
   function addAnswer(question_id: number, pos: number) {
@@ -61,6 +65,15 @@ export const useQuizCreate = () => {
     const newQuestions = questions.map((x) => {
       if (x.id == question_id) {
         x.title = text;
+      }
+      return x;
+    });
+    setQuestions(newQuestions);
+  }
+  function setQuestionType(question_id: number, type: QuestinTypes) {
+    const newQuestions = questions.map((x) => {
+      if (x.id == question_id) {
+        x.type = type;
       }
       return x;
     });
@@ -112,5 +125,6 @@ export const useQuizCreate = () => {
     setQuestionImage,
     setAnswerTitle,
     setAnswers,
+    setQuestionType,
   };
 };

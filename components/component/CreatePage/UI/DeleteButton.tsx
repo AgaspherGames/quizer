@@ -9,7 +9,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ classname, ...props }) => {
     <button
       type="button"
       className={twMerge(
-        "absolute -right-6 top-1/2 -translate-y-1/2 text-white hover:text-red-500 transition-all",
+        "absolute -right-6 top-1/2 -translate-y-1/2 text-white hover:text-red-500 transition-all z-0",
         classname
       )}
       {...props}
