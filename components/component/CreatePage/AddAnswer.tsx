@@ -1,13 +1,19 @@
-import React from "react";
+import useCreateStore from "@/stores/CreateStore";
+import { QuestionContext } from "@/stores/QuestionContext";
+import React, { useContext } from "react";
 interface AddAnswerProps {
-  addAnswer: Function;
   ind: number;
 }
 
-const AddAnswer: React.FC<AddAnswerProps> = ({ addAnswer, ind }) => {
+const AddAnswer: React.FC<AddAnswerProps> = ({ ind }) => {
+  const question = useContext(QuestionContext);
+  const addAnswer = useCreateStore((state) => state.addAnswer);
+
+  if (!question) return <div></div>;
+
   return (
     <div
-      onClick={() => addAnswer(ind)}
+      onClick={() => addAnswer(question?.id, ind)}
       className="ml-10 h-2 mt-4  group hover:h-3 transition-all relative"
     >
       <div className="absolute -translate-y-1/2 border-solid border-l-zinc-900 border-l-8 border-y-transparent border-y-8 border-r-0 group-hover:border-l-zinc-800 transition-all"></div>

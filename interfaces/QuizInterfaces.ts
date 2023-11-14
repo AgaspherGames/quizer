@@ -36,10 +36,10 @@ export interface ICreateQuestionItem {
   title: string;
   image?: File;
   answers: CreateAnswer[];
-  type: QuestinTypes;
+  type: QuestionTypes;
 }
 
-export type QuestinTypes = "input" | "choice";
+export type QuestionTypes = "input" | "choice";
 
 export interface CreateAnswer {
   text: string;

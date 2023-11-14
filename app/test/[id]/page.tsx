@@ -7,7 +7,6 @@ interface TestProps {
 
 const Test: React.FC<TestProps> = ({ params }) => {
   const { questions, quiz } = useQuiz(params.id);
-  console.log(questions, quiz);
 
   return <div></div>;
 };

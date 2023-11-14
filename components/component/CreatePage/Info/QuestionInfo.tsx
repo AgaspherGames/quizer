@@ -1,28 +1,31 @@
-import { ICreateQuestion, QuestinTypes } from "@/interfaces/QuizInterfaces";
-import React from "react";
+import { ICreateQuestion, QuestionTypes } from "@/interfaces/QuizInterfaces";
+import React, { useContext } from "react";
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
 import CreateImage from "../UI/CreateImage";
 import CustomInput from "../../Base/CustomInput";
 import ChooseImage from "../UI/ChooseImage";
 import DeleteButton from "../UI/DeleteButton";
-import QuestionContext from "../UI/QuestionContext";
+import QuestionContextMenu from "../UI/QuestionContextMenu";
+import useCreateStore from "@/stores/CreateStore";
+import { QuestionContext } from "@/stores/QuestionContext";
 interface QuestionInfoProps {
-  question: ICreateQuestion;
-  setQuestionTitle: (question_id: number, text: string) => void;
-  setQuestionImage: (question_id: number, image?: File) => void;
-  removeQuestion: (question_id: number) => void;
   dragHandleProps?: DraggableProvidedDragHandleProps | null;
-  setQuestionType: (question_id: number, type: QuestinTypes) => void;
 }
 
 const QuestionInfo: React.FC<QuestionInfoProps> = ({
-  setQuestionImage,
-  setQuestionTitle,
-  question,
-  removeQuestion,
   dragHandleProps,
-  setQuestionType,
 }) => {
+  const {
+    setQuestionTitle,
+    setQuestionImage,
+    setQuestionType,
+    removeQuestion,
+  } = useCreateStore((state) => state);
+
+  const question = useContext(QuestionContext);
+
+  if (!question) return <div></div>;
+
   return (
     <div>
       {question.image && (
@@ -46,7 +49,7 @@ const QuestionInfo: React.FC<QuestionInfoProps> = ({
               setImage={(data: File) => setQuestionImage(question.id, data)}
             />
           </div>
-          <QuestionContext
+          <QuestionContextMenu
             question={question}
             setQuestionType={setQuestionType}
           />

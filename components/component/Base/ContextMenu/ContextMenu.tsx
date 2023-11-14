@@ -23,20 +23,15 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
   const ref = useRef<HTMLDivElement | null>(null);
 
   function clickHandler(e: MouseEvent) {
-    console.log(ref?.current);
-
     if (
       !parentRef?.current?.contains(e.target as Node) &&
       !ref?.current?.contains(e.target as Node)
     ) {
-      console.log("click");
-
       setIsOpen(false);
     }
   }
   function contextHandler(e: MouseEvent) {
     if (!parentRef?.current?.contains(e.target as Node)) {
-      console.log("context");
       setIsOpen(false);
     }
   }

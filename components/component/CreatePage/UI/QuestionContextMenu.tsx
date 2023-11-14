@@ -3,14 +3,14 @@ import React, { useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import ContextMenu from "../../Base/ContextMenu/ContextMenu";
 import ContextButton from "../../Base/ContextMenu/ContextButton";
-import { ICreateQuestion, QuestinTypes } from "@/interfaces/QuizInterfaces";
+import { ICreateQuestion, QuestionTypes } from "@/interfaces/QuizInterfaces";
 
 interface QuestionContextProps {
-  setQuestionType: (question_id: number, type: QuestinTypes) => void;
+  setQuestionType: (question_id: number, type: QuestionTypes) => void;
   question: ICreateQuestion;
 }
 
-const QuestionContext: React.FC<QuestionContextProps> = ({
+const QuestionContextMenu: React.FC<QuestionContextProps> = ({
   setQuestionType,
   question,
 }) => {
@@ -33,8 +33,6 @@ const QuestionContext: React.FC<QuestionContextProps> = ({
       <ContextMenu
         parentRef={ref}
         setIsOpen={(isOpen: boolean) => {
-          console.log(isOpen);
-
           setContext((prev) => ({ ...prev, isOpen }));
         }}
         isOpen={context.isOpen}
@@ -63,4 +61,4 @@ const QuestionContext: React.FC<QuestionContextProps> = ({
   );
 };
 
-export default QuestionContext;
+export default QuestionContextMenu;

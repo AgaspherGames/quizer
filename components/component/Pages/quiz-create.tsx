@@ -11,29 +11,12 @@ import { DropResult } from "react-beautiful-dnd";
 import QuestionsList from "../CreatePage/Lists/QuestionsList";
 import QuizInfo from "../CreatePage/Info/QuizInfo";
 import { useQuizCreate } from "@/hooks/useQuizCreate";
+import useCreateStore from "@/stores/CreateStore";
 
 export function QuizCreate() {
   const router = useRouter();
-  const {
-    questions,
-    title,
-    description,
-    quizImage,
-    setQuestions,
-    setTitle,
-    setDescription,
-    setQuizImage,
-    addQuestion,
-    addAnswer,
-    removeAnswer,
-    removeQuestion,
-    toggleAnswer,
-    setQuestionTitle,
-    setQuestionImage,
-    setAnswerTitle,
-    setAnswers,
-    setQuestionType,
-  } = useQuizCreate();
+  const { questions, title, description, quizImage, setQuestions } =
+    useCreateStore((state) => state);
 
   async function create() {
     const mappedQuestions = questions.map((el) => ({
@@ -86,30 +69,10 @@ export function QuizCreate() {
             Создание теста
           </h1>
           <form>
-            <QuizInfo
-              setQuizImage={setQuizImage}
-              setTitle={setTitle}
-              setDescription={setDescription}
-              quizImage={quizImage}
-              title={title}
-              description={description}
-            />
-            <AddQuestion addQuestion={addQuestion} index={0} />
+            <QuizInfo />
+            <AddQuestion index={0} />
 
-            <QuestionsList
-              setQuestionImage={setQuestionImage}
-              setQuestionTitle={setQuestionTitle}
-              setAnswerTitle={setAnswerTitle}
-              toggleAnswer={toggleAnswer}
-              removeAnswer={removeAnswer}
-              removeQuestion={removeQuestion}
-              addAnswer={addAnswer}
-              setAnswers={setAnswers}
-              addQuestion={addQuestion}
-              onDragEnd={onDragEnd}
-              questions={questions}
-              setQuestionType={setQuestionType}
-            />
+            <QuestionsList onDragEnd={onDragEnd} questions={questions} />
 
             <Button
               onClick={create}

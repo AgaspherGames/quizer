@@ -1,32 +1,31 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  DragDropContext,
+  Draggable,
+  DropResult,
+  Droppable,
+} from "react-beautiful-dnd";
 import CreateField from "../CreateField";
 import AddAnswer from "../AddAnswer";
 import { motion } from "framer-motion";
 import { ICreateQuestion } from "@/interfaces/QuizInterfaces";
+import useCreateStore from "@/stores/CreateStore";
+import { QuestionContext } from "@/stores/QuestionContext";
 
 interface AnswersListProps {
   onDragEnd: (result: DropResult) => void;
-  question: ICreateQuestion;
-  setAnswerTitle: (question_id: number, pos: number, text: string) => void;
-  toggleAnswer: (question_id: number, pos: number) => void;
-  removeAnswer: (question_id: number, pos: number) => void;
-  addAnswer: (question_id: number, pos: number) => void;
 }
 
-const AnswersList: React.FC<AnswersListProps> = ({
-  onDragEnd,
-  question,
-  setAnswerTitle,
-  toggleAnswer,
-  removeAnswer,
-  addAnswer,
-}) => {
+const AnswersList: React.FC<AnswersListProps> = ({ onDragEnd }) => {
+  const question = useContext(QuestionContext);
   const [data, setData] = useState<number[] | []>([]);
   useEffect(() => {
     setData([1]);
   }, []);
+
+  if (!question) return <div />;
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="">
@@ -58,25 +57,11 @@ const AnswersList: React.FC<AnswersListProps> = ({
                         >
                           <div className="absolute inset-0">
                             <CreateField
+                              index={index}
                               handle={provided.dragHandleProps}
                               answer={component}
-                              setAnswerTitle={(text: string) => {
-                                setAnswerTitle(question.id, index, text);
-                              }}
-                              toggleAnswer={() => {
-                                toggleAnswer(question.id, index);
-                              }}
-                              removeAnswer={() => {
-                                removeAnswer(question.id, index);
-                              }}
-                              placeholder="Ответ"
                             />
-                            <AddAnswer
-                              addAnswer={(ind: number) =>
-                                addAnswer(question.id, ind)
-                              }
-                              ind={index + 1}
-                            />
+                            <AddAnswer ind={index + 1} />
                           </div>
                         </motion.div>
                       </div>

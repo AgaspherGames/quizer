@@ -2,23 +2,18 @@ import React from "react";
 import CreateImage from "../UI/CreateImage";
 import CustomInput from "../../Base/CustomInput";
 import ChooseImage from "../UI/ChooseImage";
-interface QuizInfoProps {
-  setQuizImage: (file?: File) => void;
-  setTitle: (text: string) => void;
-  setDescription: (text: string) => void;
-  quizImage: File | undefined;
-  title: string;
-  description: string;
-}
+import useCreateStore from "@/stores/CreateStore";
+interface QuizInfoProps {}
 
-const QuizInfo: React.FC<QuizInfoProps> = ({
-  setQuizImage,
-  setTitle,
-  setDescription,
-  quizImage,
-  title,
-  description,
-}) => {
+const QuizInfo: React.FC<QuizInfoProps> = ({}) => {
+  const {
+    quizImage,
+    setQuizImage,
+    title,
+    setTitle,
+    description,
+    setDescription,
+  } = useCreateStore((state) => state);
   return (
     <div className="mb-5">
       {quizImage && (

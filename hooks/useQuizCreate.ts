@@ -1,7 +1,7 @@
 import {
   CreateAnswer,
   ICreateQuestion,
-  QuestinTypes,
+  QuestionTypes,
 } from "@/interfaces/QuizInterfaces";
 import { useState } from "react";
 
@@ -70,7 +70,7 @@ export const useQuizCreate = () => {
     });
     setQuestions(newQuestions);
   }
-  function setQuestionType(question_id: number, type: QuestinTypes) {
+  function setQuestionType(question_id: number, type: QuestionTypes) {
     const newQuestions = questions.map((x) => {
       if (x.id == question_id) {
         x.type = type;
