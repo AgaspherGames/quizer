@@ -6,11 +6,13 @@ import {
 import { create } from "zustand";
 
 interface Store {
+  quizId: number;
   questions: ICreateQuestion[];
   title: string;
   description: string;
   quizImage?: File;
   lastId: number;
+  createQuiz: () => void;
   generateId: () => number;
   setQuestions: (questions: ICreateQuestion[]) => void;
   setTitle: (title: string) => void;
@@ -29,11 +31,22 @@ interface Store {
 }
 
 const useCreateStore = create<Store>((set) => ({
+  quizId: 0,
   questions: [],
   title: "",
   description: "",
   quizImage: undefined,
   lastId: 1,
+  createQuiz: () => {
+    let id = 0;
+    set((state) => {
+      id = state.lastId;
+
+      return { lastId: state.lastId + 1 };
+    });
+
+    return id;
+  },
   generateId: () => {
     let id = 0;
     set((state) => {
