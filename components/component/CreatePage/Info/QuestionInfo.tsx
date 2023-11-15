@@ -38,7 +38,7 @@ const QuestionInfo: React.FC<QuestionInfoProps> = ({
       )}
       <div {...dragHandleProps} className="relative">
         <CustomInput
-          classname="pr-12"
+          className="pr-12"
           value={question.title}
           onChange={(e) => setQuestionTitle(question.id, e.target.value)}
           placeholder="Введите вопрос"

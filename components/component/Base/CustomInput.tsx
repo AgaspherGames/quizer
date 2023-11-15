@@ -1,11 +1,11 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
 interface CustomInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  classname?: string;
+  className?: string;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
-  classname,
+  className,
   onChange,
   value,
   ...props
@@ -14,7 +14,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
     <div
       className={twMerge(
         "w-full px-4 py-2 bg-zinc-900 rounded-lg ",
-        classname
+        className
       )}
     >
       <input

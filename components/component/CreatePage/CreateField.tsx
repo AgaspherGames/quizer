@@ -63,7 +63,7 @@ const CreateField: React.FC<CreateFieldProps> = ({
               </div>
             </div>
             <CustomInput
-              classname="ml-3"
+              className="ml-3"
               value={answer.text}
               placeholder="Ответ"
               onChange={(e) =>

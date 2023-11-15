@@ -1,16 +1,16 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
 interface DeleteButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-  classname?: string;
+  className?: string;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({ classname, ...props }) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({ className, ...props }) => {
   return (
     <button
       type="button"
       className={twMerge(
         "absolute -right-6 top-1/2 -translate-y-1/2 text-white hover:text-red-500 transition-all z-0",
-        classname
+        className
       )}
       {...props}
     >

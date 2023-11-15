@@ -28,7 +28,7 @@ const QuizInfo: React.FC<QuizInfoProps> = ({}) => {
       <label className="block font-medium mb-2">Название</label>
       <div className="relative">
         <CustomInput
-          classname="py-3 pr-10 border-white border"
+          className="py-3 pr-10 border-white border"
           placeholder="Название теста"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
