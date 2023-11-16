@@ -44,7 +44,7 @@ const bg = {
 };
 
 export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
-  const { setSelectedAnswers } = useQuizStore((state) => state);
+  const setSelectedAnswers = useQuizStore((state) => state.setSelectedAnswers);
   const { questions, quiz } = useQuiz(params.id);
   const [isClosing, toggle] = useCycle(false, true);
 

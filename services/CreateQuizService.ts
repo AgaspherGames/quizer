@@ -1,9 +1,17 @@
+import {
+  ICreateQuestionResponse,
+  ICreateQuizResponse,
+} from "@/interfaces/CreateQuizInterfaces";
 import { IUserInfo } from "@/interfaces/UserInterfaces";
 import { httpAuth } from "@/utils/http";
+import { number } from "yup";
 
 class CreateQuizService {
-  async createQuiz() {
-    return httpAuth.post(`quiz`);
+  async createQuiz(title: string) {
+    return httpAuth.post<ICreateQuizResponse>(`quiz`, { title });
+  }
+  async createQuestion(quizId: number) {
+    return httpAuth.post<ICreateQuestionResponse>(`quiz/${quizId}/questions`);
   }
 }
 

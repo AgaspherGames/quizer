@@ -3,6 +3,7 @@ import {
   ICreateQuestion,
   QuestionTypes,
 } from "@/interfaces/QuizInterfaces";
+import CreateQuizService from "@/services/CreateQuizService";
 import { create } from "zustand";
 
 interface Store {
@@ -30,22 +31,18 @@ interface Store {
   setAnswers: (question_id: number, answers: CreateAnswer[]) => void;
 }
 
+const defaultTitle = "Тест";
+
 const useCreateStore = create<Store>((set) => ({
   quizId: 0,
   questions: [],
-  title: "",
+  title: defaultTitle,
   description: "",
   quizImage: undefined,
   lastId: 1,
-  createQuiz: () => {
-    let id = 0;
-    set((state) => {
-      id = state.lastId;
-
-      return { lastId: state.lastId + 1 };
-    });
-
-    return id;
+  createQuiz: async () => {
+    const quizId = (await CreateQuizService.createQuiz(defaultTitle)).data.id;
+    set((state) => ({ quizId }));
   },
   generateId: () => {
     let id = 0;
@@ -61,17 +58,22 @@ const useCreateStore = create<Store>((set) => ({
   setTitle: (newTitle) => set({ title: newTitle }),
   setDescription: (newDescription) => set({ description: newDescription }),
   setQuizImage: (newImage) => set({ quizImage: newImage }),
-  addQuestion: (ind) =>
-    set((state) => {
-      return {
-        questions: state.questions.toSpliced(ind, 0, {
-          answers: [],
-          title: "",
-          id: state.generateId(),
-          type: "choice",
-        }),
-      };
-    }),
+  addQuestion: async (ind) =>
+    //TODO: place to order
+    {
+      let quizId = useCreateStore.getState().quizId;
+      const { id } = (await CreateQuizService.createQuestion(quizId)).data;
+      set((state) => {
+        return {
+          questions: state.questions.toSpliced(ind, 0, {
+            answers: [],
+            title: "",
+            id: id,
+            type: "choice",
+          }),
+        };
+      });
+    },
   addAnswer: (question_id, pos) =>
     set((state) => {
       const newQuestions = state.questions.map((x, ind) => {

@@ -15,8 +15,15 @@ import useCreateStore from "@/stores/CreateStore";
 
 export function QuizCreate() {
   const router = useRouter();
-  const { questions, title, description, quizImage, setQuestions } =
-    useCreateStore((state) => state);
+  const {
+    questions,
+    title,
+    description,
+    quizImage,
+    setQuestions,
+    quizId,
+    createQuiz,
+  } = useCreateStore((state) => state);
 
   async function create() {
     const mappedQuestions = questions.map((el) => ({
@@ -60,6 +67,12 @@ export function QuizCreate() {
       setQuestions([...newData]);
     }
   };
+
+  useEffect(() => {
+    createQuiz();
+  }, []);
+
+  console.log(quizId);
 
   return (
     <div className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12">
