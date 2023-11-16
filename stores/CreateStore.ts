@@ -1,12 +1,15 @@
+import { useDebounce } from "@/hooks/hooks";
 import {
   CreateAnswer,
   ICreateQuestion,
   QuestionTypes,
 } from "@/interfaces/QuizInterfaces";
 import CreateQuizService from "@/services/CreateQuizService";
+import { useEffect } from "react";
 import { create } from "zustand";
+import _debounce from "lodash.debounce";
 
-interface Store {
+export interface ICreateStore {
   quizId: number;
   questions: ICreateQuestion[];
   title: string;
@@ -31,9 +34,12 @@ interface Store {
   setAnswers: (question_id: number, answers: CreateAnswer[]) => void;
 }
 
+const debounce = _debounce((cb) => {
+  cb();
+}, 500);
 const defaultTitle = "Тест";
 
-const useCreateStore = create<Store>((set) => ({
+const useCreateStore = create<ICreateStore>((set) => ({
   quizId: 0,
   questions: [],
   title: defaultTitle,
@@ -55,14 +61,19 @@ const useCreateStore = create<Store>((set) => ({
     return id;
   },
   setQuestions: (newQuestions) => set({ questions: newQuestions }),
-  setTitle: (newTitle) => set({ title: newTitle }),
-  setDescription: (newDescription) => set({ description: newDescription }),
+  setTitle: async (newTitle) => {
+    debounce(() => CreateQuizService.editQuiz({ title: newTitle }));
+    set({ title: newTitle });
+  },
+  setDescription: (newDescription) => {
+    debounce(() => CreateQuizService.editQuiz({ description: newDescription }));
+    set({ description: newDescription });
+  },
   setQuizImage: (newImage) => set({ quizImage: newImage }),
   addQuestion: async (ind) =>
     //TODO: place to order
     {
-      let quizId = useCreateStore.getState().quizId;
-      const { id } = (await CreateQuizService.createQuestion(quizId)).data;
+      const { id } = (await CreateQuizService.createQuestion()).data;
       set((state) => {
         return {
           questions: state.questions.toSpliced(ind, 0, {
@@ -74,20 +85,24 @@ const useCreateStore = create<Store>((set) => ({
         };
       });
     },
-  addAnswer: (question_id, pos) =>
+  addAnswer: async (question_id, pos) => {
+    //TODO: place to order
+    const { id } = (await CreateQuizService.createAnswer(question_id, pos))
+      .data;
     set((state) => {
       const newQuestions = state.questions.map((x, ind) => {
         if (x.id === question_id) {
           x.answers = x.answers.toSpliced(pos, 0, {
             is_correct: false,
             text: "",
-            id: state.generateId(),
+            id,
           });
         }
         return x;
       });
       return { questions: newQuestions };
-    }),
+    });
+  },
   removeAnswer: (question_id, pos) =>
     set((state) => {
       const newQuestions = state.questions.map((x) => {
@@ -112,15 +127,24 @@ const useCreateStore = create<Store>((set) => ({
       });
       return { questions: newQuestions };
     }),
-  setQuestionTitle: (question_id, text) =>
-    set((state) => ({
-      questions: state.questions.map((x) => {
-        if (x.id === question_id) {
-          x.title = text;
-        }
-        return x;
-      }),
-    })),
+  setQuestionTitle: async (question_id, text) => {
+    set((state) => {
+      debounce(() => {
+        CreateQuizService.editQuestion(question_id, {
+          title: text,
+          type: state.questions.find((x) => x.id == question_id)?.type,
+        });
+      });
+      return {
+        questions: state.questions.map((x) => {
+          if (x.id === question_id) {
+            x.title = text;
+          }
+          return x;
+        }),
+      };
+    });
+  },
   setQuestionType: (question_id, type) =>
     set((state) => ({
       questions: state.questions.map((x) => {
@@ -140,14 +164,18 @@ const useCreateStore = create<Store>((set) => ({
       }),
     })),
   setAnswerTitle: (question_id, pos, text) =>
-    set((state) => ({
-      questions: state.questions.map((x) => {
-        if (x.id === question_id) {
-          x.answers[pos].text = text;
-        }
-        return x;
-      }),
-    })),
+    set((state) => {
+      //TODO change pos to answer_id
+      // CreateQuizService.editAnswer(question_id, );
+      return {
+        questions: state.questions.map((x) => {
+          if (x.id === question_id) {
+            x.answers[pos].text = text;
+          }
+          return x;
+        }),
+      };
+    }),
   setAnswers: (question_id, answers) =>
     set((state) => ({
       questions: state.questions.map((x) => {

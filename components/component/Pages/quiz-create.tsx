@@ -72,8 +72,6 @@ export function QuizCreate() {
     createQuiz();
   }, []);
 
-  console.log(quizId);
-
   return (
     <div className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12">
       <div className="relative w-full py-3 sm:max-w-xl sm:mx-auto">

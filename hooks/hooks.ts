@@ -7,6 +7,15 @@ import { useAuthStore } from "@/stores/AuthStore";
 import { useQuizStore } from "@/stores/QuizStore";
 import { useEffect, useState } from "react";
 
+export const useDebounce = (cb: Function, delay = 500) => {
+  const [timeout, settimeout] = useState<number | null>(null);
+  return () => {
+    if (timeout) clearTimeout(timeout);
+
+    settimeout(setTimeout(cb, delay));
+  };
+};
+
 export const useParsedQuestion = (quizId: string, questionId: string) => {
   const { questions } = useQuiz(quizId);
 

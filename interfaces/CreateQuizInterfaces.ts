@@ -1,19 +1,25 @@
-export interface ICreateQuizResponse {
+import { QuestionTypes } from "./QuizInterfaces";
+
+export interface IdResponse {
   id: number;
 }
 
-export interface IEditQuizRequest {}
+export interface IEditQuizRequest {
+  title?: string;
+  description?: string;
+}
 
 export interface ICreateQuestionRequest {}
 
-export interface IEditQuestionRequest {}
-
-export interface ICreateQuestionResponse {
-  id: number;
+export interface IEditQuestionRequest {
+  title?: string;
+  type?: QuestionTypes;
 }
-
 export interface ICreateAnswerRequest {}
 
-export interface IEditAnswerRequest {}
+export interface IEditAnswerRequest {
+  text?: string;
+  is_correct?: boolean;
+}
 
 export interface ICreateAnswerResponse {}
