@@ -38,7 +38,7 @@ const CreateField: React.FC<CreateFieldProps> = ({
             <div className="relative flex items-center p-2 pr-2 rounded-full cursor-pointer">
               <input
                 onChange={() => {
-                  toggleAnswer(question.id, index);
+                  toggleAnswer(question.id, answer.id);
                 }}
                 checked={answer.is_correct}
                 type="checkbox"
@@ -67,7 +67,7 @@ const CreateField: React.FC<CreateFieldProps> = ({
               value={answer.text}
               placeholder="Ответ"
               onChange={(e) =>
-                setAnswerTitle(question?.id, index, e.target.value)
+                setAnswerTitle(question?.id, answer.id, e.target.value)
               }
               {...props}
             />

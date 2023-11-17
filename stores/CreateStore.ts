@@ -117,11 +117,17 @@ const useCreateStore = create<ICreateStore>((set) => ({
     set((state) => ({
       questions: state.questions.filter((x) => x.id !== question_id),
     })),
-  toggleAnswer: (question_id, pos) =>
+  toggleAnswer: (question_id, answer_id) =>
     set((state) => {
       const newQuestions = state.questions.map((x) => {
         if (x.id === question_id) {
-          x.answers[pos].is_correct = !x.answers[pos].is_correct;
+          const answer = x.answers.find((x) => x.id == answer_id);
+          answer!.is_correct = !answer!.is_correct;
+          debounce(() => {
+            CreateQuizService.editAnswer(question_id, answer_id, {
+              is_correct: answer?.is_correct,
+            });
+          });
         }
         return x;
       });
@@ -163,14 +169,15 @@ const useCreateStore = create<ICreateStore>((set) => ({
         return x;
       }),
     })),
-  setAnswerTitle: (question_id, pos, text) =>
+  setAnswerTitle: (question_id, answer_id, text) =>
     set((state) => {
-      //TODO change pos to answer_id
-      // CreateQuizService.editAnswer(question_id, );
+      debounce(() => {
+        CreateQuizService.editAnswer(question_id, answer_id, { text });
+      });
       return {
         questions: state.questions.map((x) => {
           if (x.id === question_id) {
-            x.answers[pos].text = text;
+            x.answers.find((x) => x.id == answer_id)!.text = text;
           }
           return x;
         }),
