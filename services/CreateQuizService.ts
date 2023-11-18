@@ -51,7 +51,6 @@ class CreateQuizService {
     const answer = this.store.questions
       .find((x) => x.id == questionId)
       ?.answers.find((x) => x.id == answerId);
-    console.log(answer);
 
     const requestData: IEditAnswerRequest = {
       is_correct: !!answer?.is_correct,
@@ -61,6 +60,23 @@ class CreateQuizService {
     return httpAuth.put(
       `quiz/${this.store.quizId}/questions/${questionId}/answers/${answerId}`,
       requestData
+    );
+  }
+  async uploadQuizImage(data: FormData) {
+    return httpAuth.post(`quiz/${this.store.quizId}/image`, data);
+  }
+  async removeQuizImage() {
+    return httpAuth.delete(`quiz/${this.store.quizId}/image`);
+  }
+  async uploadQuestionImage(questionId: number, data: FormData) {
+    return httpAuth.post(
+      `quiz/${this.store.quizId}/questions/${questionId}/image`,
+      data
+    );
+  }
+  async removeQuestionImage(questionId: number) {
+    return httpAuth.delete(
+      `quiz/${this.store.quizId}/questions/${questionId}/image`
     );
   }
 }

@@ -69,7 +69,16 @@ const useCreateStore = create<ICreateStore>((set) => ({
     debounce(() => CreateQuizService.editQuiz({ description: newDescription }));
     set({ description: newDescription });
   },
-  setQuizImage: (newImage) => set({ quizImage: newImage }),
+  setQuizImage: (newImage) => {
+    if (newImage) {
+      const data = new FormData();
+      data.append("image", newImage);
+      CreateQuizService.uploadQuizImage(data);
+    } else {
+      CreateQuizService.removeQuizImage();
+    }
+    return set({ quizImage: newImage });
+  },
   addQuestion: async (ind) =>
     //TODO: place to order
     {
@@ -155,12 +164,25 @@ const useCreateStore = create<ICreateStore>((set) => ({
     set((state) => ({
       questions: state.questions.map((x) => {
         if (x.id === question_id) {
+          debounce(() => {
+            CreateQuizService.editQuestion(question_id, {
+              title: x.title,
+              type: x.type,
+            });
+          });
           x.type = type;
         }
         return x;
       }),
     })),
-  setQuestionImage: (question_id, image) =>
+  setQuestionImage: (question_id, image) => {
+    if (image) {
+      const data = new FormData();
+      data.append("image", image);
+      CreateQuizService.uploadQuestionImage(question_id, data);
+    } else {
+      CreateQuizService.removeQuestionImage(question_id);
+    }
     set((state) => ({
       questions: state.questions.map((x) => {
         if (x.id === question_id) {
@@ -168,7 +190,8 @@ const useCreateStore = create<ICreateStore>((set) => ({
         }
         return x;
       }),
-    })),
+    }));
+  },
   setAnswerTitle: (question_id, answer_id, text) =>
     set((state) => {
       debounce(() => {
