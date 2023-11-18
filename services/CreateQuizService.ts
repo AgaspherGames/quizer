@@ -62,6 +62,16 @@ class CreateQuizService {
       requestData
     );
   }
+
+  async removeQuestion(questionId: number) {
+    return httpAuth.delete(`quiz/${this.store.quizId}/questions/${questionId}`);
+  }
+  async removeAnswer(questionId: number, answerId: number) {
+    return httpAuth.delete(
+      `quiz/${this.store.quizId}/questions/${questionId}/answers/${answerId}`
+    );
+  }
+
   async uploadQuizImage(data: FormData) {
     return httpAuth.post(`quiz/${this.store.quizId}/image`, data);
   }

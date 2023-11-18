@@ -24,7 +24,7 @@ export interface ICreateStore {
   setQuizImage: (image: File | undefined) => void;
   addQuestion: (ind: number) => void;
   addAnswer: (question_id: number, pos: number) => void;
-  removeAnswer: (question_id: number, pos: number) => void;
+  removeAnswer: (question_id: number, answer_id: number) => void;
   removeQuestion: (question_id: number) => void;
   toggleAnswer: (question_id: number, pos: number) => void;
   setQuestionTitle: (question_id: number, text: string) => void;
@@ -112,20 +112,24 @@ const useCreateStore = create<ICreateStore>((set) => ({
       return { questions: newQuestions };
     });
   },
-  removeAnswer: (question_id, pos) =>
+  removeAnswer: (question_id, answer_id) => {
+    CreateQuizService.removeAnswer(question_id, answer_id);
     set((state) => {
       const newQuestions = state.questions.map((x) => {
         if (x.id === question_id) {
-          x.answers = x.answers.toSpliced(pos, 1);
+          x.answers = x.answers.filter((x) => x.id != answer_id);
         }
         return x;
       });
       return { questions: newQuestions };
-    }),
-  removeQuestion: (question_id) =>
+    });
+  },
+  removeQuestion: (question_id) => {
+    CreateQuizService.removeQuestion(question_id);
     set((state) => ({
       questions: state.questions.filter((x) => x.id !== question_id),
-    })),
+    }));
+  },
   toggleAnswer: (question_id, answer_id) =>
     set((state) => {
       const newQuestions = state.questions.map((x) => {

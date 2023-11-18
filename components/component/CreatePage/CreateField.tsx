@@ -71,7 +71,7 @@ const CreateField: React.FC<CreateFieldProps> = ({
               }
               {...props}
             />
-            <DeleteButton onClick={(_) => removeAnswer(question.id, index)} />
+            <DeleteButton onClick={(_) => removeAnswer(question.id, answer.id)} />
           </div>
         </div>
       </motion.div>
