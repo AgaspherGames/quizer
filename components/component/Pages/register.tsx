@@ -119,7 +119,7 @@ export function Register() {
         </div>
         <div className="px-10 py-4 bg-zinc-900 text-center text-white">
           <span>Уже есть аккаунт?</span>
-          <Link className="text-blue-500 hover:text-blue-700 ml-2" href="#">
+          <Link className="text-blue-500 hover:text-blue-700 ml-2" href="/login">
             Войти
           </Link>
         </div>

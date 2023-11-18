@@ -58,7 +58,7 @@ export function Login() {
     <div className="min-h-screen flex items-center justify-center bg-black">
       <div className="w-full max-w-sm shadow-lg rounded-lg overflow-hidden md:max-w-lg">
         <div className="px-10 py-12 bg-zinc-950 text-white">
-          <h1 className="text-3xl font-bold text-center">Регистрация</h1>
+          <h1 className="text-3xl font-bold text-center">Авторизация</h1>
           {error && (
             <p className="text-red-200 text-lg text-center my-2">{error}</p>
           )}
@@ -103,7 +103,7 @@ export function Login() {
         </div>
         <div className="px-10 py-4 bg-zinc-900 text-center text-white">
           <span>Еще нет аккаунта?</span>
-          <Link className="text-blue-500 hover:text-blue-700 ml-2" href="#">
+          <Link className="text-blue-500 hover:text-blue-700 ml-2" href="/register">
             Создать
           </Link>
         </div>
