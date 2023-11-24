@@ -6,16 +6,18 @@ export const url = "http://localhost:3000/";
 export const http = axios.create({
   baseURL: url,
   timeout: 10000,
-  headers: {
-    "ngrok-skip-browser-warning": true,
-  },
+  // headers: {
+  //   "ngrok-skip-browser-warning": true,
+  // },
+  withCredentials: true,
 });
 export const httpAuth = axios.create({
   baseURL: url,
   timeout: 10000,
-  headers: {
-    "ngrok-skip-browser-warning": true,
-  },
+  // headers: {
+  //   "ngrok-skip-browser-warning": true,
+  // },
+  withCredentials: true,
 });
 
 httpAuth.interceptors.request.use(async function (config) {
