@@ -23,3 +23,12 @@ export interface IEditAnswerRequest {
 }
 
 export interface ICreateAnswerResponse {}
+
+export interface IUpdateQuestionsOrder {
+  orders: IUpdateOrderItem[];
+}
+
+interface IUpdateOrderItem {
+  question_id: number;
+  order_id: number;
+}

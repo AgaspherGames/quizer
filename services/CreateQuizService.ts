@@ -2,6 +2,7 @@ import {
   IEditAnswerRequest,
   IEditQuestionRequest,
   IEditQuizRequest,
+  IUpdateQuestionsOrder,
   IdResponse,
 } from "@/interfaces/CreateQuizInterfaces";
 import { IUserInfo } from "@/interfaces/UserInterfaces";
@@ -21,8 +22,10 @@ class CreateQuizService {
   async createQuiz(title: string) {
     return httpAuth.post<IdResponse>(`quiz`, { title });
   }
-  async createQuestion() {
-    return httpAuth.post<IdResponse>(`quiz/${this.store.quizId}/questions`);
+  async createQuestion(order: number) {
+    return httpAuth.post<IdResponse>(`quiz/${this.store.quizId}/questions`, {
+      order_id: order+1,
+    });
   }
   async createAnswer(question_id: number, pos: number) {
     return httpAuth.post<IdResponse>(
@@ -78,6 +81,7 @@ class CreateQuizService {
   async removeQuizImage() {
     return httpAuth.delete(`quiz/${this.store.quizId}/image`);
   }
+
   async uploadQuestionImage(questionId: number, data: FormData) {
     return httpAuth.post(
       `quiz/${this.store.quizId}/questions/${questionId}/image`,
@@ -88,6 +92,10 @@ class CreateQuizService {
     return httpAuth.delete(
       `quiz/${this.store.quizId}/questions/${questionId}/image`
     );
+  }
+
+  async updateQuestionsOrder(order: IUpdateQuestionsOrder) {
+    return httpAuth.put(`quiz/${this.store.quizId}/questions/order`, order);
   }
 }
 

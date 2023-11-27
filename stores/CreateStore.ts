@@ -48,6 +48,8 @@ const useCreateStore = create<ICreateStore>((set) => ({
   lastId: 1,
   createQuiz: async () => {
     const quizId = (await CreateQuizService.createQuiz(defaultTitle)).data.id;
+    console.log(quizId);
+
     set((state) => ({ quizId }));
   },
   generateId: () => {
@@ -60,7 +62,20 @@ const useCreateStore = create<ICreateStore>((set) => ({
 
     return id;
   },
-  setQuestions: (newQuestions) => set({ questions: newQuestions }),
+  setQuestions: (newQuestions) => {
+    const newOrderRequest = newQuestions.map((el, ind) => ({
+      question_id: el.id,
+      order_id: ind,
+    }));
+
+    console.log(newOrderRequest);
+
+    debounce(() => {
+      CreateQuizService.updateQuestionsOrder({ orders: newOrderRequest });
+    });
+
+    set({ questions: newQuestions });
+  },
   setTitle: async (newTitle) => {
     debounce(() => CreateQuizService.editQuiz({ title: newTitle }));
     set({ title: newTitle });
@@ -82,7 +97,7 @@ const useCreateStore = create<ICreateStore>((set) => ({
   addQuestion: async (ind) =>
     //TODO: place to order
     {
-      const { id } = (await CreateQuizService.createQuestion()).data;
+      const { id } = (await CreateQuizService.createQuestion(ind)).data;
       set((state) => {
         return {
           questions: state.questions.toSpliced(ind, 0, {
