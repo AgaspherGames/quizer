@@ -12,6 +12,8 @@ import QuestionsList from "../CreatePage/Lists/QuestionsList";
 import QuizInfo from "../CreatePage/Info/QuizInfo";
 import { useQuizCreate } from "@/hooks/useQuizCreate";
 import useCreateStore from "@/stores/CreateStore";
+import Modal from "../Modal/Modal";
+import CustomInput from "../Base/CustomInput";
 
 export function QuizCreate() {
   const router = useRouter();
@@ -21,35 +23,13 @@ export function QuizCreate() {
     description,
     quizImage,
     setQuestions,
-    quizId,
     createQuiz,
+    quizId,
   } = useCreateStore((state) => state);
 
   async function create() {
-    const mappedQuestions = questions.map((el) => ({
-      title: el.title,
-      answers: el.answers,
-    }));
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    if (quizImage) formData.append("image", quizImage);
-    formData.append("questions", JSON.stringify(mappedQuestions));
-
-    for (let index = 0; index < questions.length; index++) {
-      const question = questions[index];
-      question.image &&
-        formData.append("question_img" + (index + 1), question.image);
-    }
-
-    try {
-      const response = await QuizService.createQuiz(formData);
-      router.push("/quiz/" + response.data.id);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
+    await createQuiz(quizTitle);
+    setIsModalOpen(false);
   }
 
   const onDragEnd = (result: DropResult) => {
@@ -68,33 +48,69 @@ export function QuizCreate() {
     }
   };
 
-  useEffect(() => {
-    createQuiz();
-  }, []);
+  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [quizTitle, setQuizTitle] = useState("");
+
+  // useEffect(() => {
+  //   createQuiz();
+  // }, []);
 
   return (
     <div className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12">
-      <div className="relative w-full py-3 sm:max-w-xl sm:mx-auto">
-        <div className="relative px-4 py-10 bg-black sm:bg-zinc-950 shadow-lg sm:rounded-3xl sm:p-20">
-          <h1 className="text-4xl font-bold text-center mb-4">
-            Создание теста
-          </h1>
-          <form>
-            <QuizInfo />
-            <AddQuestion index={0} />
-
-            <QuestionsList onDragEnd={onDragEnd} questions={questions} />
-
-            <Button
-              onClick={create}
-              className="w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg "
-              type="button"
-            >
-              Создать
-            </Button>
-          </form>
+      <Modal
+        isOpen={isModalOpen}
+        close={() => {
+          setIsModalOpen(false);
+        }}
+        className="bg-black bg-opacity-25"
+      >
+        <div className="absolute -translate-x-1/2 left-1/2 -translate-y-1/2 top-1/2 text-white">
+          <div className="relative w-full py-3 sm:max-w-xl sm:mx-auto">
+            <div className="relative px-4 py-10 bg-black sm:bg-zinc-950 shadow-lg sm:rounded-3xl sm:p-20">
+              <h1 className="text-4xl font-bold text-center mb-4 ">
+                Создание теста
+              </h1>
+              <form>
+                <CustomInput
+                  value={quizTitle}
+                  onChange={(e) => setQuizTitle(e.target.value)}
+                  placeholder="Название теста"
+                />
+                <Button
+                  onClick={create}
+                  className="mt-4 w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg "
+                  type="button"
+                >
+                  Создать
+                </Button>
+              </form>
+            </div>
+          </div>
         </div>
-      </div>
+      </Modal>
+      {quizId && (
+        <div className="relative w-full py-3 sm:max-w-xl sm:mx-auto">
+          <div className="relative px-4 py-10 bg-black sm:bg-zinc-950 shadow-lg sm:rounded-3xl sm:p-20">
+            <h1 className="text-4xl font-bold text-center mb-4">
+              Создание теста
+            </h1>
+            <form>
+              <QuizInfo />
+              <AddQuestion index={0} />
+
+              <QuestionsList onDragEnd={onDragEnd} questions={questions} />
+
+              <Button
+                onClick={create}
+                className="w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg "
+                type="button"
+              >
+                Создать
+              </Button>
+            </form>
+          </div>
+        </div>
+      )}
       <div className="absolute top-6 left-4">
         <Link href="/">
           <Logo />

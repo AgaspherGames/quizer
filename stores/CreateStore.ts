@@ -16,7 +16,7 @@ export interface ICreateStore {
   description: string;
   quizImage?: File;
   lastId: number;
-  createQuiz: () => void;
+  createQuiz: (title?: string) => void;
   generateId: () => number;
   setQuestions: (questions: ICreateQuestion[]) => void;
   setTitle: (title: string) => void;
@@ -46,11 +46,13 @@ const useCreateStore = create<ICreateStore>((set) => ({
   description: "",
   quizImage: undefined,
   lastId: 1,
-  createQuiz: async () => {
-    const quizId = (await CreateQuizService.createQuiz(defaultTitle)).data.id;
+  createQuiz: async (title) => {
+    const quizId = (await CreateQuizService.createQuiz(title || defaultTitle))
+      .data.id;
     console.log(quizId);
 
     set((state) => ({ quizId }));
+    title && set((state) => ({ title }));
   },
   generateId: () => {
     let id = 0;
