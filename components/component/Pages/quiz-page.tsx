@@ -18,6 +18,7 @@ import axios from "axios";
 import { url } from "@/utils/http";
 import QuizImage from "../Base/quiz-image";
 import { useQuizStore } from "@/stores/QuizStore";
+import LocalStorageService from "@/services/LocalStorageService";
 interface QuizPageProps {
   params: { id: string };
 }
@@ -51,6 +52,9 @@ export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
   const router = useRouter();
 
   async function start() {
+    const { id } = (await QuizService.startQuiz(params.id)).data;
+    LocalStorageService.setItem(`quizAttempt_${params.id}`, id + "");
+
     toggle();
     await sleep(300);
     setSelectedAnswers({});

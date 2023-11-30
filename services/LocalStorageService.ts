@@ -1,4 +1,4 @@
-type keys = "TOKEN" | "USERNAME";
+type keys = "TOKEN" | "USERNAME" | `${"quizAttempt_"}${string}`;
 
 function setItem<T extends string | object>(key: keys, value: T) {
   if (typeof window === "undefined") return;
@@ -17,7 +17,7 @@ function getItem<T extends string | object>(key: keys): T {
   if (typeof window === "undefined") return "" as T;
 
   const item = localStorage.getItem(key);
-  
+
   try {
     return JSON.parse(item || "") as T;
   } catch (error) {

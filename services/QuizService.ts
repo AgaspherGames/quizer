@@ -16,10 +16,16 @@ class QuizService {
     return http.get<IQuiz>(`quiz/${quizId}`);
   }
   async saveResults(data: SaveResultRequest, quiz_id: string) {
-    return httpAuth.post<{ correct_answers: number }>(`quiz/${quiz_id}/save`, data);
+    return httpAuth.post<{ correct_answers: number }>(
+      `quiz/${quiz_id}/save`,
+      data
+    );
   }
-  async createQuiz(data: any) {
-    return httpAuth.post(`quiz`, data);
+  async startQuiz(quiz_id: string) {
+    return httpAuth.post<{ id: number }>(`quiz/${quiz_id}/start`);
+  }
+  async saveResult(quiz_id: string, data: SaveResultRequest) {
+    return httpAuth.post(`quiz/${quiz_id}/save`, data);
   }
 }
 

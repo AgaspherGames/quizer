@@ -14,6 +14,7 @@ import axios from "axios";
 import { url } from "@/utils/http";
 import QuizImage from "../Base/quiz-image";
 import { useQuizStore } from "@/stores/QuizStore";
+import LocalStorageService from "@/services/LocalStorageService";
 interface QuizProps {
   params: { id: string; questionId: string };
 }
@@ -58,6 +59,13 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
     if (isLast) {
       return saveResults();
     }
+    await QuizService.saveResult(params.id, {
+      attempt_id: +LocalStorageService.getItem<string>(
+        `quizAttempt_${params.id}`
+      ),
+      answer_id: selectedItems[0],
+      question_id: +params.questionId,
+    });
     toggle();
     await sleep(300);
     router.push(`/quiz/${params.id}/${nextId}`);
@@ -80,18 +88,18 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
   }
 
   async function saveResults() {
-    const data: SaveResultRequest = {
-      answers: selectedAnswers,
-    };
-    try {
-      const resp = await QuizService.saveResults(data, params.id);
-      toggle();
-      await sleep(300);
-      setSelectedAnswers({});
-      router.replace(
-        `congratulations?result=${resp.data.correct_answers}/${questions.length}`
-      );
-    } catch (error) {}
+    // const data: SaveResultRequest = {
+    //   answers: selectedAnswers,
+    // };
+    // try {
+    //   const resp = await QuizService.saveResults(data, params.id);
+    //   toggle();
+    //   await sleep(300);
+    //   setSelectedAnswers({});
+    //   router.replace(
+    //     `congratulations?result=${resp.data.correct_answers}/${questions.length}`
+    //   );
+    // } catch (error) {}
   }
 
   useEffect(() => {

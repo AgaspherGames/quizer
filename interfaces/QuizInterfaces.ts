@@ -12,8 +12,13 @@ export interface IAnswer {
   question_id: number;
 }
 
+// export interface SaveResultRequest {
+//   answers: ISelectedAnswer;
+// }
 export interface SaveResultRequest {
-  answers: ISelectedAnswer;
+  attempt_id: number;
+  question_id: number;
+  answer_id: number;
 }
 
 export interface ISelectedAnswer {
