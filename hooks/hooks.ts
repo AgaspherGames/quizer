@@ -23,18 +23,22 @@ export const useParsedQuestion = (quizId: string, questionId: string) => {
   const [isLast, setIsLast] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [nextId, setNextId] = useState(0);
+  const [prevId, setPrevId] = useState(0);
 
   useEffect(() => {
     if (questions.length) {
       const ind = questions.findIndex((x) => x.id == +questionId);
       setIsLast(ind == questions.length - 1);
       setIsFirst(ind == 0);
-      setQuestion(questions.find((x) => x.id == +questionId));
+      setQuestion(questions[ind]);
       setProgress(ind / questions.length);
+      setNextId(questions[ind + 1]?.id);
+      setPrevId(questions[ind - 1]?.id);
     }
   }, [questionId, questions]);
 
-  return { question, isLast, isFirst, progress };
+  return { question, isLast, isFirst, progress, nextId, prevId };
 };
 
 export const useQuiz = (quizId: string) => {

@@ -47,7 +47,7 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
   const [isClosing, toggle] = useCycle(false, true);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
 
-  const { isFirst, isLast, question } = useParsedQuestion(
+  const { isFirst, isLast, question, nextId, prevId } = useParsedQuestion(
     params.id,
     params.questionId
   );
@@ -60,12 +60,12 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
     }
     toggle();
     await sleep(300);
-    router.push(`/quiz/${params.id}/${+params.questionId + 1}`);
+    router.push(`/quiz/${params.id}/${nextId}`);
   }
   async function prev() {
     toggle();
     await sleep(300);
-    router.push(`/quiz/${params.id}/${+params.questionId - 1}`);
+    router.push(`/quiz/${params.id}/${prevId}`);
   }
 
   function selectItem(id: number) {
