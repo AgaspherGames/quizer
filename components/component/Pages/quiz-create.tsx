@@ -59,9 +59,7 @@ export function QuizCreate() {
     <div className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12">
       <Modal
         isOpen={isModalOpen}
-        close={() => {
-          setIsModalOpen(false);
-        }}
+        close={() => {}}
         className="bg-black bg-opacity-25"
       >
         <div className="absolute -translate-x-1/2 left-1/2 -translate-y-1/2 top-1/2 text-white">

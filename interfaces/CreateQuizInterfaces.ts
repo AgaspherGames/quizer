@@ -25,10 +25,17 @@ export interface IEditAnswerRequest {
 export interface ICreateAnswerResponse {}
 
 export interface IUpdateQuestionsOrder {
-  orders: IUpdateOrderItem[];
+  orders: IUpdateQuestionOrderItem[];
+}
+export interface IUpdateAnswersOrder {
+  orders: IUpdateAnswerOrderItem[];
 }
 
-interface IUpdateOrderItem {
+interface IUpdateQuestionOrderItem {
   question_id: number;
+  order_id: number;
+}
+interface IUpdateAnswerOrderItem {
+  answer_id: number;
   order_id: number;
 }

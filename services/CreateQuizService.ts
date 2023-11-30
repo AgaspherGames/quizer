@@ -2,6 +2,7 @@ import {
   IEditAnswerRequest,
   IEditQuestionRequest,
   IEditQuizRequest,
+  IUpdateAnswersOrder,
   IUpdateQuestionsOrder,
   IdResponse,
 } from "@/interfaces/CreateQuizInterfaces";
@@ -24,7 +25,7 @@ class CreateQuizService {
   }
   async createQuestion(order: number) {
     return httpAuth.post<IdResponse>(`quiz/${this.store.quizId}/questions`, {
-      order_id: order+1,
+      order_id: order + 1,
     });
   }
   async createAnswer(question_id: number, pos: number) {
@@ -96,6 +97,12 @@ class CreateQuizService {
 
   async updateQuestionsOrder(order: IUpdateQuestionsOrder) {
     return httpAuth.put(`quiz/${this.store.quizId}/questions/order`, order);
+  }
+  async updateAnswersOrder(questionId: number, order: IUpdateAnswersOrder) {
+    return httpAuth.put(
+      `quiz/${this.store.quizId}/questions/${questionId}/answers/order`,
+      order
+    );
   }
 }
 

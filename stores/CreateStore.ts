@@ -49,7 +49,6 @@ const useCreateStore = create<ICreateStore>((set) => ({
   createQuiz: async (title) => {
     const quizId = (await CreateQuizService.createQuiz(title || defaultTitle))
       .data.id;
-    console.log(quizId);
 
     set((state) => ({ quizId }));
     title && set((state) => ({ title }));
@@ -69,9 +68,6 @@ const useCreateStore = create<ICreateStore>((set) => ({
       question_id: el.id,
       order_id: ind,
     }));
-
-    console.log(newOrderRequest);
-
     debounce(() => {
       CreateQuizService.updateQuestionsOrder({ orders: newOrderRequest });
     });
@@ -96,36 +92,39 @@ const useCreateStore = create<ICreateStore>((set) => ({
     }
     return set({ quizImage: newImage });
   },
-  addQuestion: async (ind) =>
-    //TODO: place to order
-    {
-      const { id } = (await CreateQuizService.createQuestion(ind)).data;
-      set((state) => {
-        return {
-          questions: state.questions.toSpliced(ind, 0, {
-            answers: [],
-            title: "",
-            id: id,
-            type: "choice",
-          }),
-        };
+  addQuestion: async (ind) => {
+    const { id } = (await CreateQuizService.createQuestion(ind)).data;
+    set((state) => {
+      const newQuestions = state.questions.toSpliced(ind, 0, {
+        answers: [],
+        title: "",
+        id: id,
+        type: "choice",
       });
-    },
+      useCreateStore.getState().setQuestions(newQuestions);
+      return useCreateStore.getState();
+    });
+  },
   addAnswer: async (question_id, pos) => {
-    //TODO: place to order
     const { id } = (await CreateQuizService.createAnswer(question_id, pos))
       .data;
     set((state) => {
+      let newAnswers;
       const newQuestions = state.questions.map((x, ind) => {
         if (x.id === question_id) {
-          x.answers = x.answers.toSpliced(pos, 0, {
+          newAnswers = x.answers.toSpliced(pos, 0, {
             is_correct: false,
             text: "",
             id,
           });
+          x.answers = newAnswers;
         }
         return x;
       });
+
+      useCreateStore.getState().setAnswers(question_id, newAnswers!);
+      return useCreateStore.getState();
+
       return { questions: newQuestions };
     });
   },
@@ -228,14 +227,26 @@ const useCreateStore = create<ICreateStore>((set) => ({
       };
     }),
   setAnswers: (question_id, answers) =>
-    set((state) => ({
-      questions: state.questions.map((x) => {
-        if (x.id === question_id) {
-          x.answers = [...answers];
-        }
-        return x;
-      }),
-    })),
+    set((state) => {
+      const newOrderRequest = answers.map((el, ind) => ({
+        answer_id: el.id,
+        order_id: ind,
+      }));
+
+      debounce(() => {
+        CreateQuizService.updateAnswersOrder(question_id, {
+          orders: newOrderRequest,
+        });
+      });
+      return {
+        questions: state.questions.map((x) => {
+          if (x.id === question_id) {
+            x.answers = [...answers];
+          }
+          return x;
+        }),
+      };
+    }),
 }));
 
 export default useCreateStore;
