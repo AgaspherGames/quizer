@@ -1,3 +1,4 @@
+import { IResultItem } from "@/interfaces/QuizInterfaces";
 import { getFileLink } from "@/utils/utils";
 import Image from "next/image";
 import React from "react";
@@ -5,9 +6,15 @@ import { BiHash } from "react-icons/bi";
 import { twMerge } from "tailwind-merge";
 interface ResultItemProps {
   isMyResult?: boolean;
+  result: IResultItem;
+  maxScore: number;
 }
 
-const ResultItem: React.FC<ResultItemProps> = ({ isMyResult = false }) => {
+const ResultItem: React.FC<ResultItemProps> = ({
+  isMyResult = false,
+  result,
+  maxScore,
+}) => {
   return (
     <div
       id={isMyResult ? "current" : ""}
@@ -37,7 +44,7 @@ const ResultItem: React.FC<ResultItemProps> = ({ isMyResult = false }) => {
             <p>1</p>
           </div>
           <Image
-            alt="Avatar of Иван Иванов"
+            alt="Avatar of user"
             height="50"
             src={getFileLink("")}
             style={{
@@ -47,8 +54,10 @@ const ResultItem: React.FC<ResultItemProps> = ({ isMyResult = false }) => {
             className="rounded-full"
             width="50"
           />
-          <h3 className="text-2xl font-semibold">Иван Иванов</h3>
-          <p className="text-xl mx-4 px-4 py-2 rounded-lg bg-zinc-700 ">7/8</p>
+          <h3 className="text-2xl font-semibold">{result.username}</h3>
+          <p className="text-xl mx-4 px-4 py-2 rounded-lg bg-zinc-700 ">
+            {result.score}/{maxScore}
+          </p>
         </div>
         <div className="flex text-xl items-end">
           <p className="">19:00</p>

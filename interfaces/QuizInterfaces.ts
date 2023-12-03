@@ -20,6 +20,12 @@ export interface SaveResultRequest {
   question_id: number;
   answer_id: number;
 }
+export interface IResultItem {
+  created_at: string;
+  id: number;
+  score: number;
+  username: string;
+}
 
 export interface ISelectedAnswer {
   [key: string]: number[];
