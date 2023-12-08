@@ -13,7 +13,7 @@ export const useUserMe = () => {
 
   useEffect(() => {
     if (!currentUser) {
-      // update();
+      update();
     }
   }, []);
 

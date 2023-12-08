@@ -4,16 +4,19 @@ import Image from "next/image";
 import React from "react";
 import { BiHash } from "react-icons/bi";
 import { twMerge } from "tailwind-merge";
+import moment from "moment";
 interface ResultItemProps {
   isMyResult?: boolean;
   result: IResultItem;
   maxScore: number;
+  place: number;
 }
 
 const ResultItem: React.FC<ResultItemProps> = ({
   isMyResult = false,
   result,
   maxScore,
+  place,
 }) => {
   return (
     <div
@@ -41,7 +44,7 @@ const ResultItem: React.FC<ResultItemProps> = ({
         <div className="flex gap-4 items-center">
           <div className="flex justify-center items-center text-2xl mr-2">
             <BiHash />
-            <p>1</p>
+            <p>{place}</p>
           </div>
           <Image
             alt="Avatar of user"
@@ -60,8 +63,10 @@ const ResultItem: React.FC<ResultItemProps> = ({
           </p>
         </div>
         <div className="flex text-xl items-end">
-          <p className="">19:00</p>
-          <p className="ml-2 text-base text-gray-300">06.11.2023</p>
+          <p className="">{moment(result.created_at).format("H:mm")}</p>
+          <p className="ml-2 text-base text-gray-300">
+            {moment(result.created_at).format("DD.MM.YYYY")}
+          </p>
         </div>
       </div>
     </div>
