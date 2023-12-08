@@ -7,7 +7,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { motion, useCycle } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 import { sleep } from "@/utils/utils";
-import { SaveResultRequest } from "@/interfaces/QuizInterfaces";
+import { IAnswer, SaveResultRequest } from "@/interfaces/QuizInterfaces";
 import Image from "next/image";
 import QuizService from "@/services/QuizService";
 import axios from "axios";
@@ -47,6 +47,7 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
   const { questions } = useQuiz(params.id);
   const [isClosing, toggle] = useCycle(false, true);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [answers, setAnswers] = useState<IAnswer[]>([]);
 
   const { isFirst, isLast, question, nextId, prevId } = useParsedQuestion(
     params.id,
@@ -56,9 +57,6 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
   const router = useRouter();
 
   async function next() {
-    if (isLast) {
-      return saveResults();
-    }
     await QuizService.saveResult(params.id, {
       attempt_id: +LocalStorageService.getItem<string>(
         `quizAttempt_${params.id}`
@@ -66,8 +64,12 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
       answer_id: selectedItems[0],
       question_id: +params.questionId,
     });
+    if (isLast) {
+      return saveResults();
+    }
     toggle();
     await sleep(300);
+
     router.push(`/quiz/${params.id}/${nextId}`);
   }
   async function prev() {
@@ -88,18 +90,15 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
   }
 
   async function saveResults() {
-    // const data: SaveResultRequest = {
-    //   answers: selectedAnswers,
-    // };
-    // try {
-    //   const resp = await QuizService.saveResults(data, params.id);
-    //   toggle();
-    //   await sleep(300);
-    //   setSelectedAnswers({});
-    //   router.replace(
-    //     `congratulations?result=${resp.data.correct_answers}/${questions.length}`
-    //   );
-    // } catch (error) {}
+    try {
+      const resp = await QuizService.saveResults(params.id);
+      toggle();
+      await sleep(300);
+      setSelectedAnswers({});
+      router.replace(
+        `congratulations?result=${resp.data.score}/${questions.length}`
+      );
+    } catch (error) {}
   }
 
   useEffect(() => {
@@ -110,6 +109,9 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
   }, [selectedItems]);
 
   useEffect(() => {
+    QuizService.fetchAnswers(params.id, params.questionId).then((resp) =>
+      setAnswers(resp.data)
+    );
     const arr = selectedAnswers[`${params.questionId}`];
     setSelectedItems(arr || []);
   }, []);
@@ -150,7 +152,7 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
                   {question?.title}
                 </label>
                 <div className="gap-4 grid grid-cols-1 justify-center md:grid-cols-2">
-                  {question?.answers.map((el) => (
+                  {answers.map((el) => (
                     <button
                       key={el.id}
                       onClick={() => selectItem(el.id)}

@@ -1,13 +1,20 @@
 import {
+  IAnswer,
   IQuestion,
   IQuiz,
   SaveResultRequest,
 } from "@/interfaces/QuizInterfaces";
 import { http, httpAuth } from "@/utils/http";
+import LocalStorageService from "./LocalStorageService";
 
 class QuizService {
   async fetchQuestions(quizId: string) {
     return httpAuth.get<IQuestion[]>(`quiz/${quizId}/questions`);
+  }
+  async fetchAnswers(quizId: string, questionId: string) {
+    return httpAuth.get<IAnswer[]>(
+      `quiz/${quizId}/questions/${questionId}/answers`
+    );
   }
   async fetchQuizes() {
     return http.get<IQuiz[]>(`quiz`);
@@ -15,10 +22,14 @@ class QuizService {
   async fetchQuiz(quizId: string) {
     return http.get<IQuiz>(`quiz/${quizId}`);
   }
-  async saveResults(data: SaveResultRequest, quiz_id: string) {
-    return httpAuth.post<{ correct_answers: number }>(
-      `quiz/${quiz_id}/save`,
-      data
+  async saveResults(quiz_id: string) {
+    return httpAuth.post<{ score: number }>(
+      `quiz/${quiz_id}/submit`,
+      {
+        attempt_id: LocalStorageService.getItem<string>(
+          `quizAttempt_${quiz_id}`
+        ),
+      }
     );
   }
   async startQuiz(quiz_id: string) {

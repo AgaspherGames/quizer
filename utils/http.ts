@@ -1,7 +1,7 @@
 import LocalStorageService from "@/services/LocalStorageService";
 import axios from "axios";
 
-export const url = "http://localhost:3000/";
+export const url = "https://quizmaster.swedencentral.cloudapp.azure.com/";
 
 export const http = axios.create({
   baseURL: url,

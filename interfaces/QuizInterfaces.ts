@@ -2,7 +2,6 @@ export interface IQuestion {
   id: number;
   title: string;
   image: string;
-  answers: IAnswer[];
   quiz_id: number;
 }
 
