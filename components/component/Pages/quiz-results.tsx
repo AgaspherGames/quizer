@@ -2,8 +2,6 @@
 import { Button } from "@/components/ui/button";
 import ResultItem from "../Results/ResultItem";
 import { useEffect, useState } from "react";
-import io, { Socket } from "Socket.IO-client";
-import { DefaultEventsMap } from "@socket.io/component-emitter";
 import { socket } from "@/lib/socket";
 import { IResultItem } from "@/interfaces/QuizInterfaces";
 import { useQuizStore } from "@/stores/QuizStore";
