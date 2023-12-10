@@ -1,4 +1,4 @@
-import { IUser } from "@/interfaces/AuthInterfaces";
+import { IUser, LoginRequest } from "@/interfaces/AuthInterfaces";
 import LocalStorageService from "@/services/LocalStorageService";
 import { create } from "zustand";
 
@@ -12,9 +12,10 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()((set) => ({
   token: "",
   user: undefined,
-  setToken: (token) => set(() => {
-    LocalStorageService.setItem("TOKEN", token)
-    return { token }
-  }),
+  setToken: (token) =>
+    set(() => {
+      LocalStorageService.setItem("TOKEN", token);
+      return { token };
+    }),
   setUser: (user) => set((state) => ({ user })),
 }));

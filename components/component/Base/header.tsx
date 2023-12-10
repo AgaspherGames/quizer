@@ -10,10 +10,11 @@ import { useUserMe } from "@/hooks/useUserInfo";
 
 export function Header() {
   const { token } = useAuthState();
-  const { userInfo } = useUserMe();
+  const { userInfo, update } = useUserMe();
 
   const logout = () => {
     AuthService.logout();
+    update();
   };
 
   return (

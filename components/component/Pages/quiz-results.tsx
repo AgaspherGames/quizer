@@ -16,7 +16,7 @@ interface pageProps {
 export function QuizResults({ params }: pageProps) {
   const [results, setResults] = useState<IResultItem[]>([]);
   const questionsList = useQuizStore((state) => state.questionsList);
-  const {userInfo} = useUserMe()
+  const { userInfo } = useUserMe();
 
   useEffect(() => {
     socket.on("message", (results: IResultItem[] | null) => {
@@ -29,47 +29,21 @@ export function QuizResults({ params }: pageProps) {
 
   return (
     <section className="w-full h-screen bg-black text-white py-12 md:py-24 lg:py-32">
-      <Button
-        onClick={() => {
-          socket.emit("message", "2");
-        }}
-      >
-        asd
-      </Button>
       <div className="container mx-auto px-4 md:px-6">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">
           Результаты викторины
         </h2>
-        <div className="flex justify-center space-x-4 mb-8">
-          <Button
-            className="bg-zinc-900 hover:bg-zinc-800 active:bg-zinc-700"
-            variant="outline"
-          >
-            Сортировать по рейтингу
-          </Button>
-          <Button
-            className="bg-zinc-900 hover:bg-zinc-800 active:bg-zinc-700"
-            variant="outline"
-          >
-            Сортировать по имени
-          </Button>
-          <Button
-            className="bg-zinc-900 hover:bg-zinc-800 active:bg-zinc-700"
-            variant="outline"
-          >
-            Сортировать по дате загрузки
-          </Button>
-        </div>
         <div>
           <h3 className="text-3xl font-medium mb-4">Топ результатов</h3>
         </div>
         <div className="flex flex-col gap-6 relative">
           {results.map((el, ind) => (
             <ResultItem
+            key={el.id}
               place={ind + 1}
               maxScore={questionsList[params.id].length}
               result={el}
-              isMyResult={el.username==userInfo?.user.username}
+              isMyResult={el.username == userInfo?.user.username}
             />
           ))}
         </div>

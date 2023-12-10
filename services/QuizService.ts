@@ -19,18 +19,16 @@ class QuizService {
   async fetchQuizes() {
     return http.get<IQuiz[]>(`quiz`);
   }
+  async searchQuizes(title: string) {
+    return http.get<IQuiz[]>(`quiz/search`, { params: { title } });
+  }
   async fetchQuiz(quizId: string) {
     return http.get<IQuiz>(`quiz/${quizId}`);
   }
   async saveResults(quiz_id: string) {
-    return httpAuth.post<{ score: number }>(
-      `quiz/${quiz_id}/submit`,
-      {
-        attempt_id: LocalStorageService.getItem<string>(
-          `quizAttempt_${quiz_id}`
-        ),
-      }
-    );
+    return httpAuth.post<{ score: number }>(`quiz/${quiz_id}/submit`, {
+      attempt_id: LocalStorageService.getItem<string>(`quizAttempt_${quiz_id}`),
+    });
   }
   async startQuiz(quiz_id: string) {
     return httpAuth.post<{ id: number }>(`quiz/${quiz_id}/start`);
