@@ -30,8 +30,8 @@ export function ProfilePage({
     <div className="min-h-screen bg-black text-white">
       <Header />
       <main className="flex flex-col items-center justify-center p-4 gap-8">
-        <div className="w-full flex flex-col items-center mx-auto">
-          <section className="w-full max-w-md">
+        <div className=" flex flex-col items-center mx-auto container max-w-md">
+          <section className="w-full ">
             <div className=" flex items-center gap-4">
               <div className="relative group">
                 <Image
@@ -82,7 +82,7 @@ export function ProfilePage({
             </div>
           </section>
 
-          <section>
+          <section className="w-full">
             <h2 className="text-2xl font-medium my-4">Тесты пользователя: </h2>
             <div className="grid gap-4 grid-cols-2">
               {userInfo?.quizzes.map((el) => (
@@ -90,7 +90,7 @@ export function ProfilePage({
               ))}
             </div>
           </section>
-          <section>
+          <section className="w-full">
             <h2 className="text-2xl font-medium my-4">
               Результаты пользователя:
             </h2>

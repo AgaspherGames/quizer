@@ -1,31 +1,20 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import AddQuestion from "../CreatePage/AddQuestion";
-import React, { useEffect, useState } from "react";
-import { CreateAnswer, ICreateQuestion } from "@/interfaces/QuizInterfaces";
-import QuizService from "@/services/QuizService";
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import Link from "next/link";
 import Logo from "../Base/Logo";
 import { DropResult } from "react-beautiful-dnd";
 import QuestionsList from "../CreatePage/Lists/QuestionsList";
 import QuizInfo from "../CreatePage/Info/QuizInfo";
-import { useQuizCreate } from "@/hooks/useQuizCreate";
 import useCreateStore from "@/stores/CreateStore";
 import Modal from "../Modal/Modal";
 import CustomInput from "../Base/CustomInput";
 
 export function QuizCreate() {
-  const router = useRouter();
-  const {
-    questions,
-    title,
-    description,
-    quizImage,
-    setQuestions,
-    createQuiz,
-    quizId,
-  } = useCreateStore((state) => state);
+  const { questions, setQuestions, createQuiz, quizId } = useCreateStore(
+    (state) => state
+  );
 
   async function create() {
     await createQuiz(quizTitle);
@@ -50,10 +39,6 @@ export function QuizCreate() {
 
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [quizTitle, setQuizTitle] = useState("");
-
-  // useEffect(() => {
-  //   createQuiz();
-  // }, []);
 
   return (
     <div className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12">
@@ -98,13 +83,13 @@ export function QuizCreate() {
 
               <QuestionsList onDragEnd={onDragEnd} questions={questions} />
 
-              <Button
-                onClick={create}
+              <Link
+                href={`/quiz/${quizId}`}
                 className="w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg "
                 type="button"
               >
-                Создать
-              </Button>
+                Просмотреть
+              </Link>
             </form>
           </div>
         </div>
