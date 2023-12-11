@@ -1,22 +1,16 @@
 import LocalStorageService from "@/services/LocalStorageService";
 import axios from "axios";
 
-export const url = "https://quizmaster.swedencentral.cloudapp.azure.com/";
+export const url = "https://apiquizmaster.swedencentral.cloudapp.azure.com/";
 
 export const http = axios.create({
   baseURL: url,
   timeout: 10000,
-  // headers: {
-  //   "ngrok-skip-browser-warning": true,
-  // },
   withCredentials: true,
 });
 export const httpAuth = axios.create({
   baseURL: url,
   timeout: 10000,
-  // headers: {
-  //   "ngrok-skip-browser-warning": true,
-  // },
   withCredentials: true,
 });
 

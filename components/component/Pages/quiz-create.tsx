@@ -86,7 +86,7 @@ export function QuizCreate() {
           </div>
         </div>
       </Modal>
-      {quizId && (
+      {!!quizId && (
         <div className="relative w-full py-3 sm:max-w-xl sm:mx-auto">
           <div className="relative px-4 py-10 bg-black sm:bg-zinc-950 shadow-lg sm:rounded-3xl sm:p-20">
             <h1 className="text-4xl font-bold text-center mb-4">
