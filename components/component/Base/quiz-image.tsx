@@ -1,4 +1,5 @@
 import { url } from "@/utils/http";
+import { getFileLink } from "@/utils/utils";
 import Image from "next/image";
 import React from "react";
 interface QuizImageProps {
@@ -8,15 +9,13 @@ interface QuizImageProps {
 const QuizImage: React.FC<QuizImageProps> = ({image}) => {
   return (
     <>
-      {image && (
         <Image
           alt=""
           width="800"
           height="100"
           className="h-32 w-auto rounded-xl object-cover sm:h-64"
-          src={`${url}public/` + image}
+          src={image?getFileLink(image):'/images/_defaultQuiz.jpg'}
         />
-      )}
     </>
   );
 };

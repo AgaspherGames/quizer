@@ -10,8 +10,8 @@ export interface IUserInfo {
 
 export interface IResult {
   quiz: IQuiz;
+  questions_count: number;
   score: number;
-  percent: number;
   created_at: string;
 }
 

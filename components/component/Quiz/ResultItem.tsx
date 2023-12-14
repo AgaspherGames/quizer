@@ -23,7 +23,7 @@ const ResultItem: React.FC<ResultItemProps> = ({ result }) => {
             {result.quiz.title}
           </h2>
           <p className="text-lg md:text-xl lg:text-2xl text-white">
-            Правильно: {result.percent}%
+            Правильно: {Math.round((result.score/result.questions_count)*100)}%
           </p>
         </div>
       </div>

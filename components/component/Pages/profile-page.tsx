@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { Header } from "../Base/header";
 import { IUserInfo } from "@/interfaces/UserInterfaces";
 import { getFileLink } from "@/utils/utils";
@@ -26,11 +26,21 @@ export function ProfilePage({
     update();
   }
 
+  const avgPercent = useMemo(() => {
+    const avg =
+      userInfo?.results?.reduce(
+        (a, c) => (a += c.score / c.questions_count),
+        0
+      ) / userInfo?.results.length||0;
+
+    return Math.round(avg * 100);
+  }, [userInfo]);
+
   return (
     <div className="min-h-screen bg-black text-white">
       <Header />
       <main className="flex flex-col items-center justify-center p-4 gap-8">
-        <div className=" flex flex-col items-center mx-auto container max-w-md">
+        <div className=" flex flex-col items-center mx-auto container max-w-md sm:max-w-lg md:max-w-2xl">
           <section className="w-full ">
             <div className=" flex items-center gap-4">
               <div className="relative group">
@@ -72,9 +82,7 @@ export function ProfilePage({
                 </div>
                 <div className="flex flex-col items-center text-center">
                   <p className="text-2xl font-bold text-cyan-500">
-                    {userInfo?.results.reduce((a, c) => (a += c.percent), 0) /
-                      userInfo?.results.length}
-                    %
+                    {avgPercent}%
                   </p>
                   <p className="">Средний балл</p>
                 </div>

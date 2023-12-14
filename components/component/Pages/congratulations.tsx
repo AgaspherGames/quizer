@@ -5,7 +5,6 @@ import { motion, useCycle } from "framer-motion";
 import { sleep } from "@/utils/utils";
 import { useRouter } from "next/navigation";
 
-
 const panel = {
   open: { opacity: 1 },
   closed: { opacity: 0 },
@@ -27,8 +26,8 @@ const bg = {
   },
 };
 
-export function Congratulations({params}: {params: {id: string}}) {
-  const router = useRouter()
+export function Congratulations({ params }: { params: { id: string } }) {
+  const router = useRouter();
   const [isClosing, toggle] = useCycle(false, true);
 
   const [result, setResult] = useQueryState("result");
@@ -36,7 +35,12 @@ export function Congratulations({params}: {params: {id: string}}) {
   async function replay() {
     toggle();
     await sleep(300);
-    router.push(`/quiz/${params.id}`)
+    router.push(`/quiz/${params.id}`);
+  }
+  async function leaderBoard() {
+    toggle();
+    await sleep(300);
+    router.push(`/quiz/${params.id}/results`);
   }
 
   return (
@@ -65,13 +69,20 @@ export function Congratulations({params}: {params: {id: string}}) {
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.5, type: "spring" }}
           >
-            <motion.div variants={panel}>          <h1 className="text-4xl font-bold text-center mb-4">Поздравляем!</h1>
+            <motion.div variants={panel}>
+              {" "}
+              <h1 className="text-4xl font-bold text-center mb-4">
+                Поздравляем!
+              </h1>
               <p className="text-2xl text-center mb-8">
                 Вы завершили этот тест. Ваш результат - {result}
               </p>
-              <div className="flex justify-center">
-                <Button onClick={replay} className="w-1/2 py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg ">
-                  Повторить
+              <div className="flex justify-center flex-col items-center gap-4">
+                <Button
+                  onClick={leaderBoard}
+                  className="w-1/2 py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg "
+                >
+                  Таблица лидеров
                 </Button>
               </div>
             </motion.div>

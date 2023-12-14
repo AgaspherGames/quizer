@@ -8,6 +8,12 @@ const nextConfig = {
         port: "3000",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "apiquizmaster.swedencentral.cloudapp.azure.com",
+        
+        pathname: "/**",
+      },
     ],
   },
 };

@@ -75,8 +75,15 @@ const useCreateStore = create<ICreateStore>((set) => ({
     set({ questions: newQuestions });
   },
   setTitle: async (newTitle) => {
-    debounce(() => CreateQuizService.editQuiz({ title: newTitle }));
-    set({ title: newTitle });
+    set((state) => {
+      debounce(() =>
+        CreateQuizService.editQuiz({
+          title: newTitle,
+          description: state.description,
+        })
+      );
+      return { title: newTitle };
+    });
   },
   setDescription: (newDescription) => {
     debounce(() => CreateQuizService.editQuiz({ description: newDescription }));
