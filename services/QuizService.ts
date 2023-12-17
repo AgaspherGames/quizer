@@ -1,4 +1,5 @@
 import {
+  IAllQuizes,
   IAnswer,
   IQuestion,
   IQuiz,
@@ -16,8 +17,12 @@ class QuizService {
       `quiz/${quizId}/questions/${questionId}/answers`
     );
   }
-  async fetchQuizes() {
-    return http.get<IQuiz[]>(`quiz`);
+  async fetchQuizes(query?: string) {
+    return http.get<IAllQuizes>(`quiz`, {
+      params: {
+        title: query,
+      },
+    });
   }
   async searchQuizes(title: string) {
     return http.get<IQuiz[]>(`quiz/search`, { params: { title } });

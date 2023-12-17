@@ -24,12 +24,21 @@ export interface IResultItem {
   id: number;
   score: number;
   username: string;
+  avatar: string;
+  user_id: number;
 }
 
 export interface ISelectedAnswer {
   [key: string]: number[];
 }
 
+export interface IAllQuizes {
+  total: number;
+  total_pages: number;
+  page: number;
+  size: number;
+  quizzes: IQuiz[];
+}
 export interface IQuiz {
   id: number;
   title: string;
