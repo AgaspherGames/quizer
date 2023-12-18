@@ -8,7 +8,7 @@ import {
 } from "@/interfaces/CreateQuizInterfaces";
 import { IUserInfo } from "@/interfaces/UserInterfaces";
 import useCreateStore, { ICreateStore } from "@/stores/CreateStore";
-import { httpAuth } from "@/utils/http";
+import { http } from "@/utils/http";
 import { number } from "yup";
 
 class CreateQuizService {
@@ -21,15 +21,15 @@ class CreateQuizService {
   });
 
   async createQuiz(title: string) {
-    return httpAuth.post<IdResponse>(`quiz`, { title });
+    return http.post<IdResponse>(`quiz`, { title });
   }
   async createQuestion(order: number) {
-    return httpAuth.post<IdResponse>(`quiz/${this.store.quizId}/questions`, {
+    return http.post<IdResponse>(`quiz/${this.store.quizId}/questions`, {
       order_id: order + 1,
     });
   }
   async createAnswer(question_id: number, pos: number) {
-    return httpAuth.post<IdResponse>(
+    return http.post<IdResponse>(
       `quiz/${this.store.quizId}/questions/${question_id}/answers`
     );
   }
@@ -39,10 +39,10 @@ class CreateQuizService {
       title: this.store.title,
       ...data,
     };
-    return httpAuth.put(`quiz/${this.store.quizId}`, requestData);
+    return http.put(`quiz/${this.store.quizId}`, requestData);
   }
   async editQuestion(questionId: number, data: IEditQuestionRequest) {
-    return httpAuth.put(
+    return http.put(
       `quiz/${this.store.quizId}/questions/${questionId}`,
       data
     );
@@ -61,45 +61,45 @@ class CreateQuizService {
       text: answer?.text || "",
       ...data,
     };
-    return httpAuth.put(
+    return http.put(
       `quiz/${this.store.quizId}/questions/${questionId}/answers/${answerId}`,
       requestData
     );
   }
 
   async removeQuestion(questionId: number) {
-    return httpAuth.delete(`quiz/${this.store.quizId}/questions/${questionId}`);
+    return http.delete(`quiz/${this.store.quizId}/questions/${questionId}`);
   }
   async removeAnswer(questionId: number, answerId: number) {
-    return httpAuth.delete(
+    return http.delete(
       `quiz/${this.store.quizId}/questions/${questionId}/answers/${answerId}`
     );
   }
 
   async uploadQuizImage(data: FormData) {
-    return httpAuth.post(`quiz/${this.store.quizId}/image`, data);
+    return http.post(`quiz/${this.store.quizId}/image`, data);
   }
   async removeQuizImage() {
-    return httpAuth.delete(`quiz/${this.store.quizId}/image`);
+    return http.delete(`quiz/${this.store.quizId}/image`);
   }
 
   async uploadQuestionImage(questionId: number, data: FormData) {
-    return httpAuth.post(
+    return http.post(
       `quiz/${this.store.quizId}/questions/${questionId}/image`,
       data
     );
   }
   async removeQuestionImage(questionId: number) {
-    return httpAuth.delete(
+    return http.delete(
       `quiz/${this.store.quizId}/questions/${questionId}/image`
     );
   }
 
   async updateQuestionsOrder(order: IUpdateQuestionsOrder) {
-    return httpAuth.put(`quiz/${this.store.quizId}/questions/order`, order);
+    return http.put(`quiz/${this.store.quizId}/questions/order`, order);
   }
   async updateAnswersOrder(questionId: number, order: IUpdateAnswersOrder) {
-    return httpAuth.put(
+    return http.put(
       `quiz/${this.store.quizId}/questions/${questionId}/answers/order`,
       order
     );

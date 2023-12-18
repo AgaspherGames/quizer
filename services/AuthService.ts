@@ -1,7 +1,6 @@
 import { LoginRequest, RegisterRequest } from "@/interfaces/AuthInterfaces";
-import { IQuestion } from "@/interfaces/QuizInterfaces";
-import { useAuthStore } from "@/stores/AuthStore";
 import { http } from "@/utils/http";
+import CookieService from "./CookieService";
 
 class QuizService {
   async register(data: RegisterRequest) {
@@ -10,14 +9,14 @@ class QuizService {
   async login(data: LoginRequest) {
     try {
       const resp = await http.post<{ token: string }>(`auth/signin`, data);
-      useAuthStore.getState().setToken(resp.data.token);
+      CookieService.setAuthCookie();
       return resp;
     } catch (error) {
       throw error;
     }
   }
   async logout() {
-    useAuthStore.getState().setToken("");
+    CookieService.deleteAuthCookie();
   }
 }
 

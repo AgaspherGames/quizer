@@ -2,13 +2,17 @@ import { IUserInfo } from "@/interfaces/UserInterfaces";
 import UserService from "@/services/UserService";
 import { useUserStore } from "@/stores/UserStore";
 import { useEffect, useMemo } from "react";
+import { useAuthState } from "./hooks";
 
 export const useUserMe = () => {
   const { currentUser, setCurrentUser } = useUserStore((state) => state);
+  const { isAuth } = useAuthState();
 
   async function update() {
-    const user = (await UserService.fetchMe()).data;
-    setCurrentUser(user);
+    if (isAuth) {
+      const user = (await UserService.fetchMe()).data;
+      setCurrentUser(user);
+    }
   }
 
   useEffect(() => {

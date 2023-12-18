@@ -19,7 +19,6 @@ export function QuizResults({ params }: pageProps) {
   useEffect(() => {
     socket.on("message", (results: IResultItem[] | null) => {
       results && setResults(results);
-      console.log(results);
     });
 
     socket.emit("message", params.id);

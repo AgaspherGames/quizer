@@ -3,9 +3,9 @@ import QuestionsList from "@/components/component/CreatePage/Lists/QuestionsList
 import { IQuestion } from "@/interfaces/QuizInterfaces";
 import LocalStorageService from "@/services/LocalStorageService";
 import QuizService from "@/services/QuizService";
-import { useAuthStore } from "@/stores/AuthStore";
 import { useQuizStore } from "@/stores/QuizStore";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 export const useDebounce = (cb: Function, delay = 500) => {
   const [timeout, settimeout] = useState<number | null>(null);
@@ -75,10 +75,13 @@ export const useQuiz = (quizId: string) => {
 };
 
 export const useAuthState = () => {
-  const { setToken, token } = useAuthStore((state) => state);
+  const [cookies] = useCookies(["isAuth"]);
+
+  const [isAuthLoaded, setisAuthLoaded] = useState(false);
+
   useEffect(() => {
-    setToken(LocalStorageService.getItem("TOKEN"));
+    setisAuthLoaded(true);
   }, []);
 
-  return { token };
+  return { isAuth: !!cookies.isAuth, isAuthLoaded };
 };
