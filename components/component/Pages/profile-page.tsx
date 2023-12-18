@@ -9,6 +9,7 @@ import Image from "next/image";
 import UserService from "@/services/UserService";
 import QuizItem from "../Quiz/QuizItem";
 import ResultItem from "../Quiz/ResultItem";
+import Card from "@/components/ui/Card";
 
 export function ProfilePage({
   params,
@@ -31,7 +32,7 @@ export function ProfilePage({
       userInfo?.results?.reduce(
         (a, c) => (a += c.score / c.questions_count),
         0
-      ) / userInfo?.results.length||0;
+      ) / userInfo?.results.length || 0;
 
     return Math.round(avg * 100);
   }, [userInfo]);
@@ -41,21 +42,21 @@ export function ProfilePage({
       <Header />
       <main className="flex flex-col items-center justify-center p-4 gap-8">
         <div className=" flex flex-col items-center mx-auto container max-w-md sm:max-w-lg md:max-w-2xl">
-          <section className="w-full ">
-            <div className=" flex items-center gap-4">
+          <section className="w-full flex flex-col justify-center items-center gap-4 md:flex-row">
+            <Card className="w-fit flex items-center gap-4">
               <div className="relative group">
                 <Image
                   alt="User Image"
                   className="rounded-full"
                   height="100"
                   width="100"
-                  src={getFileLink(userInfo?.user?.avatar)}
+                  src={getFileLink(userInfo?.user?.avatar, "avatars")}
                   style={{
                     aspectRatio: "1",
                     objectFit: "cover",
                   }}
                 />
-                <div className="absolute bottom-0 right-0 bg-zinc-900 p-1.5 rounded-full transition-all opacity-0 group-hover:opacity-100">
+                <div className="absolute bottom-0 right-0 bg-zinc-800 p-1.5 rounded-full transition-all opacity-0 group-hover:opacity-100">
                   <BiSolidPencil className="w-4" />
                 </div>
                 <input
@@ -70,23 +71,26 @@ export function ProfilePage({
                 </h2>
                 <p className="text-cyan-500">{userInfo?.user.email}</p>
               </div>
-            </div>
-            <div className="mt-8">
-              <h3 className="text-xl font-semibold">Статистика</h3>
-              <div className="flex justify-between mt-4">
-                <div className="flex flex-col items-center text-center">
-                  <p className="text-2xl font-bold text-cyan-500">
-                    {userInfo?.results.length}
-                  </p>
-                  <p className="">Пройденные викторины</p>
-                </div>
-                <div className="flex flex-col items-center text-center">
-                  <p className="text-2xl font-bold text-cyan-500">
-                    {avgPercent}%
-                  </p>
-                  <p className="">Средний балл</p>
-                </div>
-              </div>
+            </Card>
+            <div className="flex flex-row justify-between w-full gap-4 md:w-1/2 md:flex-col">
+              <Card
+                padding="small"
+                className="flex flex-col items-center justify-between text-center w-full min-w-max md:flex-row"
+              >
+                <p className="">Пройденные викторины</p>
+                <p className="text-3xl font-bold text-cyan-500">
+                  {userInfo?.results.length}
+                </p>
+              </Card>
+              <Card
+                padding="small"
+                className="flex flex-col items-center justify-between text-center w-full min-w-max md:flex-row"
+              >
+                <p className="">Средний балл</p>
+                <p className="text-3xl font-bold text-cyan-500">
+                  {avgPercent}%
+                </p>
+              </Card>
             </div>
           </section>
 

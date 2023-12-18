@@ -5,6 +5,7 @@ import AuthService from "@/services/AuthService";
 import Link from "next/link";
 import Logo from "./Logo";
 import { useUserMe } from "@/hooks/useUserInfo";
+import HeaderButtons from "./HeaderButtons";
 
 export function Header() {
   const { isAuth, isAuthLoaded } = useAuthState();
@@ -22,35 +23,7 @@ export function Header() {
           <Logo />
         </Link>
       </div>
-      {isAuth && isAuthLoaded ? (
-        <div className="flex gap-4 ">
-          <Link
-            href={"/user/" + userInfo?.user.id}
-            className="text-white text-xl font-medium"
-          >
-            {userInfo?.user.username}
-          </Link>
-          <Button
-            onClick={logout}
-            className="border-white text-white bg-transparent"
-            variant="outline"
-          >
-            Выйти
-          </Button>
-        </div>
-      ) : (
-        <div className="flex gap-4">
-          <Button
-            className="border-white text-white bg-transparent"
-            variant="outline"
-          >
-            <Link href="/register">Регистрация</Link>
-          </Button>
-          <Button className="bg-cyan-500 text-white" variant="default">
-            <Link href="/login">Войти</Link>
-          </Button>
-        </div>
-      )}
+      <HeaderButtons/>
     </div>
   );
 }

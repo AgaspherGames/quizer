@@ -29,3 +29,21 @@ input[type=file]::-webkit-file-upload-button {
   padding: 25px 70px;
   margin: 15px 50px;
 }
+
+.skeleton {
+  display: inline-block;
+  height: 1em;
+  background: linear-gradient(90deg, #27272a 25%, #3f3f46 50%, #27272a 75%);
+  background-size: 200% 100%;
+  animation: loading 1.8s infinite;
+  border-radius: 6px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

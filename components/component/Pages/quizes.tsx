@@ -6,8 +6,10 @@ import { Header } from "../Base/header";
 import QuizItem from "../Quiz/QuizItem";
 import { FaSearch } from "react-icons/fa";
 import { useDebounce } from "@/hooks/hooks";
+import QuizItemSkeleton from "../Quiz/QuizItemSkeleton";
 
 export function Quizes() {
+  const [isLoading, setIsLoading] = useState(true);
   const [quizes, setQuizes] = useState<IQuiz[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
 
@@ -18,9 +20,10 @@ export function Quizes() {
   }, 500);
 
   useEffect(() => {
-    QuizService.fetchQuizes(searchValue).then((resp) =>
-      setQuizes(resp.data.quizzes)
-    );
+    QuizService.fetchQuizes(searchValue).then((resp) => {
+      setIsLoading(false);
+      setQuizes(resp.data.quizzes);
+    });
   }, []);
   useEffect(() => {
     updateQuizes();
@@ -42,9 +45,11 @@ export function Quizes() {
           </div>
         </div>
         <div className="grid gap-6 md:gap-8 lg:gap-10 items-stretch grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {quizes.map((el) => (
-            <QuizItem key={el.id} quiz={el} />
-          ))}
+          {isLoading
+            ? Array(4)
+                .fill(4)
+                .map((el, ind) => <QuizItemSkeleton key={ind} />)
+            : quizes.map((el) => <QuizItem key={el.id} quiz={el} />)}
         </div>
       </section>
     </div>

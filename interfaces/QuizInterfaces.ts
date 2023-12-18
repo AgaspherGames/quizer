@@ -3,6 +3,7 @@ export interface IQuestion {
   title: string;
   image: string;
   quiz_id: number;
+  type: QuestionTypes;
 }
 
 export interface IAnswer {

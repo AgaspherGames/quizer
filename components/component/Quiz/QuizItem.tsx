@@ -15,10 +15,10 @@ const QuizItem: React.FC<QuizItemProps> = ({ quiz }) => {
         href={`/quiz/${quiz.id}`}
       ></Link>
       <div className="rounded-lg bg-zinc-900">
-        <div className="w-full flex justify-center my-2">
+        <div className="w-full flex justify-center my-2 ">
           <QuizImage image={quiz.image} />
         </div>
-        <h2 className="text-2xl md:text-3xl lg:text-4xl text-cyan-500 md:mb-4">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl text-cyan-500 md:mb-2">
           {quiz.title}
         </h2>
         <p className="text-lg md:text-xl lg:text-2xl text-white">

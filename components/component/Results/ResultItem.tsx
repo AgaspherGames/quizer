@@ -49,7 +49,7 @@ const ResultItem: React.FC<ResultItemProps> = ({
           <Image
             alt="Avatar of user"
             height="50"
-            src={getFileLink("")}
+            src={getFileLink("", "avatars")}
             style={{
               aspectRatio: "50/50",
               objectFit: "cover",

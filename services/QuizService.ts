@@ -1,6 +1,7 @@
 import {
   IAllQuizes,
   IAnswer,
+  ICreateQuestion,
   IQuestion,
   IQuiz,
   SaveResultRequest,
@@ -40,6 +41,28 @@ class QuizService {
   }
   async saveResult(quiz_id: string, data: SaveResultRequest) {
     return http.post(`quiz/${quiz_id}/save`, data);
+  }
+  async fetchEditQuizInfo(quiz_id: string) {
+    const quiz = (await this.fetchQuiz(quiz_id)).data;
+    const questions = (await this.fetchQuestions(quiz_id)).data;
+    const results = await Promise.all(
+      questions.map(async (el) => ({
+        ...el,
+        answers: (await this.fetchAnswers(quiz_id, el.id + "")).data,
+      }))
+    );
+
+    const createQuestions: ICreateQuestion[] = questions.map((el) => ({
+      id: el.id,
+      answers: [],
+      title: el.title,
+      type: el.type,
+      // image: el.image,
+    }));
+
+    console.log(quiz);
+    console.log(questions);
+    console.log(results);
   }
 }
 

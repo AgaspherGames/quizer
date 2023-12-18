@@ -8,6 +8,7 @@ import CreateQuizService from "@/services/CreateQuizService";
 import { useEffect } from "react";
 import { create } from "zustand";
 import _debounce from "lodash.debounce";
+import QuizService from "@/services/QuizService";
 
 export interface ICreateStore {
   quizId: number;
@@ -32,6 +33,7 @@ export interface ICreateStore {
   setQuestionImage: (question_id: number, image?: File) => void;
   setAnswerTitle: (question_id: number, pos: number, text: string) => void;
   setAnswers: (question_id: number, answers: CreateAnswer[]) => void;
+  editById: (quizId: number) => void;
 }
 
 const debounce = _debounce((cb) => {
@@ -254,6 +256,15 @@ const useCreateStore = create<ICreateStore>((set) => ({
         }),
       };
     }),
+  editById: async (quizId) => {
+    const quizData = await QuizService.fetchQuiz(quizId + "");
+    const questions = await QuizService.fetchQuestions(quizId + "");
+    
+    
+    set((state) => {
+      return state;
+    });
+  },
 }));
 
 export default useCreateStore;

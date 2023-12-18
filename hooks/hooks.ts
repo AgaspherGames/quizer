@@ -4,7 +4,7 @@ import { IQuestion } from "@/interfaces/QuizInterfaces";
 import LocalStorageService from "@/services/LocalStorageService";
 import QuizService from "@/services/QuizService";
 import { useQuizStore } from "@/stores/QuizStore";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
 export const useDebounce = (cb: Function, delay = 500) => {
@@ -79,7 +79,7 @@ export const useAuthState = () => {
 
   const [isAuthLoaded, setisAuthLoaded] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setisAuthLoaded(true);
   }, []);
 

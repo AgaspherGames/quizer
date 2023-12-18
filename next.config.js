@@ -9,9 +9,8 @@ const nextConfig = {
         pathname: "/**",
       },
       {
-        protocol: "https",
+        protocol: "http",
         hostname: "apiquizmaster.swedencentral.cloudapp.azure.com",
-        
         pathname: "/**",
       },
     ],

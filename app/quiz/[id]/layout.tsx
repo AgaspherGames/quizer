@@ -2,8 +2,11 @@
 
 import Logo from "@/components/component/Base/Logo";
 import ProgressBar from "@/components/component/Quiz/ProgressBar";
+import { useAuthState } from "@/hooks/hooks";
+import QuizService from "@/services/QuizService";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 
 export default function QuestionLayout({
@@ -11,13 +14,11 @@ export default function QuestionLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { id: string; questionId: string };
+  params: { id: string };
 }) {
-  const [cookies] = useCookies(["isAuth"]);
-
-  if (!cookies.isAuth) {
-    redirect("/login");
-  }
+  useEffect(() => {
+    QuizService.fetchEditQuizInfo(params.id);
+  }, []);
 
   return (
     <div className="relative">
