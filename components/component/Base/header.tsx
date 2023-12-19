@@ -17,13 +17,13 @@ export function Header() {
   };
 
   return (
-    <div className="bg-black p-4 flex justify-between items-center">
+    <div className="p-4 flex justify-between items-center">
       <div>
         <Link href={"/"}>
           <Logo />
         </Link>
       </div>
-      <HeaderButtons/>
+      <HeaderButtons />
     </div>
   );
 }

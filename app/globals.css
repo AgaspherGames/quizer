@@ -47,3 +47,28 @@ input[type=file]::-webkit-file-upload-button {
     background-position: -200% 0;
   }
 }
+
+.light {
+  position: absolute;
+  border-radius: 100%;
+  background: radial-gradient(#14b8a557, #14b8a504 40%, transparent 50%);
+}
+
+[data-color="teal"] {
+  background: radial-gradient(#14b8a557, #14b8a504 40%, transparent 50%);
+}
+[data-color="sky"] {
+  background: radial-gradient(
+    #0ea4e944,
+    rgba(20, 184, 165, 0.027) 40%,
+    transparent 50%
+  );
+}
+[data-size="medium"] {
+  width: 1300px;
+  height: 1300px;
+}
+[data-size="small"] {
+  width: 900px;
+  height: 900px;
+}

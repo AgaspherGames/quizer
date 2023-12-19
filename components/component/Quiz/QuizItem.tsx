@@ -8,7 +8,7 @@ interface QuizItemProps {
 
 const QuizItem: React.FC<QuizItemProps> = ({ quiz }) => {
   return (
-    <div className="h-full flex-1 rounded-lg bg-zinc-900 relative  p-4 md:p-6 ">
+    <div className="h-full flex-1 rounded-lg bg-zinc-900 relative p-4 md:p-6 ">
       <Link
         key={quiz.id}
         className="absolute inset-0"

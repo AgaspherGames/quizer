@@ -12,7 +12,7 @@ export function CreateSection() {
       <section className="w-full px-2 py-8 md:py-12 lg:py-24 ">
         <div className="relative w-full py-3 sm:max-w-3xl sm:mx-auto">
           <Card3D>
-            <div className="p-8 xl:p-14 bg-zinc-950 shadow-xl shadow-zinc-900 rounded-3xl hover:scale-105 transition-all">
+            <div className="p-8 xl:p-14 bg-zinc-950 shadow-xl shadow-zinc-900 rounded-3xl hover:scale-105 transition-all border border-zinc-700">
               <div className="space-y-8 text-center">
                 <h1 className="text-2xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl lg:text-4xl/none">
                   Создай свою собственную викторину

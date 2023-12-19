@@ -101,8 +101,8 @@ const Feature = ({
   title: string;
 }) => {
   return (
-    <div className="w-full sm:max-w-3xl sm:mx-auto">
-      <div className="p-8 xl:p-14 bg-zinc-950  shadow-lg shadow-zinc-900 rounded-3xl  h-full">
+    <div className="w-full sm:max-w-3xl sm:mx-auto ">
+      <div className="p-8 xl:p-14 bg-zinc-950  shadow-lg shadow-zinc-900 rounded-3xl  h-full border border-zinc-700">
         <div className="flex flex-col items-center space-y-4 text-center">
           {icon}
           <h3 className="text-2xl md:text-2xl lg:text-3xl font-semibold">
