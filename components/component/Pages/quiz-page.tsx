@@ -4,7 +4,7 @@
  * @see https://v0.dev/t/UF96Ui54rHv
  */
 import { Button } from "@/components/ui/button";
-import { useParsedQuestion, useQuiz } from "@/hooks/hooks";
+import { useAuthState, useParsedQuestion, useQuiz } from "@/hooks/hooks";
 import { useRouter } from "next/navigation";
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -19,6 +19,7 @@ import { url } from "@/utils/http";
 import QuizImage from "../Base/quiz-image";
 import { useQuizStore } from "@/stores/QuizStore";
 import LocalStorageService from "@/services/LocalStorageService";
+import LoginRequiredModal from "../Modal/LoginRequiredModal";
 interface QuizPageProps {
   params: { id: string };
 }
@@ -48,10 +49,15 @@ export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
   const setSelectedAnswers = useQuizStore((state) => state.setSelectedAnswers);
   const { questions, quiz } = useQuiz(params.id);
   const [isClosing, toggle] = useCycle(false, true);
+  const { isAuth } = useAuthState();
+  const [isModalOpened, setIsModalOpened] = useState(false);
 
   const router = useRouter();
 
   async function start() {
+    if (!isAuth){
+      return setIsModalOpened(true)
+    }
     const { id } = (await QuizService.startQuiz(params.id)).data;
     LocalStorageService.setItem(`quizAttempt_${params.id}`, id + "");
 
@@ -66,6 +72,12 @@ export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
       animate={isClosing ? "closed" : "open"}
       className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12"
     >
+      <LoginRequiredModal
+        close={() => {
+          setIsModalOpened(false);
+        }}
+        isOpen={isModalOpened}
+      />
       <div className="relative w-full py-3 sm:max-w-xl sm:mx-auto">
         <motion.div className="absolute inset-0" variants={bg}>
           <motion.div

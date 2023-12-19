@@ -3,8 +3,9 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { twMerge } from "tailwind-merge";
+import { motion } from "framer-motion";
 
-interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
   close: () => void;
 }
@@ -23,7 +24,13 @@ const Modal: React.FC<ModalProps> = ({
   return mounted && isOpen
     ? createPortal(
         <div onClick={close} className={twMerge("absolute inset-0", className)}>
-          <div onClick={(e) => e.stopPropagation()}>{children}</div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {children}
+          </motion.div>
         </div>,
         document.body
       )
