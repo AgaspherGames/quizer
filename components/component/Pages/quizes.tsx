@@ -8,6 +8,7 @@ import { FaSearch } from "react-icons/fa";
 import { useDebounce } from "@/hooks/hooks";
 import QuizItemSkeleton from "../Quiz/QuizItemSkeleton";
 import Lights, { LightProps } from "../Background/Lights";
+import QuizListSkeleton from "../Quiz/QuizListSkeleton";
 
 const lights: LightProps[] = [
   {
@@ -35,7 +36,7 @@ const lights: LightProps[] = [
     color: "sky",
     pos: "opacity-50 bottom-0 left-0",
     size: "medium",
-    translateToBottom:true
+    translateToBottom: true,
   },
 ];
 
@@ -77,11 +78,11 @@ export function Quizes() {
           </div>
         </div>
         <div className="grid gap-6 md:gap-8 lg:gap-10 items-stretch grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {isLoading
-            ? Array(4)
-                .fill(4)
-                .map((el, ind) => <QuizItemSkeleton key={ind} />)
-            : quizes.map((el) => <QuizItem key={el.id} quiz={el} />)}
+          {isLoading ? (
+            <QuizListSkeleton />
+          ) : (
+            quizes.map((el) => <QuizItem key={el.id} quiz={el} />)
+          )}
         </div>
       </section>
     </div>

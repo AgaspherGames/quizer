@@ -69,7 +69,7 @@ input[type=file]::-webkit-file-upload-button {
   position: absolute;
   border-radius: 100%;
   background: radial-gradient(#14b8a557, #14b8a504 40%, transparent 50%);
-  scale: 0.6;
+  /* scale: 0.6; */
   /* animation: light 1s ease infinite; */
 }
 
@@ -92,7 +92,7 @@ input[type=file]::-webkit-file-upload-button {
   height: 900px;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .light {
     scale: 0.6;
   }
@@ -101,4 +101,4 @@ input[type=file]::-webkit-file-upload-button {
   .light {
     scale: 1;
   }
-}
+} */
