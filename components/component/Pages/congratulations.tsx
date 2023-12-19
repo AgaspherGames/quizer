@@ -4,6 +4,8 @@ import { useQueryState } from "next-usequerystate";
 import { motion, useCycle } from "framer-motion";
 import { sleep } from "@/utils/utils";
 import { useRouter } from "next/navigation";
+import Confetti from "react-confetti";
+import { useWindowSize } from "@uidotdev/usehooks";
 
 const panel = {
   open: { opacity: 1 },
@@ -31,6 +33,7 @@ export function Congratulations({ params }: { params: { id: string } }) {
   const [isClosing, toggle] = useCycle(false, true);
 
   const [result, setResult] = useQueryState("result");
+  const { width, height } = useWindowSize();
 
   async function replay() {
     toggle();
@@ -48,6 +51,7 @@ export function Congratulations({ params }: { params: { id: string } }) {
       animate={isClosing ? "closed" : "open"}
       className="min-h-screen bg-black text-white py-6 flex flex-col justify-center sm:py-12"
     >
+      <Confetti recycle={false} width={+width!} height={+height!} />
       <div className="relative w-full py-3 sm:max-w-xl sm:mx-auto">
         <motion.div className="absolute inset-0" variants={bg}>
           <motion.div

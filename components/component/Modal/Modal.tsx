@@ -19,11 +19,16 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   const [mounted, setMounted] = React.useState(false);
 
-  React.useEffect(() => setMounted(true), []);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return mounted && isOpen
     ? createPortal(
-        <div onClick={close} className={twMerge("absolute inset-0", className)}>
+        <div
+          onClick={close}
+          className={twMerge("fixed inset-0 z-50", className)}
+        >
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

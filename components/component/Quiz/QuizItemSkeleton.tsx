@@ -6,7 +6,7 @@ interface QuizItemSkeletonProps {}
 
 const QuizItemSkeleton: React.FC<QuizItemSkeletonProps> = () => {
   return (
-    <div className="h-full flex-1 rounded-lg bg-zinc-900 relative  p-4 md:p-6 ">
+    <div className="h-full flex-1 rounded-lg bg-zinc-900 relative  p-4 md:p-6 border border-zinc-700">
       <div className="rounded-lg bg-zinc-900">
         <div className="w-full flex justify-center my-2 ">
           <div className="skeleton w-full h-32 sm:h-48 rounded-xl"></div>

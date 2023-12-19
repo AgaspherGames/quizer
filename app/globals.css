@@ -48,10 +48,29 @@ input[type=file]::-webkit-file-upload-button {
   }
 }
 
+@keyframes light {
+  0% {
+    filter: invert(0);
+    margin-top: 0;
+    margin-left: 0;
+  }
+  50% {
+    filter: invert(0.1);
+    margin-top: 12px;
+  }
+  100% {
+    filter: invert(0);
+    margin-top: 0;
+    margin-left: 0;
+  }
+}
+
 .light {
   position: absolute;
   border-radius: 100%;
   background: radial-gradient(#14b8a557, #14b8a504 40%, transparent 50%);
+  scale: 0.6;
+  /* animation: light 1s ease infinite; */
 }
 
 [data-color="teal"] {
@@ -71,4 +90,15 @@ input[type=file]::-webkit-file-upload-button {
 [data-size="small"] {
   width: 900px;
   height: 900px;
+}
+
+@media (min-width: 768px) {
+  .light {
+    scale: 0.6;
+  }
+}
+@media (min-width: 1024px) {
+  .light {
+    scale: 1;
+  }
 }

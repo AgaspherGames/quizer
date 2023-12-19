@@ -10,7 +10,7 @@ interface ResultItemProps {
 const ResultItem: React.FC<ResultItemProps> = ({ result }) => {
   return (
     <>
-      <div className="h-full flex-1 rounded-lg bg-zinc-900 relative  p-4 md:p-6 ">
+      <div className="h-full flex-1 rounded-lg bg-zinc-900 relative  p-4 md:p-6 border border-zinc-700">
         <Link
           className="absolute inset-0"
           href={`/quiz/${result.quiz.id}`}

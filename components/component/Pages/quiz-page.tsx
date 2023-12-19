@@ -91,7 +91,7 @@ export const QuizPage: React.FC<QuizPageProps> = ({ params }) => {
           initial={false}
           drag={true}
           dragConstraints={{ bottom: 0, left: 0, right: 0, top: 0 }}
-          className="relative px-4 py-10 bg-zinc-950 shadow-lg sm:rounded-3xl sm:p-20"
+          className="relative px-4 py-10 bg-zinc-950 shadow-lg sm:rounded-3xl sm:p-20 "
         >
           <motion.div
             variants={panel}

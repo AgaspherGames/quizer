@@ -10,6 +10,37 @@ import UserService from "@/services/UserService";
 import QuizItem from "../Quiz/QuizItem";
 import ResultItem from "../Quiz/ResultItem";
 import Card from "@/components/ui/Card";
+import Lights, { LightProps } from "../Background/Lights";
+
+const lights: LightProps[] = [
+  {
+    color: "sky",
+    pos: "opacity-50 top-0 left-0",
+    size: "medium",
+  },
+  {
+    color: "sky",
+    pos: "opacity-50 top-3/4 left-3/4",
+    size: "small",
+  },
+  {
+    color: "teal",
+    pos: "opacity-50 top-1/2 left-[20%]",
+    size: "medium",
+  },
+  {
+    color: "teal",
+    pos: "opacity-50 top-1/3 right-0",
+    size: "small",
+    translateToRight: true,
+  },
+  {
+    color: "sky",
+    pos: "opacity-50 bottom-0 left-0",
+    size: "medium",
+    translateToBottom: true,
+  },
+];
 
 export function ProfilePage({
   params,
@@ -38,7 +69,8 @@ export function ProfilePage({
   }, [userInfo]);
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen text-white">
+      <Lights lights={lights} />
       <Header />
       <main className="flex flex-col items-center justify-center p-4 gap-8">
         <div className=" flex flex-col items-center mx-auto container max-w-md sm:max-w-lg md:max-w-2xl">

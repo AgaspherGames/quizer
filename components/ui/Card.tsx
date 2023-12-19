@@ -18,7 +18,7 @@ const Card: React.FC<CardProps> = ({
   return (
     <div
       className={twMerge(
-        "px-8 py-6 bg-blakc shadow-lg rounded-3xl bg-zinc-900",
+        "px-8 py-6 bg-blakc shadow-lg rounded-3xl bg-zinc-900 border border-zinc-700",
         paddings[padding],
         className
       )}

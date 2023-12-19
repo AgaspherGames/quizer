@@ -7,7 +7,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import { motion, useCycle } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 import { sleep } from "@/utils/utils";
-import { IAnswer, SaveResultRequest } from "@/interfaces/QuizInterfaces";
+import {
+  IAnswer,
+  IQuestion,
+  SaveResultRequest,
+} from "@/interfaces/QuizInterfaces";
 import Image from "next/image";
 import QuizService from "@/services/QuizService";
 import axios from "axios";
@@ -15,6 +19,7 @@ import { url } from "@/utils/http";
 import QuizImage from "../Base/quiz-image";
 import { useQuizStore } from "@/stores/QuizStore";
 import LocalStorageService from "@/services/LocalStorageService";
+import CustomInput from "../Base/CustomInput";
 
 interface QuizProps {
   params: { id: string; questionId: string };
@@ -71,7 +76,7 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
     toggle();
     await sleep(300);
 
-    router.push(`/quiz/${params.id}/${nextId}`);
+    router.replace(`/quiz/${params.id}/${nextId}`);
   }
   async function prev() {
     toggle();
@@ -152,8 +157,13 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
                 <label className="block mb-4 text-center text-lg font-medium">
                   {question?.title}
                 </label>
-                <div className="gap-4 grid grid-cols-1 justify-center md:grid-cols-2">
-                  {answers.map((el) => (
+                <Answers
+                  answers={answers}
+                  isSelected={isSelected}
+                  question={question}
+                  selectItem={selectItem}
+                />
+                {/* {answers.map((el) => (
                     <button
                       key={el.id}
                       onClick={() => selectItem(el.id)}
@@ -166,11 +176,10 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
                     >
                       {el.text}
                     </button>
-                  ))}
-                </div>
+                  ))} */}
               </div>
               <div className="grid grid-cols-3 gap-4 mt-6">
-                {!isFirst && (
+                {/* {!isFirst && (
                   <Button
                     onClick={prev}
                     className=" w-full py-3 bg-gray-600 hover:bg-gray-700 focus:ring-gray-500 focus:ring-offset-gray-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg "
@@ -178,12 +187,11 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
                   >
                     Назад
                   </Button>
-                )}
+                )} */}
                 <Button
                   onClick={next}
                   className={twMerge(
-                    "w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg col-span-2",
-                    isFirst && "col-span-3"
+                    "w-full py-3 bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg col-span-3"
                   )}
                   type="submit"
                 >
@@ -195,5 +203,45 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
         </motion.div>
       </div>
     </motion.div>
+  );
+};
+
+interface answersProps {
+  question?: IQuestion;
+  answers: IAnswer[];
+  selectItem: (id: number) => void;
+  isSelected: (id: number) => number;
+}
+
+const Answers: React.FC<answersProps> = ({
+  question,
+  answers,
+  selectItem,
+  isSelected,
+}) => {
+  if (question?.type == "choice") {
+    return (
+      <div className="gap-4 grid grid-cols-1 justify-center md:grid-cols-2">
+        {answers.map((el) => (
+          <button
+            key={el.id}
+            onClick={() => selectItem(el.id)}
+            type="button"
+            className={twMerge(
+              "w-full p-2 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 duration-200 transition-all sm:p-4",
+              isSelected(el.id) &&
+                "bg-zinc-700 ring-zinc-300 ring-opacity-50 ring-4 "
+            )}
+          >
+            {el.text}
+          </button>
+        ))}
+      </div>
+    );
+  }
+  return (
+    <div className="">
+      <CustomInput className="w-full max-w-xs m-auto" />
+    </div>
   );
 };

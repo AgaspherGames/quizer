@@ -13,7 +13,7 @@ const QuizImage: React.FC<QuizImageProps> = ({ image }) => {
         alt=""
         width="800"
         height="100"
-        className="h-32 w-auto rounded-xl object-cover sm:h-48"
+        className="h-32 w-full rounded-xl object-cover sm:h-48"
         src={image ? getFileLink(image, "quizzes") : "/images/_defaultQuiz.jpg"}
       />
     </>
