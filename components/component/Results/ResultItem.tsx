@@ -37,12 +37,12 @@ const ResultItem: React.FC<ResultItemProps> = ({
       )}
       <div
         className={twMerge(
-          "p-6 rounded-lg bg-zinc-900 flex items-center  justify-between relative overflow-hidden",
+          "p-6 rounded-lg bg-zinc-900 flex items-center  justify-between relative overflow-hidden ",
           isMyResult && "bg-zinc-800"
         )}
       >
         <div className="flex gap-4 items-center">
-          <div className="flex justify-center items-center text-2xl mr-2">
+          <div className="md:flex justify-center items-center hidden text-2xl mr-2">
             <BiHash />
             <p>{place}</p>
           </div>
@@ -64,7 +64,7 @@ const ResultItem: React.FC<ResultItemProps> = ({
         </div>
         <div className="flex text-xl items-end">
           <p className="">{moment(result.created_at).format("H:mm")}</p>
-          <p className="ml-2 text-base text-gray-300">
+          <p className="ml-2 text-base text-gray-300 hidden md:block">
             {moment(result.created_at).format("DD.MM.YYYY")}
           </p>
         </div>

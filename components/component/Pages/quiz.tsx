@@ -47,15 +47,12 @@ const bg = {
 };
 
 export const Quiz: React.FC<QuizProps> = ({ params }) => {
-  const { selectedAnswers, setSelectedAnswers } = useQuizStore(
-    (state) => state
-  );
   const { questions } = useQuiz(params.id);
   const [isClosing, toggle] = useCycle(false, true);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [answers, setAnswers] = useState<IAnswer[]>([]);
 
-  const { isFirst, isLast, question, nextId, prevId } = useParsedQuestion(
+  const { isLast, question, nextId } = useParsedQuestion(
     params.id,
     params.questionId
   );
@@ -78,11 +75,6 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
 
     router.replace(`/quiz/${params.id}/${nextId}`);
   }
-  async function prev() {
-    toggle();
-    await sleep(300);
-    router.push(`/quiz/${params.id}/${prevId}`);
-  }
 
   function selectItem(id: number) {
     isSelected(id)
@@ -100,7 +92,6 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
       const resp = await QuizService.saveResults(params.id);
       toggle();
       await sleep(300);
-      setSelectedAnswers({});
       router.replace(
         `congratulations?result=${resp.data.score}/${questions.length}`
       );
@@ -108,18 +99,9 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
   }
 
   useEffect(() => {
-    setSelectedAnswers({
-      ...selectedAnswers,
-      [params.questionId]: selectedItems,
-    });
-  }, [selectedItems]);
-
-  useEffect(() => {
     QuizService.fetchAnswers(params.id, params.questionId).then((resp) =>
       setAnswers(resp.data)
     );
-    const arr = selectedAnswers[`${params.questionId}`];
-    setSelectedItems(arr || []);
   }, []);
 
   return (
@@ -163,31 +145,8 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
                   question={question}
                   selectItem={selectItem}
                 />
-                {/* {answers.map((el) => (
-                    <button
-                      key={el.id}
-                      onClick={() => selectItem(el.id)}
-                      type="button"
-                      className={twMerge(
-                        "w-full p-2 text-left rounded-lg bg-zinc-800 hover:bg-zinc-700 duration-200 transition-all sm:p-4",
-                        isSelected(el.id) &&
-                          "bg-zinc-700 ring-zinc-300 ring-opacity-50 ring-4 "
-                      )}
-                    >
-                      {el.text}
-                    </button>
-                  ))} */}
               </div>
               <div className="grid grid-cols-3 gap-4 mt-6">
-                {/* {!isFirst && (
-                  <Button
-                    onClick={prev}
-                    className=" w-full py-3 bg-gray-600 hover:bg-gray-700 focus:ring-gray-500 focus:ring-offset-gray-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg "
-                    type="submit"
-                  >
-                    Назад
-                  </Button>
-                )} */}
                 <Button
                   onClick={next}
                   className={twMerge(
