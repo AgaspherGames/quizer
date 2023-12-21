@@ -20,13 +20,6 @@ const HeaderButtons: React.FC<HeaderButtonsProps> = () => {
       <div className="flex gap-4 items-center">
         <div className="text-white text-xl font-medium skeleton w-20 "></div>
         <div className="text-white text-xl font-medium skeleton w-20 !h-9 rounded-md"></div>
-        {/* <Button
-          onClick={logout}
-          className="border-white text-white bg-transparent"
-          variant="outline"
-        >
-          Выйти
-        </Button> */}
       </div>
     );
 

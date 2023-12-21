@@ -1,4 +1,3 @@
-import { url } from "@/utils/http";
 import { getFileLink } from "@/utils/utils";
 import Image from "next/image";
 import React from "react";

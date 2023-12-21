@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React from "react";
 import {
   SpringOptions,
   motion,
@@ -7,7 +7,6 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { FiMousePointer } from "react-icons/fi";
 
 interface props extends React.HTMLAttributes<HTMLDivElement> {
   offset?: number;
@@ -24,9 +23,6 @@ export const Card3D = ({ children, offset: _offset }: props) => {
 
   const mouseXSpring = useSpring(x, config);
   const mouseYSpring = useSpring(y, config);
-  //   const mouseXSpring = useSpring(x);
-  //   const mouseYSpring = useSpring(y);
-  const thisoffset = 20;
 
   const offset = 10;
 

@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Input } from "../../ui/input";
-import CreateField from "./CreateField";
+import React from "react";
 import { motion } from "framer-motion";
 import {
-  CreateAnswer,
   ICreateQuestion,
-  QuestionTypes,
 } from "@/interfaces/QuizInterfaces";
 import AddAnswer from "./AddAnswer";
 import {
