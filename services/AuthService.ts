@@ -16,6 +16,7 @@ class QuizService {
     }
   }
   async logout() {
+    http.post(`auth/signout`)
     CookieService.deleteAuthCookie();
   }
 }
