@@ -8,12 +8,13 @@ interface AuthInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   registerProps: UseFormRegisterReturn<string>;
 }
 
-const AuthInput: React.FC<AuthInputProps> = (
-  { registerProps, label, error, name, ...props },
-  ref
-) => {
-  console.log(registerProps);
-
+const AuthInput: React.FC<AuthInputProps> = ({
+  registerProps,
+  label,
+  error,
+  name,
+  ...props
+}) => {
   return (
     <div>
       <label htmlFor={registerProps.name} className="block text-sm font-medium">

@@ -81,8 +81,6 @@ export function Register() {
     }
   }
 
-  console.log(register("username", { required: true }));
-
   return (
     <AuthFormLayout
       bottom={

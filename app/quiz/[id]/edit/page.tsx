@@ -13,7 +13,7 @@ interface pageProps {
   };
 }
 
-const page: React.FC<pageProps> = ({ params }) => {
+const Page: React.FC<pageProps> = ({ params }) => {
   const { isAuthLoaded, isAuth } = useAuthState();
   const user_id = useCreateStore((state) => state.user_id);
   const id = useUserMe().userInfo?.user.id;
@@ -34,4 +34,4 @@ const page: React.FC<pageProps> = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;
