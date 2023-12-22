@@ -2,6 +2,7 @@ import {
   IAllQuizes,
   IAnswer,
   ICreateQuestion,
+  IFullAnswer,
   IQuestion,
   IQuiz,
   SaveResultRequest,
@@ -16,6 +17,11 @@ class QuizService {
   async fetchAnswers(quizId: string, questionId: string) {
     return http.get<IAnswer[]>(
       `quiz/${quizId}/questions/${questionId}/answers`
+    );
+  }
+  async fetchCorrectAnswers(quizId: string, questionId: string) {
+    return http.get<IFullAnswer[]>(
+      `quiz/${quizId}/questions/${questionId}/answers/correct`
     );
   }
   async fetchQuizes(query?: string) {
@@ -44,25 +50,16 @@ class QuizService {
   }
   async fetchEditQuizInfo(quiz_id: string) {
     const quiz = (await this.fetchQuiz(quiz_id)).data;
-    const questions = (await this.fetchQuestions(quiz_id)).data;
+    const questions = (await this.fetchQuestions(quiz_id)).data.toSorted((a, b) => a.order_id - b.order_id);
     const results = await Promise.all(
       questions.map(async (el) => ({
         ...el,
-        answers: (await this.fetchAnswers(quiz_id, el.id + "")).data,
+        answers: (
+          await this.fetchCorrectAnswers(quiz_id, el.id + "")
+        ).data.toSorted((a, b) => a.order_id - b.order_id),
       }))
     );
-
-    const createQuestions: ICreateQuestion[] = questions.map((el) => ({
-      id: el.id,
-      answers: [],
-      title: el.title,
-      type: el.type,
-      // image: el.image,
-    }));
-
-    console.log(quiz);
-    console.log(questions);
-    console.log(results);
+    return { quiz, questions: results };
   }
 }
 

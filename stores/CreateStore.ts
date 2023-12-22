@@ -15,9 +15,11 @@ export interface ICreateStore {
   questions: ICreateQuestion[];
   title: string;
   description: string;
-  quizImage?: File;
+  quizImage?: File | string;
   lastId: number;
+  user_id: number;
   createQuiz: (title?: string) => void;
+  loadQuiz: (quizId: number) => Promise<boolean>;
   generateId: () => number;
   setQuestions: (questions: ICreateQuestion[]) => void;
   setTitle: (title: string) => void;
@@ -48,12 +50,31 @@ const useCreateStore = create<ICreateStore>((set) => ({
   description: "",
   quizImage: undefined,
   lastId: 1,
+  user_id: 0,
   createQuiz: async (title) => {
     const quizId = (await CreateQuizService.createQuiz(title || defaultTitle))
       .data.id;
-
-    set((state) => ({ quizId }));
-    title && set((state) => ({ title }));
+    return quizId;
+  },
+  loadQuiz: async (quizId) => {
+    try {
+      const { questions, quiz } = await QuizService.fetchEditQuizInfo(
+        quizId + ""
+      );
+      quiz.user_id;
+      set((state) => ({
+        quizId,
+        title: quiz.title,
+        description: quiz.description,
+        quizImage: quiz.image,
+        questions,
+        lastId: (questions[questions.length - 1]?.id || 0) + 1,
+        user_id: quiz.user_id,
+      }));
+      return true;
+    } catch (error) {
+      return false;
+    }
   },
   generateId: () => {
     let id = 0;
@@ -161,10 +182,8 @@ const useCreateStore = create<ICreateStore>((set) => ({
         if (x.id === question_id) {
           const answer = x.answers.find((x) => x.id == answer_id);
           answer!.is_correct = !answer!.is_correct;
-          debounce(() => {
-            CreateQuizService.editAnswer(question_id, answer_id, {
-              is_correct: answer?.is_correct,
-            });
+          CreateQuizService.editAnswer(question_id, answer_id, {
+            is_correct: answer?.is_correct,
           });
         }
         return x;
@@ -259,8 +278,7 @@ const useCreateStore = create<ICreateStore>((set) => ({
   editById: async (quizId) => {
     const quizData = await QuizService.fetchQuiz(quizId + "");
     const questions = await QuizService.fetchQuestions(quizId + "");
-    
-    
+
     set((state) => {
       return state;
     });

@@ -4,12 +4,17 @@ export interface IQuestion {
   image: string;
   quiz_id: number;
   type: QuestionTypes;
+  order_id: number;
 }
 
 export interface IAnswer {
   id: number;
   text: string;
   question_id: number;
+}
+export interface IFullAnswer extends IAnswer {
+  is_correct: boolean;
+  order_id: number;
 }
 
 // export interface SaveResultRequest {
@@ -54,7 +59,7 @@ export interface ICreateQuestion extends ICreateQuestionItem {
 }
 export interface ICreateQuestionItem {
   title: string;
-  image?: File;
+  image?: File | string;
   answers: CreateAnswer[];
   type: QuestionTypes;
 }

@@ -16,9 +16,9 @@ export default function QuestionLayout({
   children: React.ReactNode;
   params: { id: string };
 }) {
-  useEffect(() => {
-    QuizService.fetchEditQuizInfo(params.id);
-  }, []);
+  // useEffect(() => {
+  //   QuizService.fetchEditQuizInfo(params.id);
+  // }, []);
 
   return (
     <div className="relative">

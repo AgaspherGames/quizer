@@ -64,16 +64,16 @@ const UserInfoSection: React.FC<UserInfoSectionProps> = ({ userId }) => {
       <div className="flex flex-row justify-between w-full gap-4 md:w-1/2 md:flex-col">
         <Card
           padding="small"
-          className="flex flex-col items-center justify-between text-center w-full min-w-max md:flex-row"
+          className="flex flex-col items-center justify-between text-center w-full min-w-max md:flex-row px-2 md:px-8"
         >
-          <p className="">Пройденные викторины</p>
+          <p className="">Пройдено тестов</p>
           <p className="text-3xl font-bold text-cyan-500">
             {userInfo?.results.length}
           </p>
         </Card>
         <Card
           padding="small"
-          className="flex flex-col items-center justify-between text-center w-full min-w-max md:flex-row"
+          className="flex flex-col items-center justify-between text-center w-full min-w-max md:flex-row px-2 md:px-8"
         >
           <p className="">Средний балл</p>
           <p className="text-3xl font-bold text-cyan-500">{avgPercent}%</p>

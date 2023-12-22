@@ -1,8 +1,9 @@
 import React, { useMemo } from "react";
 import { motion } from "framer-motion";
+import { getFileLink } from "@/utils/utils";
 
 interface CreateImageProps {
-  image: File;
+  image: File | string;
   height?: string;
   clear: Function;
 }
@@ -13,6 +14,7 @@ const CreateImage: React.FC<CreateImageProps> = ({
   clear,
 }) => {
   const url = useMemo(() => {
+    if (typeof image == "string") return getFileLink(image, "quizzes");
     return URL.createObjectURL(image);
   }, [image]);
   return (
@@ -47,3 +49,4 @@ const CreateImage: React.FC<CreateImageProps> = ({
 };
 
 export default CreateImage;
+
