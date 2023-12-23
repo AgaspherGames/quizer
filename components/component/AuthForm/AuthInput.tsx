@@ -1,7 +1,6 @@
 import { Input } from "@/components/ui/input";
-import { RegisterRequest } from "@/interfaces/AuthInterfaces";
 import React from "react";
-import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
+import {  UseFormRegisterReturn } from "react-hook-form";
 interface AuthInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
