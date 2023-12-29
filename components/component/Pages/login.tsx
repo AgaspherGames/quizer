@@ -17,25 +17,6 @@ import AuthFormLayout from "../AuthForm/AuthFormLayout";
 import AuthFormBottom from "../AuthForm/AuthFormBottom";
 import AuthInput from "../AuthForm/AuthInput";
 
-const lights: LightProps[] = [
-  {
-    color: "sky",
-    pos: "opacity-50 top-1/2 left-1/2",
-    size: "medium",
-  },
-  {
-    color: "teal",
-    pos: "opacity-50 top-1/3 right-0",
-    size: "small",
-    translateToRight: true,
-  },
-  {
-    color: "sky",
-    pos: "opacity-50 bottom-0 left-0",
-    size: "medium",
-    translateToBottom: true,
-  },
-];
 
 const schema = yup.object({
   email: yup
