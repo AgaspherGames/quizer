@@ -12,9 +12,7 @@ interface QuestionInfoProps {
   dragHandleProps?: DraggableProvidedDragHandleProps | null;
 }
 
-const QuestionInfo: React.FC<QuestionInfoProps> = ({
-  dragHandleProps,
-}) => {
+const QuestionInfo: React.FC<QuestionInfoProps> = ({ dragHandleProps }) => {
   const {
     setQuestionTitle,
     setQuestionImage,
@@ -38,6 +36,7 @@ const QuestionInfo: React.FC<QuestionInfoProps> = ({
       )}
       <div {...dragHandleProps} className="relative">
         <CustomInput
+          autoFocus
           className="pr-12"
           value={question.title}
           onChange={(e) => setQuestionTitle(question.id, e.target.value)}

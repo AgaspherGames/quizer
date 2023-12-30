@@ -24,21 +24,6 @@ export function QuizCreate() {
     setIsModalOpen(false);
   }
 
-  const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
-    if (!destination) return;
-    if (source.droppableId !== destination.droppableId) {
-      const newData = [...questions];
-      const [item] = newData.splice(source.index, 1);
-      newData.splice(destination.index, 0, item);
-      setQuestions([...newData]);
-    } else {
-      const newData = [...questions];
-      const [item] = newData.splice(source.index, 1);
-      newData.splice(destination.index, 0, item);
-      setQuestions([...newData]);
-    }
-  };
 
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [quizTitle, setQuizTitle] = useState("");

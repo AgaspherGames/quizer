@@ -62,6 +62,7 @@ const CreateField: React.FC<CreateFieldProps> = ({
               </div>
             </div>
             <CustomInput
+              autoFocus
               className="ml-3"
               value={answer.text}
               placeholder="Ответ"
@@ -70,7 +71,9 @@ const CreateField: React.FC<CreateFieldProps> = ({
               }
               {...props}
             />
-            <DeleteButton onClick={(_) => removeAnswer(question.id, answer.id)} />
+            <DeleteButton
+              onClick={(_) => removeAnswer(question.id, answer.id)}
+            />
           </div>
         </div>
       </motion.div>

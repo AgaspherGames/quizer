@@ -20,11 +20,22 @@ export interface IFullAnswer extends IAnswer {
 // export interface SaveResultRequest {
 //   answers: ISelectedAnswer;
 // }
-export interface SaveResultRequest {
+export interface SaveResultRequestNoValid {
   attempt_id: number;
   question_id: number;
-  answer_id: number;
+  answer_id?: number;
+  answer_text?: string;
 }
+type SaveResultRequestValidation =
+  | {
+      answer_id: number;
+    }
+  | {
+      answer_text: string;
+    };
+
+export type SaveResultRequest = SaveResultRequestNoValid & SaveResultRequestValidation;
+
 export interface IResultItem {
   created_at: string;
   id: number;

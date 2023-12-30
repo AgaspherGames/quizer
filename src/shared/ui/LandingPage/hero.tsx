@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Button } from "../../ui/button";
 import { Card3D } from "../Base/Card3D";
+import { Button } from "@/components/ui/button";
 
 export function Hero() {
   return (

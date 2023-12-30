@@ -49,8 +49,11 @@ const bg = {
 export const Quiz: React.FC<QuizProps> = ({ params }) => {
   const { questions } = useQuiz(params.id);
   const [isClosing, toggle] = useCycle(false, true);
-  const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [answers, setAnswers] = useState<IAnswer[]>([]);
+  // const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [answerText, setAnswerText] = useState("");
+
+  const [answer, setAnswer] = useState<number[] | string>("");
 
   const { isLast, question, nextId } = useParsedQuestion(
     params.id,
@@ -60,13 +63,20 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
   const router = useRouter();
 
   async function next() {
-    await QuizService.saveResult(params.id, {
+    const genericData = {
       attempt_id: +LocalStorageService.getItem<string>(
         `quizAttempt_${params.id}`
       ),
-      answer_id: selectedItems[0],
       question_id: +params.questionId,
-    });
+    };
+    let data = {};
+    if (question?.type == "choice") {
+      data = { ...genericData, answer_id: answer[0] };
+    } else if (question?.type == "input") {
+      data = { ...genericData, answer_text: answer };
+    }
+
+    await QuizService.saveResult(params.id, data as SaveResultRequest);
     if (isLast) {
       return saveResults();
     }
@@ -78,12 +88,13 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
 
   function selectItem(id: number) {
     isSelected(id)
-      ? setSelectedItems((prev) => prev.filter((x) => x != id))
-      : setSelectedItems((prev) => [...prev, id]);
+      ? setAnswer((prev) => (prev as number[]).filter((x) => x != id))
+      : setAnswer((prev) => [...(prev as number[]), id]);
   }
 
   function isSelected(id: number) {
-    const itemInd = selectedItems.findIndex((x) => x == id);
+    if (!Array.isArray(answer)) return 0;
+    const itemInd = answer.findIndex((x) => x == id);
     return ~itemInd;
   }
 
@@ -99,10 +110,12 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
   }
 
   useEffect(() => {
-    QuizService.fetchAnswers(params.id, params.questionId).then((resp) =>
-      setAnswers(resp.data)
-    );
-  }, []);
+    if (!answers.length && question?.type == "choice") {
+      QuizService.fetchAnswers(params.id, params.questionId).then((resp) =>
+        setAnswers(resp.data)
+      );
+    }
+  }, [question]);
 
   return (
     <motion.div
@@ -141,8 +154,10 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
                 </label>
                 <Answers
                   answers={answers}
-                  isSelected={isSelected}
                   question={question}
+                  setAnswer={setAnswer}
+                  answer={answer}
+                  isSelected={isSelected}
                   selectItem={selectItem}
                 />
               </div>
@@ -165,18 +180,22 @@ export const Quiz: React.FC<QuizProps> = ({ params }) => {
   );
 };
 
-interface answersProps {
+interface AnswersProps {
   question?: IQuestion;
   answers: IAnswer[];
+  answer?: number[] | string;
   selectItem: (id: number) => void;
   isSelected: (id: number) => number;
+  setAnswer: (text: string) => void;
 }
 
-const Answers: React.FC<answersProps> = ({
+const Answers: React.FC<AnswersProps> = ({
   question,
   answers,
+  answer,
   selectItem,
   isSelected,
+  setAnswer,
 }) => {
   if (question?.type == "choice") {
     return (
@@ -200,7 +219,11 @@ const Answers: React.FC<answersProps> = ({
   }
   return (
     <div className="">
-      <CustomInput className="w-full max-w-xs m-auto" />
+      <CustomInput
+        value={answer as string}
+        onChange={(e) => setAnswer(e.target.value)}
+        className="w-full max-w-xs m-auto"
+      />
     </div>
   );
 };

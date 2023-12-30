@@ -7,8 +7,8 @@ interface ProgressBarProps {}
 const ProgressBar: React.FC<ProgressBarProps> = () => {
   const path = usePathname();
   const params = useParams<{ id: string; questionId: string }>();
-  let { progress } = useParsedQuestion(params.id, params.questionId);
-  if (path.includes("/congratulations")) {
+  let { progress } = useParsedQuestion(params?.id||"", params?.questionId||"");
+  if (path?.includes("/congratulations")) {
     progress = 1;
   }
 

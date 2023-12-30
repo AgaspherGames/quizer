@@ -1,8 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import {
-  ICreateQuestion,
-} from "@/interfaces/QuizInterfaces";
+import { ICreateQuestion } from "@/interfaces/QuizInterfaces";
 import AddAnswer from "./AddAnswer";
 import {
   DraggableProvidedDragHandleProps,
@@ -28,7 +26,11 @@ const CreateQuestion: React.FC<CreateQuestionProps> = ({
     const newData = [...JSON.parse(JSON.stringify(question.answers))]; //shallow copy concept
     const [item] = newData.splice(source.index, 1);
     newData.splice(destination.index, 0, item);
-    setAnswers(question.id, [...newData]);
+    setAnswers(
+      question.id,
+      [...newData],
+      Math.min(source.index, destination.index)
+    );
   };
 
   const { setAnswers } = useCreateStore((state) => state);

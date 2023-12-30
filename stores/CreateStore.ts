@@ -21,7 +21,7 @@ export interface ICreateStore {
   createQuiz: (title?: string) => void;
   loadQuiz: (quizId: number) => Promise<boolean>;
   generateId: () => number;
-  setQuestions: (questions: ICreateQuestion[]) => void;
+  setQuestions: (questions: ICreateQuestion[], index: number) => void;
   setTitle: (title: string) => void;
   setDescription: (description: string) => void;
   setQuizImage: (image: File | undefined) => void;
@@ -34,7 +34,11 @@ export interface ICreateStore {
   setQuestionType: (question_id: number, type: QuestionTypes) => void;
   setQuestionImage: (question_id: number, image?: File) => void;
   setAnswerTitle: (question_id: number, pos: number, text: string) => void;
-  setAnswers: (question_id: number, answers: CreateAnswer[]) => void;
+  setAnswers: (
+    question_id: number,
+    answers: CreateAnswer[],
+    index: number
+  ) => void;
   editById: (quizId: number) => void;
 }
 
@@ -86,14 +90,13 @@ const useCreateStore = create<ICreateStore>((set) => ({
 
     return id;
   },
-  setQuestions: (newQuestions) => {
-    const newOrderRequest = newQuestions.map((el, ind) => ({
-      question_id: el.id,
-      order_id: ind,
-    }));
-    debounce(() => {
-      CreateQuizService.updateQuestionsOrder({ orders: newOrderRequest });
-    });
+  setQuestions: (newQuestions, index) => {
+    newQuestions.toSpliced(0, index).map((el, ind) =>
+      CreateQuizService.updateQuestionsOrder({
+        order_id: ind + index,
+        question_id: el.id,
+      })
+    );
 
     set({ questions: newQuestions });
   },
@@ -131,7 +134,7 @@ const useCreateStore = create<ICreateStore>((set) => ({
         id: id,
         type: "choice",
       });
-      useCreateStore.getState().setQuestions(newQuestions);
+      useCreateStore.getState().setQuestions(newQuestions, ind);
       return useCreateStore.getState();
     });
   },
@@ -140,7 +143,7 @@ const useCreateStore = create<ICreateStore>((set) => ({
       .data;
     set((state) => {
       let newAnswers;
-      const newQuestions = state.questions.map((x, ind) => {
+      state.questions.map((x) => {
         if (x.id === question_id) {
           newAnswers = x.answers.toSpliced(pos, 0, {
             is_correct: false,
@@ -152,10 +155,8 @@ const useCreateStore = create<ICreateStore>((set) => ({
         return x;
       });
 
-      useCreateStore.getState().setAnswers(question_id, newAnswers!);
+      useCreateStore.getState().setAnswers(question_id, newAnswers!, pos);
       return useCreateStore.getState();
-
-      return { questions: newQuestions };
     });
   },
   removeAnswer: (question_id, answer_id) => {
@@ -254,18 +255,19 @@ const useCreateStore = create<ICreateStore>((set) => ({
         }),
       };
     }),
-  setAnswers: (question_id, answers) =>
+  setAnswers: (question_id, answers, index) =>
     set((state) => {
       const newOrderRequest = answers.map((el, ind) => ({
         answer_id: el.id,
         order_id: ind,
       }));
-
-      debounce(() => {
+      answers.toSpliced(0, index).map((el, ind) =>
         CreateQuizService.updateAnswersOrder(question_id, {
-          orders: newOrderRequest,
-        });
-      });
+          answer_id: el.id,
+          order_id: ind + index,
+        })
+      );
+
       return {
         questions: state.questions.map((x) => {
           if (x.id === question_id) {

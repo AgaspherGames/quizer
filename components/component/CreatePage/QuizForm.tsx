@@ -27,17 +27,12 @@ const QuizForm: React.FC<QuizFormProps> = ({ quizId }) => {
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
     if (!destination) return;
-    if (source.droppableId !== destination.droppableId) {
-      const newData = [...questions];
-      const [item] = newData.splice(source.index, 1);
-      newData.splice(destination.index, 0, item);
-      setQuestions([...newData]);
-    } else {
-      const newData = [...questions];
-      const [item] = newData.splice(source.index, 1);
-      newData.splice(destination.index, 0, item);
-      setQuestions([...newData]);
-    }
+    console.log(source.index, destination.index);
+    const newData = [...questions];
+    const [item] = newData.splice(source.index, 1);
+    newData.splice(destination.index, 0, item);
+
+    setQuestions([...newData], Math.min(source.index, destination.index));
   };
 
   async function load() {

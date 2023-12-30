@@ -6,7 +6,7 @@ export const url = "https://apiquizmaster.swedencentral.cloudapp.azure.com/";
 
 export const http = axios.create({
   baseURL: url,
-  timeout: 10000,
+  timeout: 100000,
   withCredentials: true,
 });
 
