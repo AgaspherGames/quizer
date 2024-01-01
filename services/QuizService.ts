@@ -14,6 +14,9 @@ class QuizService {
   async fetchQuestions(quizId: string) {
     return http.get<IQuestion[]>(`quiz/${quizId}/questions`);
   }
+  async fetchAuthorQuestions(quizId: string) {
+    return http.get<ICreateQuestion[]>(`quiz/${quizId}/questions/author`);
+  }
   async fetchAnswers(quizId: string, questionId: string) {
     return http.get<IAnswer[]>(
       `quiz/${quizId}/questions/${questionId}/answers`
@@ -50,18 +53,9 @@ class QuizService {
   }
   async fetchEditQuizInfo(quiz_id: string) {
     const quiz = (await this.fetchQuiz(quiz_id)).data;
-    const questions = (await this.fetchQuestions(quiz_id)).data.toSorted((a, b) => a.order_id - b.order_id);
-    const results = await Promise.all(
-      questions.map(async (el) => ({
-        ...el,
-        answers: (
-          await this.fetchCorrectAnswers(quiz_id, el.id + "")
-        ).data.toSorted((a, b) => a.order_id - b.order_id),
-      }))
-    );
-    return { quiz, questions: results };
+    const questions = (await this.fetchAuthorQuestions(quiz_id)).data;
+    return { quiz, questions };
   }
 }
 
 export default new QuizService();
-
