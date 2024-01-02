@@ -53,6 +53,7 @@ export function ProfilePage({
   };
 }) {
   const { userInfo } = useUserInfo(params.id);
+  const currentUserId = useUserMe().userInfo?.user.id;
   return (
     <div className="min-h-screen text-white">
       <Lights lights={lights} />
@@ -66,7 +67,11 @@ export function ProfilePage({
             <div className="grid gap-4 grid-cols-2">
               {userInfo ? (
                 userInfo?.quizzes.map((el) => (
-                  <QuizItem key={el.id} quiz={el} />
+                  <QuizItem
+                    isMy={userInfo.user.id == currentUserId}
+                    key={el.id}
+                    quiz={el}
+                  />
                 ))
               ) : (
                 <QuizListSkeleton />

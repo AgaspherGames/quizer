@@ -62,10 +62,10 @@ const useCreateStore = create<ICreateStore>((set) => ({
   },
   loadQuiz: async (quizId) => {
     try {
+      set({ quizId: 0 });
       const { questions, quiz } = await QuizService.fetchEditQuizInfo(
         quizId + ""
       );
-      quiz.user_id;
       set((state) => ({
         quizId,
         title: quiz.title,
