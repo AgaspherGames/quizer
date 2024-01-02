@@ -21,7 +21,7 @@ const Page: React.FC<pageProps> = ({ params }) => {
   const router = useRouter();
 
   if (isAuthLoaded && !isAuth) {
-    router.replace("/quizasd");
+    router.replace("/quiz");
   }
 
   if (id && user_id && id != user_id) {
