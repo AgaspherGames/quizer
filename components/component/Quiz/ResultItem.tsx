@@ -13,7 +13,7 @@ const ResultItem: React.FC<ResultItemProps> = ({ result }) => {
       <div className="h-full flex-1 rounded-lg bg-zinc-900 relative  p-4 md:p-6 border border-zinc-700 bg-opacity-80">
         <Link
           className="absolute inset-0"
-          href={`/quiz/${result.quiz.id}`}
+          href={`/quiz/${result.quiz.id}/results`}
         ></Link>
         <div className="rounded-lg ">
           <div className="w-full flex justify-center my-2">
