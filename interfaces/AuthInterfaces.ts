@@ -13,3 +13,8 @@ export interface IUser {
   username: string;
   email: string;
 }
+
+export interface ResetPasswordRequest {
+  code: string;
+  password: string
+}

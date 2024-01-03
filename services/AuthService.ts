@@ -1,4 +1,8 @@
-import { LoginRequest, RegisterRequest } from "@/interfaces/AuthInterfaces";
+import {
+  LoginRequest,
+  RegisterRequest,
+  ResetPasswordRequest,
+} from "@/interfaces/AuthInterfaces";
 import { http } from "@/utils/http";
 import CookieService from "./CookieService";
 
@@ -16,8 +20,11 @@ class QuizService {
     }
   }
   async logout() {
-    http.post(`auth/signout`)
+    http.post(`auth/signout`);
     CookieService.deleteAuthCookie();
+  }
+  async resetPassword(data: ResetPasswordRequest) {
+    return http.put(`auth/reset-password`, data);
   }
 }
 
