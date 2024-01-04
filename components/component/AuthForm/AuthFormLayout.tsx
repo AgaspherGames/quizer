@@ -29,18 +29,6 @@ const lights: LightProps[] = [
   },
 ];
 
-const container = {
-  hidden: { opacity: 1, scale: 0 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      delayChildren: 0.3,
-      staggerChildren: 0.2,
-    },
-  },
-};
-
 const AuthFormLayout: React.FC<AuthFormLayoutProps> = ({
   children,
   bottom,
@@ -71,7 +59,7 @@ const AuthFormLayout: React.FC<AuthFormLayoutProps> = ({
             {bottom}
           </motion.div>
           <motion.div
-            className="absolute px-10 py-12"
+            className="absolute px-8 py-12"
             initial={{
               translateX: "100%",
             }}

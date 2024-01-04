@@ -32,9 +32,10 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ goBack }) => {
 
   const [error, setError] = useState("");
 
-  async function sendCode(data: { email: string }) {
+  async function sendCode({ email }: { email: string }) {
     try {
-      //   await AuthService.login(data);
+      console.log(email);
+      AuthService.sendResetPasswordEmail(email)
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.data?.message == "invalid credentials") {
@@ -44,9 +45,12 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ goBack }) => {
     }
   }
   return (
-    <div className="w-full max-w-sm shadow-lg rounded-lg overflow-hidden md:max-w-lg text-white">
+    <div className="w-full max-w-sm shadow-lg rounded-lg overflow-hidden md:max-w-lg text-white px-2">
       <form onSubmit={handleSubmit(onSubmit)} action="">
         <h1 className="text-2xl font-bold text-center mb-4">Забыли пароль?</h1>
+        {error && (
+          <p className="text-red-200 text-lg text-center my-2">{error}</p>
+        )}
         <p>
           Введи почту, к которой привязан ваш аккант, мы вышлем письмо с
           инструкциями для сброса пароля!{" "}

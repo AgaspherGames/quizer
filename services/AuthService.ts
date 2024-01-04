@@ -26,6 +26,9 @@ class QuizService {
   async resetPassword(data: ResetPasswordRequest) {
     return http.put(`auth/reset-password`, data);
   }
+  async sendResetPasswordEmail(email: string) {
+    return http.post(`auth/send-password-code`, { email });
+  }
 }
 
 export default new QuizService();

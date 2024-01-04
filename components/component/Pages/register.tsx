@@ -83,6 +83,7 @@ export function Register() {
 
   return (
     <AuthFormLayout
+    form={true}
       setForm={() => {}}
       bottom={
         <AuthFormBottom>
