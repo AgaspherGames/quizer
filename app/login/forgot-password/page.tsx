@@ -1,5 +1,6 @@
 "use client";
 import AuthInput from "@/components/component/AuthForm/AuthInput";
+import ForgotPasswordForm from "@/components/component/AuthForm/ForgotPasswordForm";
 import Lights, { LightProps } from "@/components/component/Background/Lights";
 import Card from "@/components/ui/Card";
 import { Button } from "@/components/ui/button";
@@ -10,11 +11,7 @@ import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 
-interface pageProps {
-  params: {
-    code: string;
-  };
-}
+interface pageProps {}
 
 const lights: LightProps[] = [
   {
@@ -43,25 +40,19 @@ const schema = yup.object({
     .required("Это обязательное поле"),
 });
 
-const Page: React.FC<pageProps> = ({ params }) => {
+const Page: React.FC<pageProps> = () => {
   const router = useRouter();
 
   const [password, setPassword] = useState("");
 
   async function reset({ password }: { password: string }) {
     try {
-      await AuthService.resetPassword({
-        code: params.code,
-        password,
-      });
-      router.push("/");
     } catch (error) {}
   }
 
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<{ password: string }>({
     resolver: yupResolver(schema),
@@ -71,25 +62,6 @@ const Page: React.FC<pageProps> = ({ params }) => {
   return (
     <div className="h-screen flex justify-center items-center text-white">
       <Lights lights={lights} />
-
-      <Card>
-        <form onSubmit={handleSubmit(onSubmit)} action="">
-          <h1 className="text-2xl font-bold text-center mb-4">Сброс пароля</h1>
-          <AuthInput
-            label=""
-            registerProps={register("password", { required: true })}
-            error={errors.password?.message}
-            placeholder="Новый пароль"
-            type="password"
-          />
-          <Button
-            className="w-full py-2 mt-4 bg-zinc-700 rounded-lg text-white"
-            type="submit"
-          >
-            Сбросить
-          </Button>
-        </form>
-      </Card>
     </div>
   );
 };

@@ -83,6 +83,7 @@ export function Register() {
 
   return (
     <AuthFormLayout
+      setForm={() => {}}
       bottom={
         <AuthFormBottom>
           <span>Уже есть аккаунт?</span>

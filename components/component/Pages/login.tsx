@@ -11,12 +11,9 @@ import AuthService from "@/services/AuthService";
 import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Lights, { LightProps } from "../Background/Lights";
-import Card from "@/components/ui/Card";
 import AuthFormLayout from "../AuthForm/AuthFormLayout";
 import AuthFormBottom from "../AuthForm/AuthFormBottom";
 import AuthInput from "../AuthForm/AuthInput";
-
 
 const schema = yup.object({
   email: yup
@@ -30,11 +27,12 @@ const schema = yup.object({
 });
 
 export function Login() {
+  const [form, setForm] = useState(true);
+
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<LoginRequest>({
     resolver: yupResolver(schema),
@@ -58,6 +56,8 @@ export function Login() {
 
   return (
     <AuthFormLayout
+      form={form}
+      setForm={setForm}
       bottom={
         <AuthFormBottom>
           <span>Еще нет аккаунта?</span>
@@ -97,8 +97,14 @@ export function Login() {
             Войти
           </Button>
         </div>
+        <Link
+          onClick={() => setForm(false)}
+          className="text-blue-500 hover:text-blue-700 block !-mb-8 !mt-2"
+          href="#"
+        >
+          Забыл пароль
+        </Link>
       </form>
     </AuthFormLayout>
   );
-
 }
