@@ -32,10 +32,13 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ goBack }) => {
 
   const [error, setError] = useState("");
 
+  const [sended, setSended] = useState(false);
+
   async function sendCode({ email }: { email: string }) {
     try {
       console.log(email);
-      AuthService.sendResetPasswordEmail(email)
+      await AuthService.sendResetPasswordEmail(email);
+      setSended(true);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.data?.message == "invalid credentials") {
@@ -52,7 +55,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ goBack }) => {
           <p className="text-red-200 text-lg text-center my-2">{error}</p>
         )}
         <p>
-          Введи почту, к которой привязан ваш аккант, мы вышлем письмо с
+          Введите почту, к которой привязан ваш аккант, мы вышлем письмо с
           инструкциями для сброса пароля!{" "}
         </p>
         <AuthInput
@@ -63,10 +66,11 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ goBack }) => {
           type="email"
         />
         <Button
+          disabled={sended}
           className="w-full py-2 mt-4 bg-zinc-700 rounded-lg text-white"
           type="submit"
         >
-          Отправить письмо
+          {sended ? "Отправлено" : "Отправить письмо"}
         </Button>
       </form>
       <div className="absolute top-4 left-4">
