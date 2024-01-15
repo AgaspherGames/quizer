@@ -58,7 +58,6 @@ const UserInfoSection: React.FC<UserInfoSectionProps> = ({ userId }) => {
         </div>
         <div>
           <h2 className="text-2xl font-bold">{userInfo?.user.username}</h2>
-          <p className="text-cyan-500">{userInfo?.user.email}</p>
         </div>
       </Card>
       <div className="flex flex-row justify-between w-full gap-4 md:w-1/2 md:flex-col">

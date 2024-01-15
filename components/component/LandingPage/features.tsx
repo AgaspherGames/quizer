@@ -1,10 +1,10 @@
 import { Card3D } from "../Base/Card3D";
 
-
 export function Features() {
   return (
     <section className="w-full py-8 md:py-12 lg:py-24 text-white">
       <div className="container mx-auto px-2 md:px-4">
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"> */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           <Card3D>
             <Feature
@@ -51,10 +51,10 @@ export function Features() {
                   <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
                 </svg>
               }
-              text="Соревнуйтесь с друзьями и поднимайтесь по лидерской доске."
+              text="Соревнуйтесь с друзьями и поднимайтесь по лидерской доске в реальном времени."
               title="Списки лидеров"
             />
-          </Card3D>{" "}
+          </Card3D>
           <Card3D>
             <Feature
               icon={
@@ -75,9 +75,8 @@ export function Features() {
                   <circle cx="12" cy="14" r="8" />
                 </svg>
               }
-              text="Проверьте свою скорость и точность в таймированных раундах
-            викторины."
-              title="Таймированные раунды"
+              text="Каждый пользователь может легко и быстро создать викторину и поделиться ей."
+              title="Простота создания"
             />{" "}
           </Card3D>
         </div>
@@ -96,9 +95,9 @@ const Feature = ({
   title: string;
 }) => {
   return (
-    <div className="w-full sm:max-w-3xl sm:mx-auto ">
-      <div className="p-8 xl:p-14 bg-zinc-900 shadow-none shadow-zinc-900 rounded-3xl border border-zinc-700 bg-opacity-50 backdrop-blur-xl">
-        <div className="flex flex-col items-center space-y-4 text-center">
+    <div className="w-full sm:max-w-3xl sm:mx-auto">
+      <div className="p-8 xl:p-14 h-80 md:h-96 bg-zinc-900 shadow-none shadow-zinc-900 rounded-3xl border border-zinc-700 bg-opacity-50 backdrop-blur-xl">
+        <div className="flex flex-col items-center h-full space-y-4 text-center">
           {icon}
           <h3 className="text-2xl md:text-2xl lg:text-3xl font-semibold">
             {title}

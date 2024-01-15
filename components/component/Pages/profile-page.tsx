@@ -61,37 +61,42 @@ export function ProfilePage({
       <main className="flex flex-col items-center justify-center p-4 gap-8">
         <div className=" flex flex-col items-center mx-auto container max-w-md sm:max-w-lg md:max-w-2xl">
           <UserInfoSection userId={params.id} />
-
-          <section className="w-full">
-            <h2 className="text-2xl font-medium my-4">Тесты пользователя: </h2>
-            <div className="grid gap-4 grid-cols-2">
-              {userInfo ? (
-                userInfo?.quizzes.map((el) => (
-                  <QuizItem
-                    isMy={userInfo.user.id == currentUserId}
-                    key={el.id}
-                    quiz={el}
-                  />
-                ))
-              ) : (
-                <QuizListSkeleton />
-              )}
-            </div>
-          </section>
-          <section className="w-full">
-            <h2 className="text-2xl font-medium my-4">
-              Результаты пользователя:
-            </h2>
-            <div className="grid gap-4 grid-cols-2">
-              {userInfo ? (
-                userInfo?.results.map((el, ind) => (
-                  <ResultItem key={ind} result={el} />
-                ))
-              ) : (
-                <QuizListSkeleton />
-              )}
-            </div>
-          </section>
+          {!!userInfo?.quizzes.length && (
+            <section className="w-full">
+              <h2 className="text-2xl font-medium my-4">
+                Тесты пользователя:{" "}
+              </h2>
+              <div className="grid gap-4 grid-cols-2">
+                {userInfo ? (
+                  userInfo?.quizzes.map((el) => (
+                    <QuizItem
+                      isMy={userInfo.user.id == currentUserId}
+                      key={el.id}
+                      quiz={el}
+                    />
+                  ))
+                ) : (
+                  <QuizListSkeleton />
+                )}
+              </div>
+            </section>
+          )}
+          {!!userInfo?.results.length && (
+            <section className="w-full">
+              <h2 className="text-2xl font-medium my-4">
+                Результаты пользователя:
+              </h2>
+              <div className="grid gap-4 grid-cols-2">
+                {userInfo ? (
+                  userInfo?.results.map((el, ind) => (
+                    <ResultItem key={ind} result={el} />
+                  ))
+                ) : (
+                  <QuizListSkeleton />
+                )}
+              </div>
+            </section>
+          )}
         </div>
       </main>
     </div>
